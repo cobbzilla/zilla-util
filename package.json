@@ -1,6 +1,6 @@
 {
   "name": "zilla-util",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "type": "module",
   "description": "Simple zero-dependency utility library",
   "keywords": [
@@ -41,7 +41,6 @@
   "devDependencies": {
     "@types/chai": "^4.3.5",
     "@types/mocha": "^10.0.1",
-    "@types/node": "^20.3.3",
     "@typescript-eslint/eslint-plugin": "^5.61.0",
     "@typescript-eslint/parser": "^5.61.0",
     "chai": "^4.3.6",
