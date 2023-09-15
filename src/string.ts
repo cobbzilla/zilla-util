@@ -33,14 +33,14 @@ export const date_as_yyyyMMdd = (date: Date): string =>
         .toString()
         .padStart(2, "0")}`;
 
-export const date_as_yyyyMMddHHmmSS = (date: Date): string =>
-    `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, "0")}-${date
+export const date_as_yyyyMMdd_HHmmSS = (date: Date): string =>
+    `${date.getFullYear()}${(date.getMonth() + 1).toString().padStart(2, "0")}${date
         .getDate()
         .toString()
-        .padStart(2, "0")}-${("" + date.getHours()).padStart(2, "0")}-${("" + date.getMinutes()).padStart(2, "0")}-${(
+        .padStart(2, "0")}_${("" + date.getHours()).padStart(2, "0")}${("" + date.getMinutes()).padStart(2, "0")}${(
         "" + date.getSeconds()
     ).padStart(2, "0")}`;
 
 export const timestamp_as_yyyyMMdd = (timestamp: number): string => date_as_yyyyMMdd(new Date(timestamp));
 
-export const timestamp_as_yyyyMMddHHmmSS = (timestamp: number): string => date_as_yyyyMMddHHmmSS(new Date(timestamp));
+export const timestamp_as_yyyyMMddHHmmSS = (timestamp: number): string => date_as_yyyyMMdd_HHmmSS(new Date(timestamp));
