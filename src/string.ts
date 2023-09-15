@@ -27,11 +27,10 @@ export const basefilenameWithoutExt = (s: string): string => {
     return i === -1 ? s : s.substring(0, i);
 };
 
-export const date_as_yyyyMMdd = (date: Date) => {
+export const date_as_yyyyMMdd = (date: Date): string =>
     `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, "0")}-${date
         .getDate()
         .toString()
         .padStart(2, "0")}`;
-};
 
-export const timestamp_as_yyyyMMdd = (timestamp: number) => date_as_yyyyMMdd(new Date(timestamp));
+export const timestamp_as_yyyyMMdd = (timestamp: number): string => date_as_yyyyMMdd(new Date(timestamp));
