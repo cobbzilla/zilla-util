@@ -33,7 +33,7 @@ export const dateAsYYYYMMDD = (date: Date): string =>
         .toString()
         .padStart(2, "0")}`;
 
-export const dateAsYYYYMMDD_HHmmSS = (date: Date): string =>
+export const dateAsYYYYMMDDHHmmSS = (date: Date): string =>
     `${date.getFullYear()}${(date.getMonth() + 1).toString().padStart(2, "0")}${date
         .getDate()
         .toString()
@@ -43,4 +43,4 @@ export const dateAsYYYYMMDD_HHmmSS = (date: Date): string =>
 
 export const timestampAsYYYYMMDD = (timestamp: number): string => dateAsYYYYMMDD(new Date(timestamp));
 
-export const timestampAsYYYYMMDD_HHmmSS = (timestamp: number): string => dateAsYYYYMMDD_HHmmSS(new Date(timestamp));
+export const timestampAsYYYYMMDDHHmmSS = (timestamp: number): string => dateAsYYYYMMDDHHmmSS(new Date(timestamp));
