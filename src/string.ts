@@ -43,4 +43,4 @@ export const date_as_yyyyMMdd_HHmmSS = (date: Date): string =>
 
 export const timestamp_as_yyyyMMdd = (timestamp: number): string => date_as_yyyyMMdd(new Date(timestamp));
 
-export const timestamp_as_yyyyMMddHHmmSS = (timestamp: number): string => date_as_yyyyMMdd_HHmmSS(new Date(timestamp));
+export const timestamp_as_yyyyMMdd_HHmmSS = (timestamp: number): string => date_as_yyyyMMdd_HHmmSS(new Date(timestamp));
