@@ -14,6 +14,7 @@ export const DEFAULT_NAP_CHECK = 1000;
 const _nap =
     (resolve: (v?: unknown) => void, clock: ZillaClock, alarm: NapAlarm, ms: number, check: number) => async () => {
         try {
+            alarm.wake = false;
             const start = clock.now();
             while (!alarm.wake && clock.now() - start < ms) {
                 await sleep(check);
