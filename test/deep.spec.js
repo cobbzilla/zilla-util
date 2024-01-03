@@ -58,4 +58,16 @@ describe("test deepUpdate and deepGet", () => {
             expect(e.message.startsWith("deepUpdate: invalid fieldPath")).is.true;
         }
     });
+    it("correctly deep-updates to remove a subobject in an array", () => {
+        const thing = { foo: { bar: [1, 2, { baz: { quux: "whiz" } }], snarf: ["a", "b", "c"] } };
+        deepUpdate(thing, "foo.bar[-1]", null);
+        expect(thing.foo.bar.length).eq(2);
+        expect(thing.foo.bar[0]).eq(1);
+        expect(thing.foo.bar[1].baz.quux).eq("whiz");
+
+        deepUpdate(thing, "foo.snarf[-0]", undefined);
+        expect(thing.foo.snarf.length).eq(2);
+        expect(thing.foo.snarf[0]).eq("b");
+        expect(thing.foo.snarf[1]).eq("c");
+    });
 });

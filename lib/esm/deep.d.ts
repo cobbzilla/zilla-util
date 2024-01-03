@@ -1,5 +1,6 @@
 export type ObjectNav = {
     append?: boolean;
+    remove?: number;
     next?: string | number;
 };
 export declare const parseDeep: (fieldPath: string) => ObjectNav[];

@@ -1,5 +1,6 @@
 export type ObjectNav = {
     append?: boolean;
+    remove?: number;
     next?: string | number;
 };
 
@@ -21,6 +22,9 @@ export const parseDeep = (fieldPath: string): ObjectNav[] => {
                 if (index.length === 0) {
                     operations.push({ append: true });
                     break;
+                } else if (index.startsWith("-")) {
+                    operations.push({ remove: parseInt(index.substring(1)) });
+                    break;
                 } else {
                     operations.push({ next: parseInt(index) });
                 }
@@ -41,7 +45,10 @@ export const deepGet = (obj: any, fieldPath: string): unknown => {
     for (let i = 0; i < operations.length; i++) {
         const op = operations[i];
         if (op.append) {
-            throw new Error(`deepGet: invalid fieldPath (cannot update after append []): ${fieldPath}`);
+            throw new Error(`deepGet: invalid fieldPath (cannot append): ${fieldPath}`);
+        }
+        if (op.remove) {
+            throw new Error(`deepGet: invalid fieldPath (cannot remove): ${fieldPath}`);
         }
         const next = op.next;
         if (typeof next === "string" || typeof next === "number") {
@@ -70,6 +77,8 @@ export const deepUpdate = (obj: any, fieldPath: string, value: any) => {
     const lastOp = operations[operations.length - 1];
     if (lastOp.append) {
         thing.push(value);
+    } else if (typeof lastOp.remove === "number") {
+        thing.splice(lastOp.remove, 1);
     } else {
         thing[lastOp.next!] = value;
     }
