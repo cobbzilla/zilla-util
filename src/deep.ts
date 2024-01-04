@@ -21,10 +21,8 @@ export const parseDeep = (fieldPath: string): ObjectNav[] => {
                 const index = part.substring(squareBracketStart + 1, squareBracketEnd);
                 if (index.length === 0) {
                     operations.push({ append: true });
-                    break;
                 } else if (index.startsWith("-")) {
                     operations.push({ remove: parseInt(index.substring(1)) });
-                    break;
                 } else {
                     operations.push({ next: parseInt(index) });
                 }
@@ -34,7 +32,18 @@ export const parseDeep = (fieldPath: string): ObjectNav[] => {
             operations.push({ next: part });
         }
     }
-    return operations;
+    // coalesce append operations into their preceding next
+    const ops = [];
+    let opsIndex = 0;
+    for (let i = 0; i < operations.length; i++) {
+        if (operations[i].append && opsIndex > 0) {
+            ops[opsIndex - 1].append = true;
+        } else {
+            ops[opsIndex] = operations[i];
+            opsIndex++;
+        }
+    }
+    return ops;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -65,18 +74,41 @@ export const deepUpdate = (obj: any, fieldPath: string, value: any) => {
     let thing = obj;
     for (let i = 0; i < operations.length - 1; i++) {
         const op = operations[i];
-        if (op.append) {
-            throw new Error(`deepUpdate: invalid fieldPath (cannot update after append []): ${fieldPath}`);
-        }
         const next = op.next;
-        if (typeof next === "string" || typeof next === "number") {
+        if (op.append && next) {
+            if (typeof thing[next] === "undefined" || thing[next] == null) {
+                const nextThing = {};
+                thing[next] = [nextThing];
+                thing = nextThing;
+            } else if (Array.isArray(thing[next])) {
+                thing[next].push({});
+                thing = thing[next][thing[next].length - 1];
+            } else {
+                throw new Error(`deepUpdate: invalid fieldPath (cannot append to non-array): ${fieldPath}`);
+            }
+        } else if (typeof next === "string" || typeof next === "number") {
+            if (!(next in thing)) {
+                thing[next] = {};
+            }
             thing = thing[next];
         }
     }
 
     const lastOp = operations[operations.length - 1];
     if (lastOp.append) {
-        thing.push(value);
+        if (typeof lastOp.next === "string" || typeof lastOp.next === "number") {
+            if (Array.isArray(thing[lastOp.next])) {
+                thing[lastOp.next].push(value);
+            } else {
+                thing[lastOp.next] = [value];
+            }
+        } else if (lastOp.next && Array.isArray(thing[lastOp.next])) {
+            thing[lastOp.next].push(value);
+        } else if (typeof lastOp.next === "undefined" || lastOp.next == null) {
+            thing.push(value);
+        } else {
+            throw new Error(`deepUpdate: invalid lastOp (${JSON.stringify(lastOp)}), cannot append`);
+        }
     } else if (typeof lastOp.remove === "number") {
         thing.splice(lastOp.remove, 1);
     } else {

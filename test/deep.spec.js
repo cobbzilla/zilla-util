@@ -49,14 +49,15 @@ describe("test deepUpdate and deepGet", () => {
         expect(thing.foo.bar[2][2][2]).eq(23);
         expect(thing.foo.bar[2][2][2]).eq(deepGet(thing, "foo.bar[2][2][2]"));
     });
-    it("cannot deep-update after append", () => {
+    it("can deep-update after append", () => {
         const thing = { foo: { bar: [1, 2, { baz: { quux: "whiz" } }], snarf: ["a", "b", "c"] } };
-        try {
-            deepUpdate(thing, "foo.bar[].baz.quux", "test");
-        } catch (e) {
-            expect(e).instanceof(Error);
-            expect(e.message.startsWith("deepUpdate: invalid fieldPath")).is.true;
-        }
+        deepUpdate(thing, "foo.bar[].baz.quux", "test");
+        expect(thing.foo.bar[3].baz.quux).eq("test");
+    });
+    it("can create new arrays when using deep-update after append", () => {
+        const thing = { foo: { bar: [1, 2, { baz: { quux: "whiz" } }], snarf: ["a", "b", "c"] } };
+        deepUpdate(thing, "foo.whiz[].baz.quux", "test");
+        expect(thing.foo.whiz[0].baz.quux).eq("test");
     });
     it("correctly deep-updates to remove a subobject in an array", () => {
         const thing = { foo: { bar: [1, 2, { baz: { quux: "whiz" } }], snarf: ["a", "b", "c"] } };
