@@ -112,7 +112,7 @@ export const deepUpdate = (obj: any, fieldPath: string, value: any) => {
     } else if (typeof lastOp.remove === "number") {
         thing.splice(lastOp.remove, 1);
     } else {
-        thing[lastOp.next!] = value;
+        thing[lastOp.next as string | number] = value;
     }
 };
 
