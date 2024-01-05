@@ -115,3 +115,16 @@ export const deepUpdate = (obj: any, fieldPath: string, value: any) => {
         thing[lastOp.next!] = value;
     }
 };
+
+export const stripNonAlphaNumericKeys = <T>(obj: T): T => {
+    for (const key in obj) {
+        // Check if key contains any non-alphanumeric characters
+        if (/[^a-z0-9_]/i.test(key)) {
+            delete obj[key];
+        } else if (typeof obj[key] === "object" && obj[key] !== null) {
+            // If the value is a nested object or array, recurse into it
+            stripNonAlphaNumericKeys(obj[key]);
+        }
+    }
+    return obj;
+};

@@ -1,6 +1,6 @@
 import { describe, it } from "mocha";
 import { expect } from "chai";
-import { deepGet, deepUpdate } from "../lib/esm/index.js";
+import { deepGet, deepUpdate, stripNonAlphaNumericKeys } from "../lib/esm/index.js";
 
 describe("test deepUpdate and deepGet", () => {
     it("correctly deep-updates a nested object", () => {
@@ -70,5 +70,23 @@ describe("test deepUpdate and deepGet", () => {
         expect(thing.foo.snarf.length).eq(2);
         expect(thing.foo.snarf[0]).eq("b");
         expect(thing.foo.snarf[1]).eq("c");
+    });
+});
+
+describe("test stripNonAlphaNumericKeys", () => {
+    it("correctly removes keys containing non-alphanumeric characters", () => {
+        const testObj = {
+            name: "Test",
+            "bad[key]": "value",
+            nested: {
+                "key.other": "value",
+                goodKey: "value",
+            },
+        };
+        const cleaned = stripNonAlphaNumericKeys(testObj);
+        expect(cleaned.name).eq("Test");
+        expect(cleaned["bad[key]"]).is.undefined;
+        expect(cleaned.nested.goodKey).eq("value");
+        expect(cleaned.nested["key.other"]).is.undefined;
     });
 });
