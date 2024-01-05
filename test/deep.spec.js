@@ -1,6 +1,6 @@
 import { describe, it } from "mocha";
 import { expect } from "chai";
-import { deepGet, deepUpdate, stripNonAlphaNumericKeys } from "../lib/esm/index.js";
+import { deepGet, deepUpdate, stripNonAlphaNumericKeys, hasDuplicateProperty } from "../lib/esm/index.js";
 
 describe("test deepUpdate and deepGet", () => {
     it("correctly deep-updates a nested object", () => {
@@ -88,5 +88,16 @@ describe("test stripNonAlphaNumericKeys", () => {
         expect(cleaned["bad[key]"]).is.undefined;
         expect(cleaned.nested.goodKey).eq("value");
         expect(cleaned.nested["key.other"]).is.undefined;
+    });
+});
+
+describe("test hasDuplicateProperty", () => {
+    it("correctly detected duplicate properties", () => {
+        const testObj = [{ foo: "bar" }, { foo: "baz" }, { foo: "bar" }];
+        expect(hasDuplicateProperty(testObj, "foo")).is.true;
+    });
+    it("correctly does not detect duplicate properties where there are none", () => {
+        const testObj = [{ foo: "bar" }, { foo: "baz" }, { foo: "quux" }];
+        expect(hasDuplicateProperty(testObj, "foo")).is.false;
     });
 });

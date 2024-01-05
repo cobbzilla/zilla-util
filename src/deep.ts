@@ -128,3 +128,15 @@ export const stripNonAlphaNumericKeys = <T>(obj: T): T => {
     }
     return obj;
 };
+
+export const hasDuplicateProperty = (things: Record<string, unknown>[], prop: string): boolean => {
+    const found = new Set();
+    return things.some((entry) => {
+        if (found.has(entry[prop])) {
+            return true; // Found a duplicate
+        } else {
+            found.add(entry[prop]);
+            return false;
+        }
+    });
+};
