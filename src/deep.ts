@@ -140,3 +140,6 @@ export const hasDuplicateProperty = (things: Record<string, unknown>[], prop: st
         }
     });
 };
+
+export const hasUniqueProperty = (things: Record<string, unknown>[], prop: string): boolean =>
+    !hasDuplicateProperty(things, prop);
