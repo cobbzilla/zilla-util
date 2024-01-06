@@ -50,7 +50,7 @@ export const sluggize = (name: string): string =>
 
 const globalContext = typeof window === "object" ? window : globalThis;
 
-const uuidv4 = (squeezed?: boolean): string => {
+export const uuidv4 = (squeezed?: boolean): string => {
     // Get random values
     const arr = new Uint8Array(16);
     globalContext.crypto.getRandomValues(arr);
