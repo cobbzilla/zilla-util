@@ -44,3 +44,6 @@ export const dateAsYYYYMMDDHHmmSS = (date: Date): string =>
 export const timestampAsYYYYMMDD = (timestamp: number): string => dateAsYYYYMMDD(new Date(timestamp));
 
 export const timestampAsYYYYMMDDHHmmSS = (timestamp: number): string => dateAsYYYYMMDDHHmmSS(new Date(timestamp));
+
+export const sluggize = (name: string): string =>
+    name.replace(/\s+/g, "_").replace(/\W+/g, "").replace(/_+/g, "_").toLowerCase();

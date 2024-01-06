@@ -6,3 +6,4 @@ export declare const dateAsYYYYMMDD: (date: Date) => string;
 export declare const dateAsYYYYMMDDHHmmSS: (date: Date) => string;
 export declare const timestampAsYYYYMMDD: (timestamp: number) => string;
 export declare const timestampAsYYYYMMDDHHmmSS: (timestamp: number) => string;
+export declare const sluggize: (name: string) => string;
