@@ -48,12 +48,20 @@ export const timestampAsYYYYMMDDHHmmSS = (timestamp: number): string => dateAsYY
 export const sluggize = (name: string): string =>
     name.replace(/\s+/g, "_").replace(/\W+/g, "").replace(/_+/g, "_").toLowerCase();
 
-const globalContext = typeof window === "object" ? window : globalThis;
+const generateRandomValues = (count: number): Uint8Array => {
+    if (globalThis && globalThis.crypto && globalThis.crypto.getRandomValues) {
+        return globalThis.crypto.getRandomValues(new Uint8Array(count));
+    } else {
+        const arr = new Uint8Array(count);
+        for (let i = 0; i < count; i++) {
+            arr[i] = (Math.random() * 256) | 0;
+        }
+        return arr;
+    }
+};
 
 export const uuidv4 = (squeezed?: boolean): string => {
-    // Get random values
-    const arr = new Uint8Array(16);
-    globalContext.crypto.getRandomValues(arr);
+    const arr = generateRandomValues(16);
 
     // Per 4.4, set bits for version and clock_seq_hi_and_reserved
     arr[6] = (arr[6] & 0x0f) | 0x40;
