@@ -47,3 +47,25 @@ export const timestampAsYYYYMMDDHHmmSS = (timestamp: number): string => dateAsYY
 
 export const sluggize = (name: string): string =>
     name.replace(/\s+/g, "_").replace(/\W+/g, "").replace(/_+/g, "_").toLowerCase();
+
+const globalContext = typeof window === "object" ? window : globalThis;
+
+const uuidv4 = (squeezed?: boolean): string => {
+    // Get random values
+    const arr = new Uint8Array(16);
+    globalContext.crypto.getRandomValues(arr);
+
+    // Per 4.4, set bits for version and clock_seq_hi_and_reserved
+    arr[6] = (arr[6] & 0x0f) | 0x40;
+    arr[8] = (arr[8] & 0x3f) | 0x80;
+
+    // Join it all together
+    const pad = (n: string) => (n.length < 2 ? "0" + n : n);
+    const uuid = Array.from(arr)
+        .map((b) => pad(b.toString(16)))
+        .join("");
+
+    return squeezed
+        ? uuid
+        : `${uuid.slice(0, 8)}-${uuid.slice(8, 12)}-${uuid.slice(12, 16)}-${uuid.slice(16, 20)}-${uuid.slice(20)}`;
+};
