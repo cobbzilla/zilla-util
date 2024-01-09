@@ -61,6 +61,7 @@ export const deepGet = (obj: any, fieldPath: string): unknown => {
         }
         const next = op.next;
         if (typeof next === "string" || typeof next === "number") {
+            if (typeof thing === "undefined" || thing == null) return undefined;
             thing = thing[next];
         }
     }

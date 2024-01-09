@@ -109,3 +109,13 @@ describe("test hasDuplicateProperty", () => {
         expect(hasUniqueProperty(testObj, "foo")).is.true;
     });
 });
+
+describe("test deepGet for undefined and null", () => {
+    it("deepGet correctly handles a case where a path includes an undefined thing or a null thing", () => {
+        const testObj = { foo: { bar: "baz" }, quux: null };
+        expect(deepGet(testObj, "foo.baz")).is.undefined;
+        expect(deepGet(testObj, "foo.baz.quux")).is.undefined;
+        expect(deepGet(testObj, "quux")).is.null;
+        expect(deepGet(testObj, "quux.snarf")).is.undefined;
+    });
+});
