@@ -143,3 +143,11 @@ export const hasDuplicateProperty = (things: Record<string, unknown>[], prop: st
 
 export const hasUniqueProperty = (things: Record<string, unknown>[], prop: string): boolean =>
     !hasDuplicateProperty(things, prop);
+
+export const filterObject = (obj: Record<string, unknown>, keys: string[]): Record<string, unknown> =>
+    keys.reduce(
+        (acc: Record<string, unknown>, key: string) =>
+            // eslint-disable-next-line no-prototype-builtins
+            obj.hasOwnProperty(key) ? { ...acc, [key]: obj[key] } : acc,
+        {}
+    );

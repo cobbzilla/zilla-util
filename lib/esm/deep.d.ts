@@ -9,3 +9,4 @@ export declare const deepUpdate: (obj: any, fieldPath: string, value: any) => vo
 export declare const stripNonAlphaNumericKeys: <T>(obj: T) => T;
 export declare const hasDuplicateProperty: (things: Record<string, unknown>[], prop: string) => boolean;
 export declare const hasUniqueProperty: (things: Record<string, unknown>[], prop: string) => boolean;
+export declare const filterObject: (obj: Record<string, unknown>, keys: string[]) => Record<string, unknown>;
