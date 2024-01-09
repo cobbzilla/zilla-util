@@ -1,4 +1,4 @@
-export const arraysEqual = <T>(a: T[], b: T[]): boolean => {
+export const setsEqual = <T>(a: T[], b: T[]): boolean => {
     if (a.length !== b.length) return false;
     return a.every((val) => b.includes(val)) && b.every((val) => a.includes(val));
 };
@@ -20,3 +20,5 @@ export const cartesianProduct = <T>(arr: T[][]): T[][] => {
     _cartesianProduct(arr, 0, [], result);
     return result;
 };
+
+export const isAnyTrue = <T extends boolean[]>(arr: T): boolean => arr.some(Boolean);
