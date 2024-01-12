@@ -22,3 +22,15 @@ export const cartesianProduct = <T>(arr: T[][]): T[][] => {
 };
 
 export const isAnyTrue = <T extends boolean[]>(arr: T): boolean => arr.some(Boolean);
+
+export const insertAfterElement = <T>(sourceArray: T[], targetArray: T[], element: T): T[] => {
+    const index: number = targetArray.findIndex((item) => item === element);
+
+    if (index !== -1) {
+        targetArray.splice(index + 1, 0, ...sourceArray);
+    } else {
+        targetArray.push(...sourceArray);
+    }
+
+    return targetArray;
+};

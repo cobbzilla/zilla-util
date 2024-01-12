@@ -1,6 +1,6 @@
 import { describe, it } from "mocha";
 import { expect } from "chai";
-import { cartesianProduct, setsEqual, isAnyTrue } from "../lib/esm/index.js";
+import { cartesianProduct, setsEqual, isAnyTrue, insertAfterElement } from "../lib/esm/index.js";
 
 describe("test setsEqual", () => {
     it("correctly finds two string arrays are equal sets", () => {
@@ -37,5 +37,14 @@ describe("test isAnyTrue", () => {
     });
     it("correctly finds nothing where nothing is to be found", () => {
         expect(isAnyTrue([false, false, false, false, false])).is.false;
+    });
+});
+
+describe("test insertAfterElement", () => {
+    it("correctly inserts elements into list", () => {
+        expect(insertAfterElement([1, 2, 3], [4, 5, 6, 7], 5)).to.have.deep.members([4, 5, 1, 2, 3, 6, 7]);
+    });
+    it("correctly appends elements at end of list when search element not found", () => {
+        expect(insertAfterElement([1, 2, 3], [4, 5, 6, 7], 9)).to.have.deep.members([4, 5, 6, 7, 1, 2, 3]);
     });
 });
