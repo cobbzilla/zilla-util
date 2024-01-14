@@ -77,3 +77,16 @@ export const uuidv4 = (squeezed?: boolean): string => {
         ? uuid
         : `${uuid.slice(0, 8)}-${uuid.slice(8, 12)}-${uuid.slice(12, 16)}-${uuid.slice(16, 20)}-${uuid.slice(20)}`;
 };
+
+export const camel2kebab = (camelCaseString: string): string =>
+    camelCaseString.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, "$1-$2").toLowerCase();
+
+export const camel2snake = (camelCaseString: string): string =>
+    camelCaseString.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, "$1_$2").toLowerCase();
+
+export const kebab2camel = (kebabCaseString: string): string =>
+    kebabCaseString
+        .toLowerCase()
+        .replace(/([-_][a-z])/g, (group) => group.toUpperCase().replace("-", "").replace("_", ""));
+
+export const snake2camel = kebab2camel;

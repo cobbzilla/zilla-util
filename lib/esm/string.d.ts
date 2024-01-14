@@ -8,3 +8,7 @@ export declare const timestampAsYYYYMMDD: (timestamp: number) => string;
 export declare const timestampAsYYYYMMDDHHmmSS: (timestamp: number) => string;
 export declare const sluggize: (name: string) => string;
 export declare const uuidv4: (squeezed?: boolean) => string;
+export declare const camel2kebab: (camelCaseString: string) => string;
+export declare const camel2snake: (camelCaseString: string) => string;
+export declare const kebab2camel: (kebabCaseString: string) => string;
+export declare const snake2camel: (kebabCaseString: string) => string;

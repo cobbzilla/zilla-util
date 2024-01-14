@@ -1,6 +1,15 @@
 import { describe, it } from "mocha";
 import { expect } from "chai";
-import { capitalize, uncapitalize, basefilename, basefilenameWithoutExt } from "../lib/esm/index.js";
+import {
+    capitalize,
+    uncapitalize,
+    basefilename,
+    basefilenameWithoutExt,
+    camel2kebab,
+    camel2snake,
+    kebab2camel,
+    snake2camel,
+} from "../lib/esm/index.js";
 
 describe("test capitalization", () => {
     it("correctly capitalizes a lowercase word", () => {
@@ -98,5 +107,20 @@ describe("test basefilenameWithoutExt", () => {
     });
     it("correctly finds the basename for a filename with multiple dots and ending in dots", () => {
         expect(basefilenameWithoutExt("foo.bar.baz.quux...")).eq("foo.bar.baz");
+    });
+});
+
+describe("camelCase, kebab-case and snake_case utility test", () => {
+    it("correctly transforms from camelCase to kebab-case", () => {
+        expect(camel2kebab("camelCaseString")).eq("camel-case-string");
+    });
+    it("correctly transforms from kebab-case to camelCase", () => {
+        expect(kebab2camel("kebab-case-string")).eq("kebabCaseString");
+    });
+    it("correctly transforms from camelCase to snake_case", () => {
+        expect(camel2snake("camelCaseString")).eq("camel_case_string");
+    });
+    it("correctly transforms from snake_case to camelCase", () => {
+        expect(snake2camel("snake_case_string")).eq("snakeCaseString");
     });
 });
