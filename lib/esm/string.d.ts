@@ -12,3 +12,4 @@ export declare const camel2kebab: (camelCaseString: string) => string;
 export declare const camel2snake: (camelCaseString: string) => string;
 export declare const kebab2camel: (kebabCaseString: string) => string;
 export declare const snake2camel: (kebabCaseString: string) => string;
+export declare const hasUpperCase: (str: string) => boolean;

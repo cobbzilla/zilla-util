@@ -90,3 +90,5 @@ export const kebab2camel = (kebabCaseString: string): string =>
         .replace(/([-_][a-z])/g, (group) => group.toUpperCase().replace("-", "").replace("_", ""));
 
 export const snake2camel = kebab2camel;
+
+export const hasUpperCase = (str: string): boolean => /[A-Z]/.test(str);

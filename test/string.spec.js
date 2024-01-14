@@ -9,6 +9,7 @@ import {
     camel2snake,
     kebab2camel,
     snake2camel,
+    hasUpperCase,
 } from "../lib/esm/index.js";
 
 describe("test capitalization", () => {
@@ -122,5 +123,14 @@ describe("camelCase, kebab-case and snake_case utility test", () => {
     });
     it("correctly transforms from snake_case to camelCase", () => {
         expect(snake2camel("snake_case_string")).eq("snakeCaseString");
+    });
+});
+
+describe("hasUpperCase test", () => {
+    it("correctly returns true when an upper case character is present", () => {
+        expect(hasUpperCase("camelCaseString")).eq(true);
+    });
+    it("correctly returns false when an upper case character is absent", () => {
+        expect(hasUpperCase("snake-case-string")).eq(false);
     });
 });
