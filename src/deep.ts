@@ -117,6 +117,31 @@ export const deepUpdate = (obj: any, fieldPath: string, value: any) => {
     }
 };
 
+export const deepEquals = <T>(object1: T, object2: T): boolean => {
+    if (object1 === object2) return true;
+
+    const keys1 = Object.keys(object1 as Record<keyof T, unknown>) as (keyof T)[];
+    const keys2 = Object.keys(object2 as Record<keyof T, unknown>) as (keyof T)[];
+
+    if (keys1.length === 0 || keys1.length !== keys2.length) {
+        return false;
+    }
+
+    return keys1.every((key) => {
+        const val1 = object1[key];
+        const val2 = object2[key];
+        const areObjects = isObject(val1) && isObject(val2);
+
+        if ((areObjects && !deepEquals(val1, val2)) || (!areObjects && val1 !== val2)) {
+            return false;
+        }
+
+        return true;
+    });
+};
+
+export const isObject = <T>(object: T): boolean => object != null && typeof object === "object";
+
 export const stripNonAlphaNumericKeys = <T>(obj: T): T => {
     for (const key in obj) {
         // Check if key contains any non-alphanumeric characters

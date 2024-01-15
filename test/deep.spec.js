@@ -3,6 +3,7 @@ import { expect } from "chai";
 import {
     deepGet,
     deepUpdate,
+    deepEquals,
     stripNonAlphaNumericKeys,
     hasDuplicateProperty,
     hasUniqueProperty,
@@ -117,5 +118,29 @@ describe("test deepGet for undefined and null", () => {
         expect(deepGet(testObj, "foo.baz.quux")).is.undefined;
         expect(deepGet(testObj, "quux")).is.null;
         expect(deepGet(testObj, "quux.snarf")).is.undefined;
+    });
+});
+
+describe("test deepEquals", () => {
+    it("deepEquals correctly compares primitives", () => {
+        expect(deepEquals(1, 2 - 1)).is.true;
+        expect(deepEquals(1, 2)).is.false;
+        expect(deepEquals(1, "2")).is.false;
+        expect(deepEquals(1, "1")).is.false;
+        expect(deepEquals("1", "1")).is.true;
+        expect(deepEquals(false, false)).is.true;
+        expect(deepEquals(false, true)).is.false;
+    });
+    it("deepEquals correctly compares objects with properties in different order that match", () => {
+        const o1 = { foo: "bar", baz: "quux" };
+        const o2 = { baz: "quux", foo: "bar" };
+        expect(deepEquals(o1, o2)).is.true;
+    });
+    it("deepEquals correctly compares objects with properties in different order that do not match", () => {
+        const o1 = { foo: "bar", baz: "quux" };
+        const o2 = { baz: "quux", foo: "baz" };
+        const o3 = { foo: "bar", baz: "quux", snarf: true };
+        expect(deepEquals(o1, o2)).is.false;
+        expect(deepEquals(o1, o3)).is.false;
     });
 });
