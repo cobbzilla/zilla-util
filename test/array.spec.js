@@ -1,6 +1,6 @@
 import { describe, it } from "mocha";
 import { expect } from "chai";
-import { cartesianProduct, setsEqual, isAnyTrue, insertAfterElement } from "../lib/esm/index.js";
+import { cartesianProduct, setsEqual, isAnyTrue, insertAfterElement, asyncFilter } from "../lib/esm/index.js";
 
 describe("test setsEqual", () => {
     it("correctly finds two string arrays are equal sets", () => {
@@ -46,5 +46,15 @@ describe("test insertAfterElement", () => {
     });
     it("correctly appends elements at end of list when search element not found", () => {
         expect(insertAfterElement([1, 2, 3], [4, 5, 6, 7], 9)).to.have.deep.members([4, 5, 6, 7, 1, 2, 3]);
+    });
+});
+
+describe("test asyncFilter", () => {
+    it("correctly filters an array using an async predicate", async () => {
+        const arr = [1, 2, 3, 4, 5];
+        const filtered = await asyncFilter(arr, async (el) => {
+            return await Promise.resolve(el % 2 === 1);
+        });
+        expect(filtered).deep.eq([1, 3, 5]);
     });
 });
