@@ -13,4 +13,5 @@ export declare const camel2snake: (camelCaseString: string) => string;
 export declare const kebab2camel: (kebabCaseString: string) => string;
 export declare const snake2camel: (kebabCaseString: string) => string;
 export declare const hasUpperCase: (str: string) => boolean;
-export declare const endsWithAny: (s: string, suffixes: string[]) => boolean;
+export declare const startsWithPrefix: (s: string, prefixes: string[]) => boolean;
+export declare const endsWithSuffix: (s: string, suffixes: string[]) => boolean;
