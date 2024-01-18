@@ -92,3 +92,5 @@ export const kebab2camel = (kebabCaseString: string): string =>
 export const snake2camel = kebab2camel;
 
 export const hasUpperCase = (str: string): boolean => /[A-Z]/.test(str);
+
+export const endsWithAny = (s: string, suffixes: string[]): boolean => suffixes.some((suffix) => s.endsWith(suffix));
