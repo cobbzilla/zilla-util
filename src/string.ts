@@ -97,3 +97,6 @@ export const startsWithPrefix = (s: string, prefixes: string[]): boolean =>
     prefixes.some((prefix) => s.startsWith(prefix));
 
 export const endsWithSuffix = (s: string, suffixes: string[]): boolean => suffixes.some((suffix) => s.endsWith(suffix));
+
+export const randomDigits = (n: number): string =>
+    Array.from({ length: n }, () => Math.floor(Math.random() * 10)).join("");
