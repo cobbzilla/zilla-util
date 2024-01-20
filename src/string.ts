@@ -101,10 +101,41 @@ export const endsWithSuffix = (s: string, suffixes: string[]): boolean => suffix
 export const randomDigits = (n: number): string =>
     Array.from({ length: n }, () => Math.floor(Math.random() * 10)).join("");
 
-export const BASE62_chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+export const BASE62_CHARS = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+export const VOWEL_CHARS = "AEOIUaeoiu";
+export const DIGIT_CHARS = "0123456789";
+export const VOWEL_AND_DIGIT_CHARS = VOWEL_CHARS + DIGIT_CHARS;
 
-export const randomToken = (n: number): string => {
-    return Array.from({ length: n }, () => BASE62_chars.charAt(Math.floor(Math.random() * BASE62_chars.length))).join(
-        ""
-    );
+// "safeToken" means safe in two ways:
+// 1. It's web-safe, using only characters than can appear un-encoded in URLs
+// 2. It's curse-word safe: if any run of 3 alphabetic chars contains vowel, the next char is a digit
+export const randomSafeToken = (n: number): string => {
+    let result = "";
+
+    for (let i = 0; i < n; i++) {
+        let newChar = BASE62_CHARS[Math.floor(Math.random() * BASE62_CHARS.length)];
+
+        // If we have at least 3 characters and they're all alphabetic
+        if (
+            result.length >= 3 &&
+            isNaN(Number(result.charAt(result.length - 1))) &&
+            isNaN(Number(result.charAt(result.length - 2))) &&
+            isNaN(Number(result.charAt(result.length - 3)))
+        ) {
+            // if at least one of the last 3 is a vowel
+            const oneVowelLast3 =
+                VOWEL_CHARS.includes(result.charAt(result.length - 1)) ||
+                VOWEL_CHARS.includes(result.charAt(result.length - 2)) ||
+                VOWEL_CHARS.includes(result.charAt(result.length - 3));
+
+            if (oneVowelLast3) {
+                // ensure next character is a vowel or a digit
+                newChar = VOWEL_AND_DIGIT_CHARS[Math.floor(Math.random() * VOWEL_AND_DIGIT_CHARS.length)];
+            }
+        }
+
+        result += newChar;
+    }
+
+    return result;
 };
