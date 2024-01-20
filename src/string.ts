@@ -100,3 +100,11 @@ export const endsWithSuffix = (s: string, suffixes: string[]): boolean => suffix
 
 export const randomDigits = (n: number): string =>
     Array.from({ length: n }, () => Math.floor(Math.random() * 10)).join("");
+
+export const BASE62_chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+export const randomToken = (n: number): string => {
+    return Array.from({ length: n }, () => BASE62_chars.charAt(Math.floor(Math.random() * BASE62_chars.length))).join(
+        ""
+    );
+};

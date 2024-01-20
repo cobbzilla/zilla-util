@@ -16,3 +16,5 @@ export declare const hasUpperCase: (str: string) => boolean;
 export declare const startsWithPrefix: (s: string, prefixes: string[]) => boolean;
 export declare const endsWithSuffix: (s: string, suffixes: string[]) => boolean;
 export declare const randomDigits: (n: number) => string;
+export declare const BASE62_chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+export declare const randomToken: (n: number) => string;
