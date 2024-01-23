@@ -12,3 +12,5 @@ export declare const stripNonAlphaNumericKeys: <T>(obj: T) => T;
 export declare const hasDuplicateProperty: (things: Record<string, unknown>[], prop: string) => boolean;
 export declare const hasUniqueProperty: (things: Record<string, unknown>[], prop: string) => boolean;
 export declare const filterObject: <T>(obj: Record<string, T>, keys: string[]) => Record<string, T>;
+export declare const isEmpty: (obj?: unknown | null | undefined) => boolean;
+export declare const isNotEmpty: (obj?: unknown | null | undefined) => boolean;

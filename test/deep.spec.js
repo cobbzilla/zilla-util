@@ -7,6 +7,8 @@ import {
     stripNonAlphaNumericKeys,
     hasDuplicateProperty,
     hasUniqueProperty,
+    isEmpty,
+    isNotEmpty,
 } from "../lib/esm/index.js";
 
 describe("test deepUpdate and deepGet", () => {
@@ -142,5 +144,57 @@ describe("test deepEquals", () => {
         const o3 = { foo: "bar", baz: "quux", snarf: true };
         expect(deepEquals(o1, o2)).is.false;
         expect(deepEquals(o1, o3)).is.false;
+    });
+});
+
+describe("test isEmpty and isNotEmpty", () => {
+    it("isEmpty and isNotEmpty correctly tests null for emptiness", () => {
+        expect(isEmpty(null)).is.true;
+        expect(isNotEmpty(null)).is.false;
+    });
+    it("isEmpty and isNotEmpty correctly tests undefined for emptiness", () => {
+        expect(isEmpty(undefined)).is.true;
+        expect(isNotEmpty(undefined)).is.false;
+    });
+    it("isEmpty and isNotEmpty correctly tests no-arg for emptiness", () => {
+        expect(isEmpty()).is.true;
+        expect(isNotEmpty()).is.false;
+    });
+    it("isEmpty and isNotEmpty correctly tests empty string for emptiness", () => {
+        expect(isEmpty("")).is.true;
+        expect(isNotEmpty("")).is.false;
+    });
+    it("isEmpty and isNotEmpty correctly tests empty array for emptiness", () => {
+        expect(isEmpty([])).is.true;
+        expect(isNotEmpty([])).is.false;
+    });
+    it("isEmpty and isNotEmpty correctly tests empty object for emptiness", () => {
+        expect(isEmpty({})).is.true;
+        expect(isNotEmpty({})).is.false;
+    });
+    it("isEmpty and isNotEmpty correctly tests a deeply-empty object for emptiness", () => {
+        const emptyThing = { field: undefined, other: null, array: [], obj: { nested: [], stuff: null }, message: "" };
+        expect(isEmpty(emptyThing)).is.true;
+        expect(isNotEmpty({})).is.false;
+    });
+    it("isEmpty and isNotEmpty correctly tests a string for non-emptiness", () => {
+        expect(isEmpty("x")).is.false;
+        expect(isNotEmpty("x")).is.true;
+    });
+    it("isEmpty and isNotEmpty correctly tests a number for non-emptiness", () => {
+        expect(isEmpty(42)).is.false;
+        expect(isNotEmpty(42)).is.true;
+    });
+    it("isEmpty and isNotEmpty correctly tests the number zero for non-emptiness", () => {
+        expect(isEmpty(0)).is.false;
+        expect(isNotEmpty(0)).is.true;
+    });
+    it("isEmpty and isNotEmpty correctly tests 'true' for non-emptiness", () => {
+        expect(isEmpty(true)).is.false;
+        expect(isNotEmpty(true)).is.true;
+    });
+    it("isEmpty and isNotEmpty correctly tests 'false' for non-emptiness", () => {
+        expect(isEmpty(false)).is.false;
+        expect(isNotEmpty(false)).is.true;
     });
 });

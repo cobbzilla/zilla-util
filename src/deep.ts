@@ -177,3 +177,23 @@ export const filterObject = <T>(obj: Record<string, T>, keys: string[]): Record<
             obj.hasOwnProperty(key) ? { ...acc, [key]: obj[key] } : acc,
         {}
     );
+
+export const isEmpty = (obj?: unknown | null | undefined): boolean => {
+    if (typeof obj === "undefined" || obj == null || obj === "" || (Array.isArray(obj) && obj.length === 0)) {
+        return true;
+    } else if (typeof obj === "object") {
+        const fields = Object.keys(obj);
+        if (fields.length === 0) return true;
+        let allEmpty = true;
+        for (const fieldName of Object.keys(obj)) {
+            if (!isEmpty((obj as Record<string, unknown>)[fieldName])) {
+                allEmpty = false;
+                break;
+            }
+        }
+        if (allEmpty) return true;
+    }
+    return false;
+};
+
+export const isNotEmpty = (obj?: unknown | null | undefined): boolean => !isEmpty(obj);
