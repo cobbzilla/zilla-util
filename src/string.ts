@@ -15,6 +15,12 @@ export const basefilename = (s: string): string => {
     return i === -1 ? s : s.substring(i + 1);
 };
 
+export const ext = (s: string): string => {
+    if (!s) return s; // return null/undefined/no-dot files as-is
+    const dot = s.lastIndexOf(".");
+    return dot === -1 || dot === s.length - 1 ? "" : s.substring(dot + 1);
+};
+
 export const basefilenameWithoutExt = (s: string): string => {
     s = basefilename(s);
     if (!s) return s; // return null/undefined as-is

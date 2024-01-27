@@ -5,6 +5,7 @@ import {
     uncapitalize,
     basefilename,
     basefilenameWithoutExt,
+    ext,
     camel2kebab,
     camel2snake,
     kebab2camel,
@@ -108,6 +109,33 @@ describe("test basefilenameWithoutExt", () => {
     });
     it("correctly finds the basename for a filename with multiple dots and ending in dots", () => {
         expect(basefilenameWithoutExt("foo.bar.baz.quux...")).eq("foo.bar.baz");
+    });
+});
+
+describe("ext test", () => {
+    it("correctly finds the extension for a regular file", () => {
+        expect(ext("foo.bar")).eq("bar");
+    });
+    it("correctly returns an empty extension for a file that does not contain a dot", () => {
+        expect(ext("foo_bar")).eq("");
+    });
+    it("correctly returns an empty extension for a file that ends with a dot", () => {
+        expect(ext("foo_bar.")).eq("");
+    });
+    it("correctly returns an empty extension for a file that starts with a dot", () => {
+        expect(ext(".foo_bar")).eq("foo_bar");
+    });
+    it("correctly returns an empty extension for a file that starts and ends with a dot", () => {
+        expect(ext(".foo_bar.")).eq("");
+    });
+    it("correctly returns an empty extension for a file that starts and ends with a dot and contains dots", () => {
+        expect(ext(".foo.bar.baz.")).eq("");
+    });
+    it("correctly returns an empty extension for a file that starts with a dot and contains dots", () => {
+        expect(ext(".foo.bar.baz")).eq("baz");
+    });
+    it("correctly returns an empty extension for a file that contains dots", () => {
+        expect(ext("foo.bar.baz.quux")).eq("quux");
     });
 });
 
