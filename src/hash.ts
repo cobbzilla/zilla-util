@@ -6,7 +6,11 @@ export const insertAtIndex = (str: string, insert: string, index: number): strin
 };
 
 export const shaLevels = (val: string | number | boolean, levels: number): string => {
-    let s = sha256(`${val}`);
+    return dirLevels(sha256(`${val}`), levels);
+};
+
+export const dirLevels = (val: string | number | boolean, levels: number): string => {
+    let s = `${val}`;
     if (levels > 0) {
         for (let i = 0; i < levels; i++) {
             s = insertAtIndex(s, "/", 2 + 3 * i);
