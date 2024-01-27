@@ -42,8 +42,10 @@ export const dateAsYYYYMMDDHHmmSS = (date: Date): string =>
     ).padStart(2, "0")}`;
 
 export const timestampAsYYYYMMDD = (timestamp: number): string => dateAsYYYYMMDD(new Date(timestamp));
-
 export const timestampAsYYYYMMDDHHmmSS = (timestamp: number): string => dateAsYYYYMMDDHHmmSS(new Date(timestamp));
+
+export const nowAsYYYYMMDD = (): string => timestampAsYYYYMMDD(Date.now());
+export const nowAsYYYYMMDDHHmmSS = (): string => timestampAsYYYYMMDDHHmmSS(Date.now());
 
 export const sluggize = (name: string): string =>
     name.replace(/\s+/g, "_").replace(/\W+/g, "").replace(/_+/g, "_").toLowerCase();
