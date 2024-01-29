@@ -1,3 +1,4 @@
+import { ZillaClock } from "./sleep.js";
 export declare const capitalize: (s: string) => string;
 export declare const uncapitalize: (s: string) => string;
 export declare const basefilename: (s: string) => string;
@@ -24,3 +25,4 @@ export declare const VOWEL_CHARS = "AEOIUaeoiu";
 export declare const DIGIT_CHARS = "0123456789";
 export declare const VOWEL_AND_DIGIT_CHARS: string;
 export declare const randomSafeToken: (n: number) => string;
+export declare const epochToHttpDate: (epoch?: number, clock?: ZillaClock) => string;

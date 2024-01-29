@@ -1,3 +1,5 @@
+import { ZillaClock } from "./sleep.js";
+
 export const capitalize = (s: string): string =>
     s && s.length > 0 ? s.substring(0, 1).toUpperCase() + s.substring(1) : "";
 
@@ -147,3 +149,6 @@ export const randomSafeToken = (n: number): string => {
 
     return result;
 };
+
+export const epochToHttpDate = (epoch?: number, clock?: ZillaClock): string =>
+    new Date(epoch ? epoch : clock ? clock.now() : Date.now()).toUTCString();
