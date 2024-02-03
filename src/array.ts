@@ -39,3 +39,5 @@ export const asyncFilter = async <T>(arr: T[], predicate: (item: T) => Promise<b
     const results = await Promise.all(arr.map(predicate));
     return arr.filter((_v, index) => results[index]);
 };
+
+export const shuffleNumbers = (n: number): number[] => [...Array(n).keys()].sort(() => Math.random() - 0.5);

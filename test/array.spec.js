@@ -1,6 +1,13 @@
 import { describe, it } from "mocha";
 import { expect } from "chai";
-import { cartesianProduct, setsEqual, isAnyTrue, insertAfterElement, asyncFilter } from "../lib/esm/index.js";
+import {
+    cartesianProduct,
+    setsEqual,
+    isAnyTrue,
+    insertAfterElement,
+    asyncFilter,
+    shuffleNumbers,
+} from "../lib/esm/index.js";
 
 describe("test setsEqual", () => {
     it("correctly finds two string arrays are equal sets", () => {
@@ -56,5 +63,37 @@ describe("test asyncFilter", () => {
             return await Promise.resolve(el % 2 === 1);
         });
         expect(filtered).deep.eq([1, 3, 5]);
+    });
+});
+
+describe("test shuffleNumbers", () => {
+    it("correctly shuffles a list of numbers of random length", () => {
+        const limit = Math.floor(Math.random() * 100);
+        const shuffled = shuffleNumbers(limit);
+        expect(shuffled.length).eq(limit);
+        for (let i = 0; i < limit; i++) {
+            expect(shuffled.includes(i)).eq(true);
+        }
+    });
+    it("correctly shuffles a list of numbers of zero length", () => {
+        const limit = 0;
+        const shuffled = shuffleNumbers(limit);
+        expect(shuffled.length).eq(0);
+    });
+    it("correctly shuffles a single index", () => {
+        const limit = 1;
+        const shuffled = shuffleNumbers(limit);
+        expect(shuffled.length).eq(1);
+        expect(shuffled[0]).eq(0);
+    });
+    it("correctly shuffles a short list of numbers", () => {
+        const limit = 5;
+        const shuffled = shuffleNumbers(limit);
+        expect(shuffled.length).eq(limit);
+        expect(shuffled.includes(0)).eq(true);
+        expect(shuffled.includes(1)).eq(true);
+        expect(shuffled.includes(2)).eq(true);
+        expect(shuffled.includes(3)).eq(true);
+        expect(shuffled.includes(4)).eq(true);
     });
 });
