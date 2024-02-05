@@ -55,8 +55,17 @@ export const timestampAsYYYYMMDDHHmmSS = (timestamp: number): string => dateAsYY
 export const nowAsYYYYMMDD = (): string => timestampAsYYYYMMDD(Date.now());
 export const nowAsYYYYMMDDHHmmSS = (): string => timestampAsYYYYMMDDHHmmSS(Date.now());
 
-export const sluggize = (name: string): string =>
-    name.replace(/\s+/g, "_").replace(/\W+/g, "").replace(/_+/g, "_").toLowerCase();
+export const sluggize = (name: string, replaceChar = "_"): string => {
+    replaceChar ||= "_";
+    return name
+        .trim()
+        .replace(new RegExp(`[^A-Z\\d${replaceChar}]+`, "gi"), replaceChar)
+        .replace(/[\s_-]+/g, replaceChar)
+        .replace(new RegExp(`[${replaceChar}]+`, "gi"), replaceChar)
+        .replace(new RegExp(`^[${replaceChar}]+`, "gi"), "")
+        .replace(new RegExp(`[${replaceChar}]+$`, "gi"), "")
+        .toLowerCase();
+};
 
 const generateRandomValues = (count: number): Uint8Array => {
     if (globalThis && globalThis.crypto && globalThis.crypto.getRandomValues) {
