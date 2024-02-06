@@ -67,6 +67,8 @@ export const sluggize = (name: string, replaceChar = "_"): string => {
         .toLowerCase();
 };
 
+export const hyphenate = (name: string): string => sluggize(name, "-");
+
 const generateRandomValues = (count: number): Uint8Array => {
     if (globalThis && globalThis.crypto && globalThis.crypto.getRandomValues) {
         return globalThis.crypto.getRandomValues(new Uint8Array(count));

@@ -2,6 +2,7 @@ import { describe, it } from "mocha";
 import { expect } from "chai";
 import {
     sluggize,
+    hyphenate,
     capitalize,
     uncapitalize,
     basefilename,
@@ -20,12 +21,14 @@ describe("test sluggize", () => {
     });
     it("correctly sluggizes (with hyphens) a regular string with spaces", () => {
         expect(sluggize("this is a sluggized string", "-")).eq("this-is-a-sluggized-string");
+        expect(hyphenate("this is a sluggized string")).eq("this-is-a-sluggized-string");
     });
     it("correctly sluggizes an odd string with spaces", () => {
         expect(sluggize("  This is #1 great!    Thank you. ")).eq("this_is_1_great_thank_you");
     });
     it("correctly sluggizes (with hyphens) an odd string with spaces", () => {
         expect(sluggize("  This is #1 great!    Thank you. ", "-")).eq("this-is-1-great-thank-you");
+        expect(hyphenate("  This is #1 great!    Thank you. ")).eq("this-is-1-great-thank-you");
     });
 });
 

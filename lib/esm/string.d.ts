@@ -11,6 +11,7 @@ export declare const timestampAsYYYYMMDDHHmmSS: (timestamp: number) => string;
 export declare const nowAsYYYYMMDD: () => string;
 export declare const nowAsYYYYMMDDHHmmSS: () => string;
 export declare const sluggize: (name: string, replaceChar?: string) => string;
+export declare const hyphenate: (name: string) => string;
 export declare const uuidv4: (squeezed?: boolean) => string;
 export declare const camel2kebab: (camelCaseString: string) => string;
 export declare const camel2snake: (camelCaseString: string) => string;
