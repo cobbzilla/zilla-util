@@ -163,3 +163,9 @@ export const randomSafeToken = (n: number): string => {
 
 export const epochToHttpDate = (epoch?: number, clock?: ZillaClock): string =>
     new Date(epoch ? epoch : clock ? clock.now() : Date.now()).toUTCString();
+
+export const sortWords = (words: string[], dict: string[]): string[] =>
+    words.sort(
+        (a: string, b: string) =>
+            dict.indexOf(a) - dict.indexOf(b) || dict.length + words.indexOf(a) - (dict.length + words.indexOf(b))
+    );

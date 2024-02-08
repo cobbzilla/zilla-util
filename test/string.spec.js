@@ -13,6 +13,7 @@ import {
     kebab2camel,
     snake2camel,
     hasUpperCase,
+    sortWords,
 } from "../lib/esm/index.js";
 
 describe("test sluggize", () => {
@@ -179,5 +180,15 @@ describe("hasUpperCase test", () => {
     });
     it("correctly returns false when an upper case character is absent", () => {
         expect(hasUpperCase("snake-case-string")).eq(false);
+    });
+});
+
+describe("sortWords test", () => {
+    it("correctly sorts words", () => {
+        const words = ["apple", "banana", "cherry", "date"];
+        const dict = ["date", "banana", "apple", "cherry"];
+        const expectedResults = ["date", "banana", "apple", "cherry"];
+        const result = sortWords(words, dict);
+        expect(result).to.deep.equal(expectedResults);
     });
 });

@@ -27,3 +27,4 @@ export declare const DIGIT_CHARS = "0123456789";
 export declare const VOWEL_AND_DIGIT_CHARS: string;
 export declare const randomSafeToken: (n: number) => string;
 export declare const epochToHttpDate: (epoch?: number, clock?: ZillaClock) => string;
+export declare const sortWords: (words: string[], dict: string[]) => string[];
