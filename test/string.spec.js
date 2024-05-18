@@ -14,6 +14,8 @@ import {
     snake2camel,
     hasUpperCase,
     sortWords,
+    randomDigit,
+    randomDigits,
 } from "../lib/esm/index.js";
 
 describe("test sluggize", () => {
@@ -190,5 +192,68 @@ describe("sortWords test", () => {
         const expectedResults = ["date", "banana", "apple", "cherry"];
         const result = sortWords(words, dict);
         expect(result).to.deep.equal(expectedResults);
+    });
+});
+
+describe("randomDigit test", () => {
+    it("correctly generates a randomDigit", () => {
+        for (let i = 0; i < 10; i++) {
+            const digit = randomDigit();
+            expect(digit).to.be.lessThanOrEqual(9);
+            expect(digit).to.be.greaterThanOrEqual(0);
+        }
+    });
+    it("correctly generates a randomDigit in a range", () => {
+        for (let i = 0; i < 10; i++) {
+            const lower = randomDigit();
+            const upper = randomDigit(lower);
+            expect(upper).to.be.greaterThanOrEqual(lower);
+
+            const digit = randomDigit(lower, upper);
+            expect(digit).to.be.lessThanOrEqual(upper);
+            expect(digit).to.be.greaterThanOrEqual(lower);
+        }
+    });
+    it("correctly generates a randomDigit in the range 0..0", () => {
+        for (let i = 0; i < 10; i++) {
+            const digit = randomDigit(0, 0);
+            expect(digit).to.equal(0);
+        }
+    });
+});
+
+describe("randomDigits test", () => {
+    it("correctly generates a string of randomDigits", () => {
+        for (let i = 0; i < 10; i++) {
+            const digits = randomDigits(i);
+            expect(digits.length).to.equal(i);
+            for (let j = 0; j < i; j++) {
+                expect(parseInt(digits[j])).to.be.greaterThanOrEqual(0);
+                expect(parseInt(digits[j])).to.be.lessThanOrEqual(9);
+            }
+        }
+    });
+    it("correctly generates a string of randomDigits in a range", () => {
+        for (let i = 0; i < 10; i++) {
+            const lower = randomDigit();
+            const upper = randomDigit(lower);
+            expect(upper).to.be.greaterThanOrEqual(lower);
+
+            const digits = randomDigits(i, lower, upper);
+            expect(digits.length).to.equal(i);
+            for (let j = 0; j < i; j++) {
+                expect(parseInt(digits[j])).to.be.greaterThanOrEqual(lower);
+                expect(parseInt(digits[j])).to.be.lessThanOrEqual(upper);
+            }
+        }
+    });
+    it("correctly generates a string of randomDigits in the range 0..0", () => {
+        for (let i = 0; i < 10; i++) {
+            const digits = randomDigits(i, 0, 0);
+            expect(digits.length).to.equal(i);
+            for (let j = 0; j < i; j++) {
+                expect(parseInt(digits[j])).to.equal(0);
+            }
+        }
     });
 });
