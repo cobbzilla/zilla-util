@@ -119,8 +119,14 @@ export const startsWithPrefix = (s: string, prefixes: string[]): boolean =>
 
 export const endsWithSuffix = (s: string, suffixes: string[]): boolean => suffixes.some((suffix) => s.endsWith(suffix));
 
-export const randomDigits = (n: number): string =>
-    Array.from({ length: n }, () => Math.floor(Math.random() * 10)).join("");
+const randomDigit = (min: number, max: number): number => {
+    min = min && min >= 0 && min <= max ? min : 0;
+    max = max && max <= 9 && max >= min ? max : 9;
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
+export const randomDigits = (n: number, min?: number, max?: number): string =>
+    Array.from({ length: n }, () => `${randomDigit(min || 0, max || 9)}`).join("");
 
 export const BASE62_CHARS = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 export const VOWEL_CHARS = "AEOIUaeoiu";
