@@ -29,3 +29,4 @@ export declare const VOWEL_AND_DIGIT_CHARS: string;
 export declare const randomSafeToken: (n: number) => string;
 export declare const epochToHttpDate: (epoch?: number, clock?: ZillaClock) => string;
 export declare const sortWords: (words: string[], dict: string[]) => string[];
+export declare const trimSpaces: (str: string) => string;

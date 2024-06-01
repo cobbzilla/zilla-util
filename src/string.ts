@@ -175,3 +175,5 @@ export const sortWords = (words: string[], dict: string[]): string[] =>
         (a: string, b: string) =>
             dict.indexOf(a) - dict.indexOf(b) || dict.length + words.indexOf(a) - (dict.length + words.indexOf(b))
     );
+
+export const trimSpaces = (str: string): string => str.trim().replace(/\s+/g, " ");

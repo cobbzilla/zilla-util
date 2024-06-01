@@ -16,6 +16,7 @@ import {
     sortWords,
     randomDigit,
     randomDigits,
+    trimSpaces,
 } from "../lib/esm/index.js";
 
 describe("test sluggize", () => {
@@ -255,5 +256,12 @@ describe("randomDigits test", () => {
                 expect(parseInt(digits[j])).to.equal(0);
             }
         }
+    });
+});
+
+describe("trimSpaces test", () => {
+    it("correctly trims spaces from a string", () => {
+        const testString = "  leading   and   embedded and trailing spaces   ";
+        expect(trimSpaces(testString)).to.equal("leading and embedded and trailing spaces");
     });
 });
