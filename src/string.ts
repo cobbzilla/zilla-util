@@ -177,3 +177,5 @@ export const sortWords = (words: string[], dict: string[]): string[] =>
     );
 
 export const trimSpaces = (str: string): string => str.trim().replace(/\s+/g, " ");
+
+export const trimNonalphanumeric = (str: string): string => str.replace(/[^a-zA-Z0-9]/g, "");
