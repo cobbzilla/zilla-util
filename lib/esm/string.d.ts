@@ -31,3 +31,5 @@ export declare const epochToHttpDate: (epoch?: number, clock?: ZillaClock) => st
 export declare const sortWords: (words: string[], dict: string[]) => string[];
 export declare const trimSpaces: (str: string) => string;
 export declare const trimNonalphanumeric: (str: string) => string;
+export declare const getRandomCodePoint: () => number;
+export declare const generateRandomString: (length: number) => string;

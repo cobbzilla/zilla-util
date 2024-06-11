@@ -179,3 +179,38 @@ export const sortWords = (words: string[], dict: string[]): string[] =>
 export const trimSpaces = (str: string): string => str.trim().replace(/\s+/g, " ");
 
 export const trimNonalphanumeric = (str: string): string => str.replace(/[^a-zA-Z0-9]/g, "");
+
+const commonUnicodeRanges = [
+    [0x0000, 0x007f], // Basic Latin (ASCII)
+    [0x0080, 0x00ff], // Latin-1 Supplement
+    [0x0100, 0x017f], // Latin Extended-A
+    [0x0370, 0x03ff], // Greek and Coptic
+    [0x0400, 0x04ff], // Cyrillic
+    [0x0530, 0x058f], // Armenian
+    [0x0590, 0x05ff], // Hebrew
+    [0x0600, 0x06ff], // Arabic
+    [0x0900, 0x097f], // Devanagari
+    [0xac00, 0xd7af], // Hangul Syllables
+    [0x4e00, 0x9fff], // CJK Unified Ideographs
+];
+
+const createUnifiedRange = (ranges: number[][]): number[] => {
+    const unifiedRange = [];
+    for (const [start, end] of ranges) {
+        for (let i = start; i <= end; i++) {
+            unifiedRange.push(i);
+        }
+    }
+    return unifiedRange;
+};
+
+const unifiedUnicodeRange = createUnifiedRange(commonUnicodeRanges);
+
+export const getRandomCodePoint = (): number => {
+    const randomIndex = Math.floor(Math.random() * unifiedUnicodeRange.length);
+    return unifiedUnicodeRange[randomIndex];
+};
+
+export const generateRandomString = (length: number): string => {
+    return Array.from({ length }, () => String.fromCodePoint(getRandomCodePoint())).join("");
+};
