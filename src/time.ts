@@ -12,6 +12,8 @@ export const DEFAULT_CLOCK: ZillaClock = {
 
 export type ZillaClockSource = () => ZillaClock;
 
+export const DEFAULT_CLOCK_SOURCE: ZillaClockSource = () => DEFAULT_CLOCK;
+
 // adapted from https://stackoverflow.com/a/39914235
 export const time = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
