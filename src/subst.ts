@@ -1,6 +1,6 @@
 export type StringXformFunction = (args?: string[]) => string;
 
-export type StringXformContext = Record<string, string | StringXformFunction>;
+export type StringXformContext = Record<string, string | StringXformFunction | undefined | null>;
 
 export const ERR_UNKNOWN_SUBST_CONTEXT_VAR = "Unknown context variable";
 

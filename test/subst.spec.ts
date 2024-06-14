@@ -80,7 +80,7 @@ describe("test string subst", () => {
                 {
                     TEST_VAR_1: var1value,
                     TEST_VAR_2: var2value,
-                    VAR3: undefined as any,
+                    VAR3: undefined,
                 },
                 { strict: false }
             ) as any;
