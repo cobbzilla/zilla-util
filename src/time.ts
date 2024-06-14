@@ -1,13 +1,19 @@
+export type ZillaNowFunc = () => number;
+
+const DEFAULT_NOW_FUNC: ZillaNowFunc = () => Date.now();
+
 export type ZillaClock = {
-    now: () => number;
+    now: ZillaNowFunc;
 };
 
 export const DEFAULT_CLOCK: ZillaClock = {
-    now: () => Date.now(),
+    now: DEFAULT_NOW_FUNC,
 };
 
+export type ZillaClockSource = () => ZillaClock;
+
 // adapted from https://stackoverflow.com/a/39914235
-export const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+export const time = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 export const DEFAULT_NAP_CHECK = 1000;
 
@@ -17,7 +23,7 @@ const _nap =
             alarm.wake = false;
             const start = clock.now();
             while (!alarm.wake && clock.now() - start < ms) {
-                await sleep(check);
+                await time(check);
             }
         } finally {
             resolve();

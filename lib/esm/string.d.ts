@@ -1,4 +1,4 @@
-import { ZillaClock } from "./sleep.js";
+import { ZillaClock } from "./time.js";
 export declare const capitalize: (s: string) => string;
 export declare const uncapitalize: (s: string) => string;
 export declare const basefilename: (s: string) => string;
