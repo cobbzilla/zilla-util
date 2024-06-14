@@ -71,14 +71,11 @@ describe("test basefilename", () => {
     it("correctly finds the basename for a filename that ends with a slash", () => {
         expect(basefilename("foo/")).eq("foo");
     });
-    it("correctly returns undefined when no argument passed", () => {
-        expect(basefilename()).eq(undefined);
-    });
     it("correctly returns undefined for undefined argument", () => {
-        expect(basefilename(undefined)).eq(undefined);
+        expect(basefilename(undefined as any)).eq(undefined);
     });
     it("correctly returns null for null argument", () => {
-        expect(basefilename(null)).eq(null);
+        expect(basefilename(null as any)).eq(null);
     });
     it("correctly returns empty string for empty string argument", () => {
         expect(basefilename("")).eq("");
@@ -107,14 +104,11 @@ describe("test basefilenameWithoutExt", () => {
     it("correctly finds the basename for a filename that ends with a slash", () => {
         expect(basefilenameWithoutExt("foo.quux/")).eq("foo");
     });
-    it("correctly returns undefined when no argument passed", () => {
-        expect(basefilenameWithoutExt()).eq(undefined);
-    });
     it("correctly returns undefined for undefined argument", () => {
-        expect(basefilenameWithoutExt(undefined)).eq(undefined);
+        expect(basefilenameWithoutExt(undefined as any)).eq(undefined);
     });
     it("correctly returns null for null argument", () => {
-        expect(basefilenameWithoutExt(null)).eq(null);
+        expect(basefilenameWithoutExt(null as any)).eq(null);
     });
     it("correctly returns empty string for empty string argument", () => {
         expect(basefilenameWithoutExt("")).eq("");

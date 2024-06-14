@@ -1,6 +1,6 @@
 {
   "name": "zilla-util",
-  "version": "1.0.68",
+  "version": "1.0.69",
   "type": "module",
   "description": "Simple zero-dependency utility library",
   "keywords": [
@@ -22,7 +22,7 @@
   },
   "license": "Apache-2.0",
   "scripts": {
-    "test": "mocha ./test/*.spec.js",
+    "test": "mocha ./test/*.spec.ts",
     "tsc": "tsc --module es2020 -p tsconfig.json",
     "lint": "npx eslint src",
     "lint:fix": "npm run lint -- --fix",
@@ -51,6 +51,7 @@
     "prettier": "^2.8.8",
     "shasum": "^1.0.2",
     "tslint-config-prettier": "^1.18.0",
+    "tsx": "^4.15.4",
     "typescript": "^5.1.6"
   }
 }

@@ -13,7 +13,7 @@ import {
 
 describe("test deepUpdate and deepGet", () => {
     it("correctly deep-updates a nested object", () => {
-        const thing = { foo: { bar: { baz: "quux" }, snarf: 42 } };
+        const thing = { foo: { bar: { baz: "quux" }, snarf: 42 } } as any;
         deepUpdate(thing, "foo.bar.baz", "test");
         expect(thing.foo.bar.baz).eq("test");
         expect(thing.foo.bar.baz).eq(deepGet(thing, "foo.bar.baz"));
@@ -27,7 +27,7 @@ describe("test deepUpdate and deepGet", () => {
         expect(thing.foo.whiz).eq(deepGet(thing, "foo.whiz"));
     });
     it("correctly deep-updates and appends to nested arrays", () => {
-        const thing = { foo: { bar: [1, 2, { baz: { quux: "whiz" } }], snarf: ["a", "b", "c"] } };
+        const thing = { foo: { bar: [1, 2, { baz: { quux: "whiz" } }], snarf: ["a", "b", "c"] } } as any;
         deepUpdate(thing, "foo.bar[2].baz.quux", "test");
         expect(thing.foo.bar[2].baz.quux).eq("test");
         expect(thing.foo.bar[2].baz.quux).eq(deepGet(thing, "foo.bar[2].baz.quux"));
@@ -49,7 +49,7 @@ describe("test deepUpdate and deepGet", () => {
         expect(thing.arry[0]).eq(deepGet(thing, "arry[0]"));
     });
     it("correctly deep-updates and appends to multiply-nested arrays", () => {
-        const thing = { foo: { bar: [1, 2, [4, 5, [6, 7]]] } };
+        const thing = { foo: { bar: [1, 2, [4, 5, [6, 7]]] } } as any;
         deepUpdate(thing, "foo.bar[2][1]", 42);
         expect(thing.foo.bar[2][1]).eq(42);
         expect(thing.foo.bar[2][1]).eq(deepGet(thing, "foo.bar[2][1]"));
@@ -59,17 +59,17 @@ describe("test deepUpdate and deepGet", () => {
         expect(thing.foo.bar[2][2][2]).eq(deepGet(thing, "foo.bar[2][2][2]"));
     });
     it("can deep-update after append", () => {
-        const thing = { foo: { bar: [1, 2, { baz: { quux: "whiz" } }], snarf: ["a", "b", "c"] } };
+        const thing = { foo: { bar: [1, 2, { baz: { quux: "whiz" } }], snarf: ["a", "b", "c"] } } as any;
         deepUpdate(thing, "foo.bar[].baz.quux", "test");
         expect(thing.foo.bar[3].baz.quux).eq("test");
     });
     it("can create new arrays when using deep-update after append", () => {
-        const thing = { foo: { bar: [1, 2, { baz: { quux: "whiz" } }], snarf: ["a", "b", "c"] } };
+        const thing = { foo: { bar: [1, 2, { baz: { quux: "whiz" } }], snarf: ["a", "b", "c"] } } as any;
         deepUpdate(thing, "foo.whiz[].baz.quux", "test");
         expect(thing.foo.whiz[0].baz.quux).eq("test");
     });
     it("correctly deep-updates to remove a subobject in an array", () => {
-        const thing = { foo: { bar: [1, 2, { baz: { quux: "whiz" } }], snarf: ["a", "b", "c"] } };
+        const thing = { foo: { bar: [1, 2, { baz: { quux: "whiz" } }], snarf: ["a", "b", "c"] } } as any;
         deepUpdate(thing, "foo.bar[-1]", null);
         expect(thing.foo.bar.length).eq(2);
         expect(thing.foo.bar[0]).eq(1);
@@ -127,8 +127,8 @@ describe("test deepEquals", () => {
     it("deepEquals correctly compares primitives", () => {
         expect(deepEquals(1, 2 - 1)).is.true;
         expect(deepEquals(1, 2)).is.false;
-        expect(deepEquals(1, "2")).is.false;
-        expect(deepEquals(1, "1")).is.false;
+        expect(deepEquals(1, "2" as any)).is.false;
+        expect(deepEquals(1, "1" as any)).is.false;
         expect(deepEquals("1", "1")).is.true;
         expect(deepEquals(false, false)).is.true;
         expect(deepEquals(false, true)).is.false;

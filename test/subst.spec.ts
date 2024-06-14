@@ -17,7 +17,7 @@ describe("test string subst", () => {
                 TEST_VAR_1: var1value,
                 TEST_VAR_2: var2value,
             }
-        );
+        ) as any;
         expect(result.key1).to.equal(var1value);
         expect(result.nested.key2).to.equal(var2value);
     });
@@ -33,10 +33,10 @@ describe("test string subst", () => {
                 key2: "{{ TEST_VAR_2 }}",
             },
             {
-                rand: (args) => randValue.substring(0, parseInt(args[0])),
+                rand: (args) => (args ? randValue.substring(0, parseInt(args[0])) : "null"),
                 TEST_VAR_2: var2value,
             }
-        );
+        ) as any;
         expect(result.key1).to.equal(randValue.substring(0, randLength));
         expect(result.key2).to.equal(var2value);
     });
@@ -60,7 +60,7 @@ describe("test string subst", () => {
                     // VAR3: undefined
                 },
                 { strict: false }
-            );
+            ) as any;
             expect(result.key1).to.equal(var1value);
             expect(result.nested.key2).to.equal(var2value);
             expect(result.nested.key3).to.equal(var3value);
@@ -80,10 +80,10 @@ describe("test string subst", () => {
                 {
                     TEST_VAR_1: var1value,
                     TEST_VAR_2: var2value,
-                    VAR3: undefined,
+                    VAR3: undefined as any,
                 },
                 { strict: false }
-            );
+            ) as any;
             expect(result.key1).to.equal(var1value);
             expect(result.nested.key2).to.equal(var2value);
             expect(result.nested.key3).to.equal(var3value);
@@ -102,7 +102,8 @@ describe("test string subst", () => {
                 );
                 assert.fail(`expected substContext failure but returned: ${JSON.stringify(result)}`);
             } catch (e) {
-                expect(e.message).include(ERR_UNKNOWN_SUBST_CONTEXT_VAR);
+                expect(e).instanceof(Error);
+                expect((e as Error).message).include(ERR_UNKNOWN_SUBST_CONTEXT_VAR);
             }
         });
         it("correctly throws an error in default mode (strict mode) when a variable is missing", () => {
@@ -115,7 +116,8 @@ describe("test string subst", () => {
                 );
                 assert.fail(`expected substContext failure but returned: ${JSON.stringify(result)}`);
             } catch (e) {
-                expect(e.message).include(ERR_UNKNOWN_SUBST_CONTEXT_VAR);
+                expect(e).instanceof(Error);
+                expect((e as Error).message).include(ERR_UNKNOWN_SUBST_CONTEXT_VAR);
             }
         });
     });
