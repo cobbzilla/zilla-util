@@ -197,3 +197,12 @@ export const isEmpty = (obj?: unknown | null | undefined): boolean => {
 };
 
 export const isNotEmpty = (obj?: unknown | null | undefined): boolean => !isEmpty(obj);
+
+export const filterProperties = (obj: Record<string, any>, propNames: string[]): Record<string, any> => {
+    return propNames.reduce((acc, prop) => {
+        if (Object.prototype.hasOwnProperty.call(obj, prop)) {
+            acc[prop] = obj[prop];
+        }
+        return acc;
+    }, {} as Record<string, any>);
+};

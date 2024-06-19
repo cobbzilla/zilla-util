@@ -14,3 +14,4 @@ export declare const hasUniqueProperty: (things: Record<string, unknown>[], prop
 export declare const filterObject: <T>(obj: Record<string, T>, keys: string[]) => Record<string, T>;
 export declare const isEmpty: (obj?: unknown | null | undefined) => boolean;
 export declare const isNotEmpty: (obj?: unknown | null | undefined) => boolean;
+export declare const filterProperties: (obj: Record<string, any>, propNames: string[]) => Record<string, any>;

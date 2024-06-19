@@ -9,7 +9,8 @@ import {
     hasUniqueProperty,
     isEmpty,
     isNotEmpty,
-} from "../lib/esm/index.js";
+    filterProperties,
+} from "../lib/esm";
 
 describe("test deepUpdate and deepGet", () => {
     it("correctly deep-updates a nested object", () => {
@@ -196,5 +197,23 @@ describe("test isEmpty and isNotEmpty", () => {
     it("isEmpty and isNotEmpty correctly tests 'false' for non-emptiness", () => {
         expect(isEmpty(false)).is.false;
         expect(isNotEmpty(false)).is.true;
+    });
+});
+
+describe("filterProperties test", () => {
+    it("filters properties correctly", () => {
+        const obj = {
+            foo: 1,
+            bar: "123",
+            baz: [5, 6, 9],
+        };
+        const filtered = filterProperties(obj, ["bar", "baz"]);
+        expect(Object.keys(filtered)).length(2);
+        expect(filtered.bar).eq("123");
+        expect(filtered.baz).length(3);
+        expect(filtered.baz[0]).eq(5);
+        expect(filtered.baz[1]).eq(6);
+        expect(filtered.baz[2]).eq(9);
+        expect(JSON.stringify(filtered)).eq('{"bar":"123","baz":[5,6,9]}');
     });
 });
