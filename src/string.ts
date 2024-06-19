@@ -214,3 +214,16 @@ export const getRandomCodePoint = (): number => {
 export const generateRandomString = (length: number): string => {
     return Array.from({ length }, () => String.fromCodePoint(getRandomCodePoint())).join("");
 };
+
+export const sortObj = (o: Record<string, unknown>): Record<string, unknown> =>
+    Object.keys(o)
+        .sort()
+        .reduce((acc, key) => {
+            acc[key] =
+                typeof o[key] === "object" && o[key] !== null && !Array.isArray(o[key])
+                    ? sortObj(o[key] as Record<string, unknown>)
+                    : o[key];
+            return acc;
+        }, {} as Record<string, unknown>);
+
+export const sortedStringify = (obj: Record<string, unknown>): string => JSON.stringify(sortObj(obj));

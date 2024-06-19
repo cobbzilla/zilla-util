@@ -18,6 +18,8 @@ import {
     randomDigits,
     trimSpaces,
     trimNonalphanumeric,
+    sortObj,
+    sortedStringify,
 } from "../lib/esm/index.js";
 
 describe("test sluggize", () => {
@@ -265,5 +267,16 @@ describe("trimNonalphanumeric test", () => {
     it("correctly trims non-alphanumeric characters from a string", () => {
         const testString = " #123  and some words ";
         expect(trimNonalphanumeric(testString)).to.equal("123andsomewords");
+    });
+});
+
+describe("sortObj and sortedStringify test", () => {
+    it("correctly sorts and stringifies properties in a nested object", () => {
+        const obj = { zzz: 123, nested: { foo: 1, bar: 2 }, key1: "value1", key2: "value2", aaa: 456 };
+        const sorted = sortObj(obj);
+        expect(JSON.stringify(sorted)).eq(
+            '{"aaa":456,"key1":"value1","key2":"value2","nested":{"bar":2,"foo":1},"zzz":123}'
+        );
+        expect(sortedStringify(obj)).eq(JSON.stringify(sorted));
     });
 });

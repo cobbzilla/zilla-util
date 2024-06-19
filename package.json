@@ -1,6 +1,6 @@
 {
   "name": "zilla-util",
-  "version": "1.0.71",
+  "version": "1.0.72",
   "type": "module",
   "description": "Simple zero-dependency utility library",
   "keywords": [
@@ -36,7 +36,8 @@
     "./templates": "./lib/esm/templates"
   },
   "files": [
-    "lib/"
+    "lib/",
+    "src/**/*.ts"
   ],
   "devDependencies": {
     "@types/chai": "^4.3.5",
