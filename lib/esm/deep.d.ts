@@ -15,3 +15,4 @@ export declare const filterObject: <T>(obj: Record<string, T>, keys: string[]) =
 export declare const isEmpty: (obj?: unknown | null | undefined) => boolean;
 export declare const isNotEmpty: (obj?: unknown | null | undefined) => boolean;
 export declare const filterProperties: (obj: Record<string, any>, propNames: string[]) => Record<string, any>;
+export declare const deepEqualsForFields: (o1: Record<string, any>, o2: Record<string, any>, propNames: string[]) => boolean;

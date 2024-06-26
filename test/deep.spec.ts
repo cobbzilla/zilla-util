@@ -4,6 +4,7 @@ import {
     deepGet,
     deepUpdate,
     deepEquals,
+    deepEqualsForFields,
     stripNonAlphaNumericKeys,
     hasDuplicateProperty,
     hasUniqueProperty,
@@ -215,5 +216,29 @@ describe("filterProperties test", () => {
         expect(filtered.baz[1]).eq(6);
         expect(filtered.baz[2]).eq(9);
         expect(JSON.stringify(filtered)).eq('{"bar":"123","baz":[5,6,9]}');
+    });
+});
+
+type TestType = {
+    name: string;
+    value: number;
+};
+type TestType1 = TestType & {
+    foo: string;
+};
+type TestType2 = TestType & {
+    bar: string;
+};
+
+describe("deepEqualsForFields test", () => {
+    it("successfully compares two different types that extend a common type that match on the common type and differ in subtype fields", () => {
+        const o1: TestType1 = { name: "abc", value: 123, foo: "foo" };
+        const o2: TestType2 = { name: "abc", value: 123, bar: "bar" };
+        expect(deepEqualsForFields(o1, o2, ["name", "value"])).is.true;
+    });
+    it("successfully compares two different types that extend a common type that do not match on the common type", () => {
+        const o1: TestType1 = { name: "abc", value: 123, foo: "foo" };
+        const o2: TestType2 = { name: "abc", value: 456, bar: "bar" };
+        expect(deepEqualsForFields(o1, o2, ["name", "value"])).is.false;
     });
 });

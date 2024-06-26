@@ -206,3 +206,9 @@ export const filterProperties = (obj: Record<string, any>, propNames: string[]):
         return acc;
     }, {} as Record<string, any>);
 };
+
+export const deepEqualsForFields = (o1: Record<string, any>, o2: Record<string, any>, propNames: string[]): boolean => {
+    const t1 = filterProperties(o1, propNames);
+    const t2 = filterProperties(o2, propNames);
+    return deepEquals(t1, t2);
+};
