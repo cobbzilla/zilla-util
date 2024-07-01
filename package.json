@@ -1,6 +1,6 @@
 {
   "name": "zilla-util",
-  "version": "1.0.74",
+  "version": "1.0.75",
   "type": "module",
   "description": "Simple zero-dependency utility library",
   "keywords": [
