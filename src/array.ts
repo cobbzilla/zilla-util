@@ -40,7 +40,7 @@ export const asyncFilter = async <T>(arr: T[], predicate: (item: T) => Promise<b
     return arr.filter((_v, index) => results[index]);
 };
 
-const shuffleArray = <T>(array: T[]): T[] => {
+export const shuffleArray = <T>(array: T[]): T[] => {
     const result = [...array];
     for (let i = result.length - 1, j: number; i > 0; i--) {
         j = Math.floor(Math.random() * (i + 1));
