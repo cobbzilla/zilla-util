@@ -1,4 +1,4 @@
-import { sleep } from "./time";
+import { sleep } from "./time.js";
 
 export type RetryOptions = {
     maxAttempts?: number;
