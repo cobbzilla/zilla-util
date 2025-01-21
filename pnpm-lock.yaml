@@ -11,6 +11,9 @@ devDependencies:
   '@types/mocha':
     specifier: ^10.0.1
     version: 10.0.1
+  '@types/shasum':
+    specifier: ^1.0.2
+    version: 1.0.2
   '@typescript-eslint/eslint-plugin':
     specifier: ^5.61.0
     version: 5.61.0(@typescript-eslint/parser@5.61.0)(eslint@8.44.0)(typescript@5.1.6)
@@ -144,6 +147,10 @@ packages:
 
   /@types/semver@7.5.0:
     resolution: {integrity: sha512-G8hZ6XJiHnuhQKR7ZmysCeJWE08o8T0AXtk5darsCaTVsYZhhgUrq53jizaR2FvsoeCwJhlmwTjkXBY5Pn/ZHw==}
+    dev: true
+
+  /@types/shasum@1.0.2:
+    resolution: {integrity: sha512-kEIpXdg8kRrcZuQDAAU2Eo2mOoxeqiZ9axcAdtNQICjB8J0o354ucykQcfKyh6G4q+jrRpzLmF/+vPRqvnCK0Q==}
     dev: true
 
   /@typescript-eslint/eslint-plugin@5.61.0(@typescript-eslint/parser@5.61.0)(eslint@8.44.0)(typescript@5.1.6):
