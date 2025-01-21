@@ -4,6 +4,7 @@ import {
     deepGet,
     deepUpdate,
     deepEquals,
+    deepAtLeastEquals,
     deepEqualsForFields,
     stripNonAlphaNumericKeys,
     hasDuplicateProperty,
@@ -146,6 +147,21 @@ describe("test deepEquals", () => {
         const o3 = { foo: "bar", baz: "quux", snarf: true };
         expect(deepEquals(o1, o2)).is.false;
         expect(deepEquals(o1, o3)).is.false;
+    });
+});
+
+describe("test deepAtLeastEquals", () => {
+    it("deepAtLeastEquals correctly compares objects that match identically", () => {
+        const o1 = { foo: "bar", baz: "quux" };
+        const o2 = { baz: "quux", foo: "bar" };
+        expect(deepAtLeastEquals(o1, o2)).is.true;
+    });
+    it("deepAtLeastEquals correctly compares objects that match when the second has more properties", () => {
+        const o1 = { foo: "bar", baz: "quux" };
+        const o2 = { baz: "quux", foo: "bar", snarf: true, extra: "extra" };
+        const o3 = { foo: "bar", baz: "quux2", snarf: true, extra: "extra" };
+        expect(deepAtLeastEquals(o1, o2)).is.true;
+        expect(deepAtLeastEquals(o1, o3)).is.false;
     });
 });
 

@@ -7,6 +7,7 @@ export declare const parseDeep: (fieldPath: string) => ObjectNav[];
 export declare const deepGet: (obj: any, fieldPath: string) => unknown;
 export declare const deepUpdate: (obj: any, fieldPath: string, value: any) => void;
 export declare const deepEquals: <T>(object1: T, object2: T) => boolean;
+export declare const deepAtLeastEquals: <T>(subset: T, superset: Partial<T>) => boolean;
 export declare const isObject: <T>(object: T) => boolean;
 export declare const stripNonAlphaNumericKeys: <T>(obj: T) => T;
 export declare const hasDuplicateProperty: (things: Record<string, unknown>[], prop: string) => boolean;

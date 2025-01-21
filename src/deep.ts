@@ -140,6 +140,29 @@ export const deepEquals = <T>(object1: T, object2: T): boolean => {
     });
 };
 
+export const deepAtLeastEquals = <T>(subset: T, superset: Partial<T>): boolean => {
+    if (subset === superset) return true;
+
+    const keysSubset = Object.keys(subset as Record<keyof T, unknown>) as (keyof T)[];
+
+    return keysSubset.every((key) => {
+        if (!(key in superset)) return false;
+
+        const val1 = subset[key];
+        const val2 = superset[key];
+
+        if (val2 === undefined) return false; // Ensure superset contains the property
+
+        const areObjects = isObject(val1) && isObject(val2);
+
+        if (areObjects) {
+            return deepAtLeastEquals(val1 as Record<string, unknown>, val2 as Partial<Record<string, unknown>>);
+        }
+
+        return val1 === val2;
+    });
+};
+
 export const isObject = <T>(object: T): boolean => object != null && typeof object === "object";
 
 export const stripNonAlphaNumericKeys = <T>(obj: T): T => {
