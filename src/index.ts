@@ -6,3 +6,4 @@ export * from "./hash.js";
 export * from "./msg.js";
 export * from "./base64.js";
 export * from "./subst.js";
+export * from "./retry.js";
