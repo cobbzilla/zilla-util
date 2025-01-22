@@ -163,6 +163,60 @@ describe("test deepAtLeastEquals", () => {
         expect(deepAtLeastEquals(o1, o2)).is.true;
         expect(deepAtLeastEquals(o1, o3)).is.false;
     });
+    it("deepAtLeastEquals correctly compares objects that have failed before", () => {
+        const o1 = {
+            name: "enter_phone",
+            step: 1,
+            handler: "enter_data",
+            handlerFields: ["contact_phone_country", "contact_phone_number"],
+            titleMessage: "MSG_title_enter_phone",
+            icon: "MSG_icon_phone",
+            layout: "phone",
+            options: { infoMessage: "MSG_info_enter_phone", helpMessage: "MSG_help_enter_phone" },
+            _meta: {
+                id: "obd_01948f518024_1b1b5f4bf4404bde877d46a6af739426",
+                version: "v_obd_01948f518024_9afeed3de5c54fa6b30e0d5a65e81478",
+                ctime: 1737571270692,
+                mtime: 1737571270692,
+            },
+        };
+        const o2 = {
+            _meta: {
+                id: "obd_01948f518024_1b1b5f4bf4404bde877d46a6af739426",
+                version: "v_obd_01948f51802a_e16b1735d47546c98d894c3f698d2119",
+                ctime: 1737571270698,
+                mtime: 1737571270698,
+            },
+            id: "obd_01948f518024_1b1b5f4bf4404bde877d46a6af739426",
+            step: 1,
+            name: "enter_phone",
+            handler: null,
+            handlerFields: null,
+            nextIf: null,
+            titleMessage: "MSG_title_enter_phone",
+            icon: "MSG_icon_phone",
+            layout: "phone",
+            options: {
+                infoMessage: "MSG_info_enter_phone",
+                helpMessage: "MSG_help_enter_phone",
+                verificationSentMessage: null,
+                verificationRetryMessage: null,
+                verificationRetryButtonHeaderMessage: null,
+                verificationRetryEditButtonMessage: null,
+                verificationRetryRetryButtonMessage: null,
+                footerMessage: null,
+                enableButtonMessage: null,
+                disableButtonMessage: null,
+                optOutMessage: null,
+                textFieldMessage: null,
+                textChoicesMessages: null,
+                imageChoices: null,
+                multiSelect: null,
+            },
+        };
+        expect(deepAtLeastEquals<any>(o1, o2)).is.false;
+        expect(deepAtLeastEquals<any>(o1, o2, ["_meta", "handler", "handlerFields"])).is.true;
+    });
 });
 
 describe("test isEmpty and isNotEmpty", () => {

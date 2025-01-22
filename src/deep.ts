@@ -140,27 +140,34 @@ export const deepEquals = <T>(object1: T, object2: T): boolean => {
     });
 };
 
-export const deepAtLeastEquals = <T>(subset: T, superset: Partial<T>): boolean => {
+export const deepAtLeastEquals = <T>(subset: Partial<T>, superset: Partial<T>, ignore?: (keyof T)[]): boolean => {
     if (subset === superset) return true;
 
     const keysSubset = Object.keys(subset as Record<keyof T, unknown>) as (keyof T)[];
 
-    return keysSubset.every((key) => {
-        if (!(key in superset)) return false;
+    return keysSubset
+        .filter((k) => !ignore || !ignore.includes(k))
+        .every((key) => {
+            if (!(key in superset)) {
+                return false;
+            }
 
-        const val1 = subset[key];
-        const val2 = superset[key];
+            const val1 = subset[key];
+            const val2 = superset[key];
 
-        if (val2 === undefined) return false; // Ensure superset contains the property
+            if (val2 === undefined) {
+                // Ensure superset contains the property
+                return false;
+            }
 
-        const areObjects = isObject(val1) && isObject(val2);
+            const areObjects = isObject(val1) && isObject(val2);
 
-        if (areObjects) {
-            return deepAtLeastEquals(val1 as Record<string, unknown>, val2 as Partial<Record<string, unknown>>);
-        }
+            if (areObjects) {
+                return deepAtLeastEquals(val1 as Record<string, unknown>, val2 as Partial<Record<string, unknown>>);
+            }
 
-        return val1 === val2;
-    });
+            return val1 === val2;
+        });
 };
 
 export const isObject = <T>(object: T): boolean => object != null && typeof object === "object";
