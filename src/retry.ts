@@ -4,7 +4,7 @@ export type RetryOptions = {
     maxAttempts?: number;
     backoffBaseMillis?: number;
     backoffMultiplier?: number;
-    canRetry?: (e: Error) => boolean;
+    canRetry?: (e: Error) => Promise<boolean> | boolean;
 };
 
 export const DEFAULT_RETRY_MAX_ATTEMPTS = 3;
@@ -35,7 +35,7 @@ export const retry = async <T>(fn: () => Promise<T>, opts?: RetryOptions): Promi
             return await fn();
         } catch (e) {
             error = e;
-            if (!canRetry(e as Error)) {
+            if (!(await canRetry(e as Error))) {
                 throw e;
             }
         }

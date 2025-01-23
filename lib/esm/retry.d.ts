@@ -2,7 +2,7 @@ export type RetryOptions = {
     maxAttempts?: number;
     backoffBaseMillis?: number;
     backoffMultiplier?: number;
-    canRetry?: (e: Error) => boolean;
+    canRetry?: (e: Error) => Promise<boolean> | boolean;
 };
 export declare const DEFAULT_RETRY_MAX_ATTEMPTS = 3;
 export declare const DEFAULT_RETRY_BACKOFF_BASE_MILLIS = 250;
