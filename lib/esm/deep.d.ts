@@ -4,7 +4,7 @@ export type ObjectNav = {
     next?: string | number;
 };
 export declare const parseDeep: (fieldPath: string) => ObjectNav[];
-export declare const deepGet: (obj: any, fieldPath: string) => unknown;
+export declare const deepGet: <T>(obj: any, fieldPath: string) => T | undefined;
 export declare const deepUpdate: (obj: any, fieldPath: string, value: any) => void;
 export declare const deepEquals: <T>(object1: T, object2: T) => boolean;
 export declare const deepAtLeastEquals: <T>(subset: Partial<T>, superset: Partial<T>, ignore?: (keyof T)[] | undefined) => boolean;

@@ -47,7 +47,7 @@ export const parseDeep = (fieldPath: string): ObjectNav[] => {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const deepGet = (obj: any, fieldPath: string): unknown => {
+export const deepGet = <T>(obj: any, fieldPath: string): T | undefined => {
     const operations = parseDeep(fieldPath);
 
     let thing = obj;
