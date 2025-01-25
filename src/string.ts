@@ -129,6 +129,7 @@ export const randomDigits = (n: number, min?: number, max?: number): string =>
     Array.from({ length: n }, () => `${randomDigit(min, max)}`).join("");
 
 export const BASE62_CHARS = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+export const BASE62_CHARS_WITHOUT_SIMILAR_CHARS = "23456789ABCDEFGHJKLMNPRSTUVWXYZ";
 export const VOWEL_CHARS = "AEOIUaeoiu";
 export const DIGIT_CHARS = "0123456789";
 export const VOWEL_AND_DIGIT_CHARS = VOWEL_CHARS + DIGIT_CHARS;
@@ -136,11 +137,11 @@ export const VOWEL_AND_DIGIT_CHARS = VOWEL_CHARS + DIGIT_CHARS;
 // "safeToken" means safe in two ways:
 // 1. It's web-safe, using only characters than can appear un-encoded in URLs
 // 2. It's curse-word safe: after 2 consecutive letters, the next char will be a vowel or digit
-export const randomSafeToken = (n: number): string => {
+export const _randomSafeToken = (n: number, CHARS: string): string => {
     let result = "";
 
     for (let i = 0; i < n; i++) {
-        let newChar = BASE62_CHARS[Math.floor(Math.random() * BASE62_CHARS.length)];
+        let newChar = CHARS[Math.floor(Math.random() * CHARS.length)];
 
         // If we have at least 2 characters and they're all alphabetic
         if (
@@ -157,6 +158,9 @@ export const randomSafeToken = (n: number): string => {
 
     return result;
 };
+export const randomSafeToken = (n: number): string => _randomSafeToken(n, BASE62_CHARS);
+
+export const randomSuperSafeToken = (n: number): string => _randomSafeToken(n, BASE62_CHARS_WITHOUT_SIMILAR_CHARS);
 
 export const epochToHttpDate = (epoch?: number, clock?: ZillaClock): string =>
     new Date(epoch ? epoch : clock ? clock.now() : Date.now()).toUTCString();
