@@ -38,3 +38,6 @@ export declare const getRandomCodePoint: () => number;
 export declare const generateRandomString: (length: number) => string;
 export declare const sortObj: (o: Record<string, unknown>) => Record<string, unknown>;
 export declare const sortedStringify: (obj: Record<string, unknown>) => string;
+export declare const jsonHeader: () => {
+    "content-type": string;
+};
