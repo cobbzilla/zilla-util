@@ -223,4 +223,4 @@ export const sortObj = (o: Record<string, unknown>): Record<string, unknown> =>
 
 export const sortedStringify = (obj: Record<string, unknown>): string => JSON.stringify(sortObj(obj));
 
-export const jsonHeader = () => ({ "content-type": "application/json" });
+export const jsonHeader = () => ({ "Content-Type": "application/json" });
