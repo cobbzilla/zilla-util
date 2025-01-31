@@ -129,7 +129,7 @@ export const randomDigits = (n: number, min?: number, max?: number): string =>
     Array.from({ length: n }, () => `${randomDigit(min, max)}`).join("");
 
 export const BASE62_CHARS = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-export const BASE62_CHARS_WITHOUT_SIMILAR_CHARS = "23456789ABCDEFGHJKLMNPRSTUVWXYZ";
+export const BASE62_CHARS_WITHOUT_SIMILAR_CHARS = "23456789ABCEFGHJKLMNPRSTUVWXYZ";
 export const VOWEL_CHARS = "AEOIUaeoiu";
 export const DIGIT_CHARS = "0123456789";
 export const VOWEL_AND_DIGIT_CHARS = VOWEL_CHARS + DIGIT_CHARS;
