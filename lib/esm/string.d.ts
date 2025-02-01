@@ -41,3 +41,28 @@ export declare const sortedStringify: (obj: Record<string, unknown>) => string;
 export declare const jsonHeader: () => {
     "Content-Type": string;
 };
+export declare const ANSI: {
+    RESET: string;
+    BOLD: string;
+    DIM: string;
+    UNDERLINE: string;
+    BLINK: string;
+    INVERSE: string;
+    HIDDEN: string;
+    BLACK: string;
+    RED: string;
+    GREEN: string;
+    YELLOW: string;
+    BLUE: string;
+    MAGENTA: string;
+    CYAN: string;
+    WHITE: string;
+    BRIGHT_BLACK: string;
+    BRIGHT_RED: string;
+    BRIGHT_GREEN: string;
+    BRIGHT_YELLOW: string;
+    BRIGHT_BLUE: string;
+    BRIGHT_MAGENTA: string;
+    BRIGHT_CYAN: string;
+    BRIGHT_WHITE: string;
+};
