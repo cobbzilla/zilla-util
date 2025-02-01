@@ -5,3 +5,5 @@ export declare const insertAfterElement: <T>(sourceArray: T[], targetArray: T[],
 export declare const asyncFilter: <T>(arr: T[], predicate: (item: T) => Promise<boolean>) => Promise<T[]>;
 export declare const shuffleArray: <T>(array: T[]) => T[];
 export declare const shuffleNumbers: (n: number) => number[];
+export declare const deduplicateArrayByName: (entries: Record<string, unknown>[]) => Record<string, unknown>[];
+export declare const deduplicateArray: (entries: Record<string, unknown>[], field: string) => Record<string, unknown>[];

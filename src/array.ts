@@ -50,3 +50,10 @@ export const shuffleArray = <T>(array: T[]): T[] => {
 };
 
 export const shuffleNumbers = (n: number): number[] => shuffleArray([...Array(n).keys()]);
+
+export const deduplicateArrayByName = (entries: Record<string, unknown>[]): Record<string, unknown>[] =>
+    deduplicateArray(entries, "name");
+
+export const deduplicateArray = (entries: Record<string, unknown>[], field: string): Record<string, unknown>[] => [
+    ...new Map(entries.map((entry) => [entry[field], entry])).values(),
+];
