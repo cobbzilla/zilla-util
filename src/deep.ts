@@ -228,16 +228,20 @@ export const isEmpty = (obj?: unknown | null | undefined): boolean => {
 
 export const isNotEmpty = (obj?: unknown | null | undefined): boolean => !isEmpty(obj);
 
-export const filterProperties = (obj: Record<string, any>, propNames: string[]): Record<string, any> => {
+export const filterProperties = (obj: Record<string, unknown>, propNames: string[]): Record<string, unknown> => {
     return propNames.reduce((acc, prop) => {
         if (Object.prototype.hasOwnProperty.call(obj, prop)) {
             acc[prop] = obj[prop];
         }
         return acc;
-    }, {} as Record<string, any>);
+    }, {} as Record<string, unknown>);
 };
 
-export const deepEqualsForFields = (o1: Record<string, any>, o2: Record<string, any>, propNames: string[]): boolean => {
+export const deepEqualsForFields = (
+    o1: Record<string, unknown>,
+    o2: Record<string, unknown>,
+    propNames: string[]
+): boolean => {
     const t1 = filterProperties(o1, propNames);
     const t2 = filterProperties(o2, propNames);
     return deepEquals(t1, t2);

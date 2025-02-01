@@ -153,6 +153,7 @@ class Sha256 {
                 return new TextEncoder()
                     .encode(str, "utf-8")
                     .reduce((prev, curr) => prev + String.fromCharCode(curr), "");
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
             } catch (e) {
                 // no TextEncoder available?
                 return unescape(encodeURIComponent(str)); // monsur.hossa.in/2012/07/20/utf-8-in-javascript.html

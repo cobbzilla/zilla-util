@@ -31,7 +31,7 @@ declare class Sha256 {
     static hash(msg: string, options?: {
         msgFormat?: string | undefined;
         outFormat?: string | undefined;
-    } | undefined): string;
+    }): string;
     /**
      * Rotates right (circular right shift) value x by n positions [§3.2.4].
      * @private
