@@ -316,12 +316,19 @@ describe("deepEqualsForFields test", () => {
 
 describe("immutify test", () => {
     it("successfully maintains immutability on an immutified object", () => {
-        const obj: any = immutify({
+        const target: any = {
             foo: "bar",
             baz: {
                 quux: [1, 2, 3],
             },
-        });
+            func: () => {
+                console.log("func was called");
+                return 42;
+            },
+        };
+        target.mutator = () => (target.foo = "changed");
+
+        const obj: any = immutify(target);
         // obj.foo is not actually changed, the previous value remains
         obj.foo = obj.foo + "_changed";
         expect(obj.foo).to.be.eq("bar");
@@ -349,5 +356,12 @@ describe("immutify test", () => {
         // obj.baz is not actually deleted, the quux array remains unchanged
         delete obj.baz;
         expect(obj.baz.quux[0]).to.be.eq(1);
+
+        // obj.func works as expected
+        expect(obj.func()).to.be.eq(42);
+
+        // obj.mutator still works -- it actually does mutate
+        expect(obj.mutator()).to.be.eq("changed");
+        expect(obj.foo).to.be.eq("changed");
     });
 });
