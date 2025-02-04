@@ -12,6 +12,7 @@ import {
     isEmpty,
     isNotEmpty,
     filterProperties,
+    immutify,
 } from "../lib/esm";
 
 describe("test deepUpdate and deepGet", () => {
@@ -273,12 +274,12 @@ describe("test isEmpty and isNotEmpty", () => {
 
 describe("filterProperties test", () => {
     it("filters properties correctly", () => {
-        const obj = {
+        const obj: Record<string, any> = {
             foo: 1,
             bar: "123",
             baz: [5, 6, 9],
         };
-        const filtered = filterProperties(obj, ["bar", "baz"]);
+        const filtered: Record<string, any> = filterProperties(obj, ["bar", "baz"]);
         expect(Object.keys(filtered)).length(2);
         expect(filtered.bar).eq("123");
         expect(filtered.baz).length(3);
@@ -310,5 +311,43 @@ describe("deepEqualsForFields test", () => {
         const o1: TestType1 = { name: "abc", value: 123, foo: "foo" };
         const o2: TestType2 = { name: "abc", value: 456, bar: "bar" };
         expect(deepEqualsForFields(o1, o2, ["name", "value"])).is.false;
+    });
+});
+
+describe("immutify test", () => {
+    it("successfully maintains immutability on an immutified object", () => {
+        const obj: any = immutify({
+            foo: "bar",
+            baz: {
+                quux: [1, 2, 3],
+            },
+        });
+        // obj.foo is not actually changed, the previous value remains
+        obj.foo = obj.foo + "_changed";
+        expect(obj.foo).to.be.eq("bar");
+
+        // obj.baz is not actually overwritten, the quux array remains
+        obj.baz = {};
+        expect(obj.baz.quux.length).to.be.eq(3);
+
+        // the obj.baz.quux array is not actually appended-to, the previous array entries remain unchanged
+        obj.baz.quux.append(1000);
+        expect(obj.baz.quux.length).to.be.eq(3);
+
+        // the first cell in the obj.baz.quux is not actually overwritten, the previous array entries remain unchanged
+        obj.baz.quux[0] = 99;
+        expect(obj.baz.quux[0]).to.be.eq(1);
+
+        // incrementing the first cell in the obj.baz.quux array does nothing, the previous value remains unchanged
+        obj.baz.quux[0]++;
+        expect(obj.baz.quux[0]).to.be.eq(1);
+
+        // the additional field snarf is not actually added
+        obj.snarf = "additional field";
+        expect(obj.snarf).to.be.undefined;
+
+        // obj.baz is not actually deleted, the quux array remains unchanged
+        delete obj.baz;
+        expect(obj.baz.quux[0]).to.be.eq(1);
     });
 });

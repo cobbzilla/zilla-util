@@ -17,3 +17,6 @@ export declare const isEmpty: (obj?: unknown | null | undefined) => boolean;
 export declare const isNotEmpty: (obj?: unknown | null | undefined) => boolean;
 export declare const filterProperties: (obj: Record<string, unknown>, propNames: string[]) => Record<string, unknown>;
 export declare const deepEqualsForFields: (o1: Record<string, unknown>, o2: Record<string, unknown>, propNames: string[]) => boolean;
+export declare const FN_ALWAYS_TRUE: () => boolean;
+export declare const FN_ALWAYS_FALSE: () => boolean;
+export declare const immutify: <T>(obj: T) => T;

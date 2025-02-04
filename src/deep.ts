@@ -246,3 +246,53 @@ export const deepEqualsForFields = (
     const t2 = filterProperties(o2, propNames);
     return deepEquals(t1, t2);
 };
+
+export const FN_ALWAYS_TRUE = () => true;
+export const FN_ALWAYS_FALSE = () => false;
+
+const proxyCache = new WeakMap<object, unknown>();
+const arrayMutators = new Set([
+    "push",
+    "pop",
+    "shift",
+    "unshift",
+    "splice",
+    "sort",
+    "reverse",
+    "fill",
+    "copyWithin",
+    "append",
+]);
+
+export const immutify = <T>(obj: T): T => {
+    if (obj === null || typeof obj !== "object") return obj;
+    if (proxyCache.has(obj)) return proxyCache.get(obj) as T;
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const handler: ProxyHandler<any> = Array.isArray(obj)
+        ? {
+              get(target, prop, receiver) {
+                  if (typeof prop === "string" && arrayMutators.has(prop)) return () => undefined;
+                  const value = Reflect.get(target, prop, receiver);
+                  return value && typeof value === "object" ? immutify(value) : value;
+              },
+              set: FN_ALWAYS_TRUE,
+              deleteProperty: FN_ALWAYS_TRUE,
+              defineProperty: FN_ALWAYS_TRUE,
+              setPrototypeOf: FN_ALWAYS_TRUE,
+          }
+        : {
+              get(target, prop, receiver) {
+                  const value = Reflect.get(target, prop, receiver);
+                  return value && typeof value === "object" ? immutify(value) : value;
+              },
+              set: FN_ALWAYS_TRUE,
+              deleteProperty: FN_ALWAYS_TRUE,
+              defineProperty: FN_ALWAYS_TRUE,
+              setPrototypeOf: FN_ALWAYS_TRUE,
+          };
+
+    const proxy = new Proxy(obj, handler);
+    proxyCache.set(obj, proxy);
+    return proxy;
+};

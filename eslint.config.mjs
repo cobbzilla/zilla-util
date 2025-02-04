@@ -46,4 +46,11 @@ export default [
             sourceType: "commonjs",
         },
     },
+    {
+        files: ["**/test/*.spec.ts"],
+        rules: {
+            "@typescript-eslint/no-unused-expressions": "off",
+            "@typescript-eslint/no-explicit-any": "off",
+        },
+    }
 ];
