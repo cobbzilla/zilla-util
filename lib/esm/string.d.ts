@@ -66,3 +66,7 @@ export declare const ANSI: {
     BRIGHT_CYAN: string;
     BRIGHT_WHITE: string;
 };
+export declare const REGEX_ARRAY_OF_STRINGS: RegExp;
+export declare const REGEX_ARRAY_OF_BOOLEANS: RegExp;
+export declare const REGEX_ARRAY_OF_INTEGERS: RegExp;
+export declare const REGEX_ARRAY_OF_FLOATS: RegExp;

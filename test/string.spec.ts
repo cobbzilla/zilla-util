@@ -21,6 +21,7 @@ import {
     sortObj,
     sortedStringify,
 } from "../lib/esm/index.js";
+import { REGEX_ARRAY_OF_FLOATS, REGEX_ARRAY_OF_STRINGS } from "../src";
 
 describe("test sluggize", () => {
     it("correctly sluggizes a regular string with spaces", () => {
@@ -278,5 +279,81 @@ describe("sortObj and sortedStringify test", () => {
             '{"aaa":456,"key1":"value1","key2":"value2","nested":{"bar":2,"foo":1},"zzz":123}'
         );
         expect(sortedStringify(obj)).eq(JSON.stringify(sorted));
+    });
+});
+
+describe("regex for array of strings test", () => {
+    const stringArrayRegex = REGEX_ARRAY_OF_STRINGS;
+
+    const validCases = [
+        '["apple"]',
+        '["apple", "banana"]',
+        '["a", "b", "c"]',
+        '["hello world", "123", "foo bar"]',
+        '[""]',
+        '["one", "two", "three", "four"]',
+    ];
+
+    const invalidCases = [
+        '["apple",]', // Trailing comma (invalid JSON)
+        '["apple", banana]', // Missing double quotes around "banana"
+        '[123, "banana"]', // Contains a non-string value
+        '"apple"', // Not an array
+        "[apple]", // No quotes around string
+        '["one" "two"]', // Missing comma between values
+        '["hello, world"]]', // Extra closing bracket
+        '["hello]"', // Unescaped quote inside string
+        '[""] ""]', // Extra data outside brackets
+        '["first", "second", , "fourth"]', // Missing value between commas
+    ];
+
+    validCases.forEach((testCase) => {
+        it(`should match valid string array: ${testCase}`, () => {
+            expect(stringArrayRegex.test(testCase)).to.be.true;
+        });
+    });
+
+    invalidCases.forEach((testCase) => {
+        it(`should not match invalid string array: ${testCase}`, () => {
+            expect(stringArrayRegex.test(testCase)).to.be.false;
+        });
+    });
+});
+
+describe("regex for array of floats test", () => {
+    const floatArrayRegex = REGEX_ARRAY_OF_FLOATS;
+
+    const validCases = [
+        "[1.23]",
+        "[-3.14, 0.0, 42, 100.5]",
+        "[1.23e10, -4.56E-2, 3.0E+5]",
+        "[0.5, -0.001, 1.2e3]",
+        "[10, -20.5, 3E8]",
+    ];
+
+    const invalidCases = [
+        '[1, "2.3", 4]', // Contains a string
+        "[3.14, .5, 1]", // Invalid `.5`, should be `0.5`
+        "[2e, 4]", // Missing exponent digits
+        "[,1.23]", // Leading comma
+        "[1.23,]", // Trailing comma
+        "[1.2.3]", // Multiple decimal points
+        "[e10]", // Only exponent
+        "[1e+]", // Missing exponent digits
+        "1.23, 4.56", // Not an array
+        "[1.2, 3.4", // Missing closing bracket
+        "1.2, 3.4]", // Missing opening bracket
+    ];
+
+    validCases.forEach((testCase) => {
+        it(`should match valid float array: ${testCase}`, () => {
+            expect(floatArrayRegex.test(testCase)).to.be.true;
+        });
+    });
+
+    invalidCases.forEach((testCase) => {
+        it(`should not match invalid float array: ${testCase}`, () => {
+            expect(floatArrayRegex.test(testCase)).to.be.false;
+        });
     });
 });
