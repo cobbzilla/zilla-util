@@ -139,6 +139,8 @@ export const VOWEL_AND_DIGIT_CHARS = VOWEL_CHARS + DIGIT_CHARS;
 // 2. It's curse-word safe: after 2 consecutive letters, the next char will be a vowel or digit
 export const _randomSafeToken = (n: number, CHARS: string): string => {
     let result = "";
+    const allowedSet = new Set(CHARS);
+    const vowelsAndDigits = [...VOWEL_AND_DIGIT_CHARS].filter((char) => allowedSet.has(char)).join("");
 
     for (let i = 0; i < n; i++) {
         let newChar = CHARS[Math.floor(Math.random() * CHARS.length)];
@@ -150,7 +152,7 @@ export const _randomSafeToken = (n: number, CHARS: string): string => {
             isNaN(Number(result.charAt(result.length - 2)))
         ) {
             // ensure next character is a vowel or a digit
-            newChar = VOWEL_AND_DIGIT_CHARS[Math.floor(Math.random() * VOWEL_AND_DIGIT_CHARS.length)];
+            newChar = vowelsAndDigits[Math.floor(Math.random() * vowelsAndDigits.length)];
         }
 
         result += newChar;
