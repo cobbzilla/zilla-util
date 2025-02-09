@@ -1,6 +1,6 @@
 {
   "name": "zilla-util",
-  "version": "1.0.96",
+  "version": "1.0.97",
   "type": "module",
   "description": "Simple zero-dependency utility library",
   "keywords": [
@@ -23,7 +23,8 @@
   "license": "Apache-2.0",
   "scripts": {
     "test": "mocha ./test/*.spec.ts",
-    "tsc": "tsc --module es2020 -p tsconfig.json",
+    "tsc": "tsc",
+    "build": "tsc",
     "lint": "npx eslint src",
     "lint:fix": "npm run lint -- --fix",
     "prettier": "npx prettier src --check",
@@ -41,13 +42,13 @@
   ],
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
-    "@eslint/js": "^9.19.0",
+    "@eslint/js": "^9.20.0",
     "@types/chai": "^4.3.5",
     "@types/mocha": "^10.0.1",
-    "@typescript-eslint/eslint-plugin": "^8.22.0",
-    "@typescript-eslint/parser": "^8.22.0",
+    "@typescript-eslint/eslint-plugin": "^8.23.0",
+    "@typescript-eslint/parser": "^8.23.0",
     "chai": "^4.3.6",
-    "eslint": "^9.19.0",
+    "eslint": "^9.20.0",
     "eslint-config-prettier": "^10.0.1",
     "globals": "^15.14.0",
     "mocha": "^10.2.0",
@@ -55,6 +56,6 @@
     "shasum": "^1.0.2",
     "tslint-config-prettier": "^1.18.0",
     "tsx": "^4.15.4",
-    "typescript": "^5.1.6"
+    "typescript": "^5.7.3"
   }
 }
