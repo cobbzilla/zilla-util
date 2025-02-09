@@ -20,8 +20,10 @@ import {
     trimNonalphanumeric,
     sortObj,
     sortedStringify,
+    packageVersion,
+    REGEX_ARRAY_OF_FLOATS,
+    REGEX_ARRAY_OF_STRINGS,
 } from "../lib/esm/index.js";
-import { REGEX_ARRAY_OF_FLOATS, REGEX_ARRAY_OF_STRINGS } from "../src";
 
 describe("test sluggize", () => {
     it("correctly sluggizes a regular string with spaces", () => {
@@ -355,5 +357,13 @@ describe("regex for array of floats test", () => {
         it(`should not match invalid float array: ${testCase}`, () => {
             expect(floatArrayRegex.test(testCase)).to.be.false;
         });
+    });
+});
+describe("gets the package version", () => {
+    it("retrieves our own package version", async () => {
+        const version = await packageVersion();
+        expect(version).is.not.null;
+        expect(version).is.not.undefined;
+        expect(version.length).is.gte(5);
     });
 });

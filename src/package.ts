@@ -1,14 +1,29 @@
-export async function packageVersion(pkgName: string): Promise<string | null> {
-    try {
-        const pkgJsonPath = await (import.meta.resolve?.(`${pkgName}/package.json`) ?? Promise.reject());
-        const { version } = await import(pkgJsonPath);
-        return version;
-    } catch {
+async function packageJsonUrl(startUrl: URL): Promise<URL | null> {
+    let currentUrl = new URL(startUrl);
+
+    while (true) {
+        const packageUrl = new URL("package.json", currentUrl);
         try {
-            const { version } = await import(`${pkgName}/package.json`, { assert: { type: "json" } });
-            return version;
+            const packageJson = await import(packageUrl.toString(), { assert: { type: "json" } });
+            if (packageJson) return packageUrl; // Found package.json
         } catch {
-            return null;
+            const parentUrl = new URL("..", currentUrl);
+            if (parentUrl.toString() === currentUrl.toString()) break; // Stop if we reach the root
+            currentUrl = parentUrl; // Move up one level
         }
+    }
+    return null; // Not found
+}
+
+export async function packageVersion(): Promise<string> {
+    try {
+        const packageUrl = await packageJsonUrl(new URL(import.meta.url));
+        if (!packageUrl) throw new Error("package.json not found");
+
+        const packageJson = await import(packageUrl.toString(), { assert: { type: "json" } });
+        return packageJson.version;
+    } catch (e) {
+        console.error(`Error determining package version: ${e}`);
+        return `error(${e})`;
     }
 }

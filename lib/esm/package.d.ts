@@ -1,1 +1,1 @@
-export declare function packageVersion(pkgName: string): Promise<string | null>;
+export declare function packageVersion(): Promise<string>;
