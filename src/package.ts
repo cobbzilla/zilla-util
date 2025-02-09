@@ -15,9 +15,9 @@ async function packageJsonUrl(startUrl: URL): Promise<URL | null> {
     return null; // Not found
 }
 
-export async function packageVersion(): Promise<string> {
+export async function packageVersion(importMetaUrl: string = import.meta.url): Promise<string> {
     try {
-        const packageUrl = await packageJsonUrl(new URL(import.meta.url));
+        const packageUrl = await packageJsonUrl(new URL(importMetaUrl));
         if (!packageUrl) throw new Error("package.json not found");
 
         const packageJson = await import(packageUrl.toString(), { assert: { type: "json" } });
