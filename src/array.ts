@@ -57,3 +57,28 @@ export const deduplicateArrayByName = (entries: Record<string, unknown>[]): Reco
 export const deduplicateArray = (entries: Record<string, unknown>[], field: string): Record<string, unknown>[] => [
     ...new Map(entries.map((entry) => [entry[field], entry])).values(),
 ];
+
+export class SortedSet<T> {
+    private items = new Set<T>();
+    private comparator: (a: T, b: T) => number;
+
+    constructor(comparator: (a: T, b: T) => number) {
+        this.comparator = comparator;
+    }
+
+    add(value: T): void {
+        this.items.add(value);
+    }
+
+    delete(value: T): boolean {
+        return this.items.delete(value);
+    }
+
+    has(value: T): boolean {
+        return this.items.has(value);
+    }
+
+    toArray(): T[] {
+        return Array.from(this.items).sort(this.comparator);
+    }
+}

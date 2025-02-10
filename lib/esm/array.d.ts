@@ -7,3 +7,12 @@ export declare const shuffleArray: <T>(array: T[]) => T[];
 export declare const shuffleNumbers: (n: number) => number[];
 export declare const deduplicateArrayByName: (entries: Record<string, unknown>[]) => Record<string, unknown>[];
 export declare const deduplicateArray: (entries: Record<string, unknown>[], field: string) => Record<string, unknown>[];
+export declare class SortedSet<T> {
+    private items;
+    private comparator;
+    constructor(comparator: (a: T, b: T) => number);
+    add(value: T): void;
+    delete(value: T): boolean;
+    has(value: T): boolean;
+    toArray(): T[];
+}
