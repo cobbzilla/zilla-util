@@ -16,3 +16,11 @@ export declare class SortedSet<T> {
     has(value: T): boolean;
     toArray(): T[];
 }
+export declare class SortedIdSet<T, ID> extends SortedSet<T> {
+    private ids;
+    private id;
+    constructor(comparator: (a: T, b: T) => number, id: (a: T) => ID);
+    add(value: T): void;
+    delete(value: T): boolean;
+    has(value: T): boolean;
+}

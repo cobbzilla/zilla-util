@@ -82,3 +82,32 @@ export class SortedSet<T> {
         return Array.from(this.items).sort(this.comparator);
     }
 }
+
+export class SortedIdSet<T, ID> extends SortedSet<T> {
+    private ids = new Set<ID>();
+    private id: (a: T) => ID;
+
+    constructor(comparator: (a: T, b: T) => number, id: (a: T) => ID) {
+        super(comparator);
+        this.id = id;
+    }
+
+    add(value: T): void {
+        if (!this.ids.has(this.id(value))) {
+            super.add(value);
+            this.ids.add(this.id(value));
+        }
+    }
+
+    delete(value: T): boolean {
+        const deleted = super.delete(value);
+        if (deleted) {
+            this.ids.delete(this.id(value));
+        }
+        return deleted;
+    }
+
+    has(value: T): boolean {
+        return this.ids.has(this.id(value));
+    }
+}

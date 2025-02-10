@@ -7,6 +7,7 @@ import {
     insertAfterElement,
     asyncFilter,
     shuffleNumbers,
+    SortedIdSet,
 } from "../lib/esm/index.js";
 
 describe("test setsEqual", () => {
@@ -95,5 +96,42 @@ describe("test shuffleNumbers", () => {
         expect(shuffled.includes(2)).eq(true);
         expect(shuffled.includes(3)).eq(true);
         expect(shuffled.includes(4)).eq(true);
+    });
+});
+
+type TestItem = {
+    id: string;
+    value: number;
+};
+
+describe("test SortedIdSet", () => {
+    it("correctly manages items in a SortedIdSet", () => {
+        const comp = (a: TestItem, b: TestItem): number => a.value - b.value;
+        const id = (a: TestItem): string => a.id;
+        const set = new SortedIdSet(comp, id);
+
+        const data: TestItem[] = [
+            { id: "1", value: 1 },
+            { id: "1", value: 2 },
+            { id: "1", value: 2 },
+            { id: "1", value: 2 },
+            { id: "1", value: 3 },
+            { id: "1", value: 4 },
+            { id: "1", value: 5 },
+            { id: "1", value: 6 },
+            { id: "2", value: 50 },
+            { id: "2", value: 50 },
+            { id: "2", value: 60 },
+            { id: "2", value: 70 },
+        ];
+
+        for (const i of data) set.add(i);
+
+        const array = set.toArray();
+        expect(array.length).eq(2);
+        expect(array[0].id).eq("1");
+        expect(array[0].value).eq(1);
+        expect(array[1].id).eq("2");
+        expect(array[1].value).eq(50);
     });
 });
