@@ -58,8 +58,8 @@ export class LRUCache<K, V> {
 
 export function withLRUCache<V>(
     fn: (...args: any[]) => V,
-    keyFn?: (...args: any[]) => string,
-    cacheOrConfig?: LRUCache<string, V> | LRUCacheConfig
+    cacheOrConfig?: LRUCache<string, V> | LRUCacheConfig,
+    keyFn?: (...args: any[]) => string
 ): (...args: any[]) => V {
     const cache = cacheOrConfig instanceof LRUCache ? cacheOrConfig : new LRUCache<string, V>(cacheOrConfig);
 
