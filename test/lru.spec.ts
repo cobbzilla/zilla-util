@@ -7,7 +7,7 @@ describe("LRUCache", () => {
 
     beforeEach(() => {
         clock = new MockClock();
-        cache = new LRUCache<string, number>(3, 100, clock);
+        cache = new LRUCache({ maxSize: 3, maxAge: 100, clock });
     });
 
     it("should store and retrieve values", () => {
@@ -56,5 +56,17 @@ describe("LRUCache", () => {
         cache.clear();
         expect(cache.get("a")).to.be.undefined;
         expect(cache.get("b")).to.be.undefined;
+    });
+
+    it("should use default maxSize if not provided", () => {
+        cache = new LRUCache({ clock });
+        expect(cache).to.have.property("maxSize", 100);
+    });
+
+    it("should allow no expiration if maxAge is not provided", () => {
+        cache = new LRUCache({ maxSize: 3, clock });
+        cache.set("a", 1);
+        clock.advance(1000);
+        expect(cache.get("a")).to.equal(1);
     });
 });

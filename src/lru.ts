@@ -1,14 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ZillaClock } from "zilla-util";
+import { ZillaClock, DEFAULT_CLOCK } from "zilla-util";
+
+interface LRUCacheConfig {
+    maxSize?: number;
+    maxAge?: number;
+    clock?: ZillaClock;
+}
 
 export class LRUCache<K, V> {
     private readonly maxSize: number;
-    private readonly maxAge: number;
+    private readonly maxAge?: number;
     private cache: Map<K, { value: V; timestamp: number }>;
     private clock: ZillaClock;
 
-    constructor(maxSize: number, maxAge: number, clock: ZillaClock) {
-        if (maxSize <= 0 || maxAge <= 0) throw new Error("maxSize and maxAge must be positive");
+    constructor({ maxSize = 100, maxAge, clock = DEFAULT_CLOCK }: LRUCacheConfig = {}) {
+        if (maxSize <= 0) throw new Error("maxSize must be positive");
         this.maxSize = maxSize;
         this.maxAge = maxAge;
         this.cache = new Map();
@@ -19,7 +25,7 @@ export class LRUCache<K, V> {
         const entry = this.cache.get(key);
         if (!entry) return undefined;
 
-        if (this.clock.now() - entry.timestamp > this.maxAge) {
+        if (this.maxAge !== undefined && this.clock.now() - entry.timestamp > this.maxAge) {
             this.cache.delete(key);
             return undefined;
         }
@@ -51,10 +57,12 @@ export class LRUCache<K, V> {
 }
 
 export function withLRUCache<V>(
-    cache: LRUCache<string, V>,
     fn: (...args: any[]) => V,
-    keyFn?: (...args: any[]) => string
+    keyFn?: (...args: any[]) => string,
+    cacheOrConfig?: LRUCache<string, V> | LRUCacheConfig
 ): (...args: any[]) => V {
+    const cache = cacheOrConfig instanceof LRUCache ? cacheOrConfig : new LRUCache<string, V>(cacheOrConfig);
+
     const defaultKeyFn = (...args: any[]): string =>
         JSON.stringify(args, (key, value) => (typeof value === "function" ? value.toString() : value));
 
