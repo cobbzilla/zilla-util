@@ -5,6 +5,13 @@ export type ZillaClock = {
 export declare const DEFAULT_CLOCK: ZillaClock;
 export type ZillaClockSource = () => ZillaClock;
 export declare const DEFAULT_CLOCK_SOURCE: ZillaClockSource;
+export declare class MockClock {
+    private time;
+    constructor(startTime?: number);
+    now(): number;
+    advance(timeDelta: number): void;
+}
+export declare const mockClock: (startTime?: number) => ZillaClock;
 export declare const sleep: (ms: number) => Promise<unknown>;
 export declare const DEFAULT_NAP_CHECK = 1000;
 export type NapAlarm = {

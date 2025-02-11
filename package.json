@@ -1,6 +1,6 @@
 {
   "name": "zilla-util",
-  "version": "1.0.102",
+  "version": "1.0.103",
   "type": "module",
   "description": "Simple zero-dependency utility library",
   "keywords": [
@@ -33,8 +33,7 @@
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
   "exports": {
-    ".": "./lib/esm/index.js",
-    "./templates": "./lib/esm/templates"
+    ".": "./lib/esm/index.js"
   },
   "files": [
     "lib/",
@@ -45,8 +44,8 @@
     "@eslint/js": "^9.20.0",
     "@types/chai": "^4.3.5",
     "@types/mocha": "^10.0.1",
-    "@typescript-eslint/eslint-plugin": "^8.23.0",
-    "@typescript-eslint/parser": "^8.23.0",
+    "@typescript-eslint/eslint-plugin": "^8.24.0",
+    "@typescript-eslint/parser": "^8.24.0",
     "chai": "^4.3.6",
     "eslint": "^9.20.0",
     "eslint-config-prettier": "^10.0.1",

@@ -14,6 +14,20 @@ export type ZillaClockSource = () => ZillaClock;
 
 export const DEFAULT_CLOCK_SOURCE: ZillaClockSource = () => DEFAULT_CLOCK;
 
+export class MockClock {
+    private time: number;
+    constructor(startTime: number = 0) {
+        this.time = startTime;
+    }
+    now(): number {
+        return this.time;
+    }
+    advance(timeDelta: number): void {
+        this.time += timeDelta;
+    }
+}
+export const mockClock = (startTime: number = 0): ZillaClock => new MockClock(startTime);
+
 // adapted from https://stackoverflow.com/a/39914235
 export const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
