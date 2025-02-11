@@ -1,9 +1,9 @@
 import { ZillaClock } from "./time.js";
 
-export const capitalize = (s: string): string =>
+export const capitalize = (s?: string): string =>
     s && s.length > 0 ? s.substring(0, 1).toUpperCase() + s.substring(1) : "";
 
-export const uncapitalize = (s: string): string =>
+export const uncapitalize = (s?: string): string =>
     s && s.length > 0 ? s.substring(0, 1).toLowerCase() + s.substring(1) : "";
 
 export const basefilename = (s: string): string => {
