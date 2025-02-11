@@ -57,22 +57,41 @@ export class LRUCache<K, V> {
 }
 
 export function withLRUCache<V>(
+    fn: (...args: any[]) => Promise<V>,
+    cacheOrConfig?: LRUCache<string, V> | LRUCacheConfig,
+    keyFn?: (...args: any[]) => string
+): (...args: any[]) => Promise<V>;
+
+export function withLRUCache<V>(
     fn: (...args: any[]) => V,
     cacheOrConfig?: LRUCache<string, V> | LRUCacheConfig,
     keyFn?: (...args: any[]) => string
-): (...args: any[]) => V {
+): (...args: any[]) => V;
+
+export function withLRUCache<V>(
+    fn: (...args: any[]) => V | Promise<V>,
+    cacheOrConfig?: LRUCache<string, V> | LRUCacheConfig,
+    keyFn?: (...args: any[]) => string
+): (...args: any[]) => V | Promise<V> {
     const cache = cacheOrConfig instanceof LRUCache ? cacheOrConfig : new LRUCache<string, V>(cacheOrConfig);
 
     const defaultKeyFn = (...args: any[]): string =>
         JSON.stringify(args, (key, value) => (typeof value === "function" ? value.toString() : value));
 
-    return (...args: any[]): V => {
+    return (...args: any[]): V | Promise<V> => {
         const key = (keyFn ?? defaultKeyFn)(...args);
         const cachedValue = cache.get(key);
         if (cachedValue !== undefined) return cachedValue;
 
         const result = fn(...args);
-        cache.set(key, result);
-        return result;
+        if (result instanceof Promise) {
+            return result.then((resolvedResult) => {
+                cache.set(key, resolvedResult);
+                return resolvedResult;
+            });
+        } else {
+            cache.set(key, result);
+            return result;
+        }
     };
 }

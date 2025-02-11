@@ -16,4 +16,5 @@ export declare class LRUCache<K, V> {
     delete(key: K): void;
     clear(): void;
 }
+export declare function withLRUCache<V>(fn: (...args: any[]) => Promise<V>, cacheOrConfig?: LRUCache<string, V> | LRUCacheConfig, keyFn?: (...args: any[]) => string): (...args: any[]) => Promise<V>;
 export declare function withLRUCache<V>(fn: (...args: any[]) => V, cacheOrConfig?: LRUCache<string, V> | LRUCacheConfig, keyFn?: (...args: any[]) => string): (...args: any[]) => V;
