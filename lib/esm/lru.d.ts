@@ -1,5 +1,5 @@
 import { ZillaClock } from "zilla-util";
-interface LRUCacheConfig {
+export interface LRUCacheConfig {
     maxSize?: number;
     maxAge?: number;
     clock?: ZillaClock;
@@ -17,4 +17,3 @@ export declare class LRUCache<K, V> {
     clear(): void;
 }
 export declare function withLRUCache<V>(fn: (...args: any[]) => V, keyFn?: (...args: any[]) => string, cacheOrConfig?: LRUCache<string, V> | LRUCacheConfig): (...args: any[]) => V;
-export {};

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ZillaClock, DEFAULT_CLOCK } from "zilla-util";
 
-interface LRUCacheConfig {
+export interface LRUCacheConfig {
     maxSize?: number;
     maxAge?: number;
     clock?: ZillaClock;
