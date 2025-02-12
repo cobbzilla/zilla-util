@@ -1,9 +1,9 @@
-export enum ZillaMsgTransportName {
+export enum ZillaMsgTransportType {
     email = "email",
     sms = "sms",
 }
 
-export const MESSAGE_TYPE_VALUES: ZillaMsgTransportName[] = Object.values(ZillaMsgTransportName);
+export const MESSAGE_TYPE_VALUES: ZillaMsgTransportType[] = Object.values(ZillaMsgTransportType);
 
 export type ZillaMsgRecipient = {
     name?: string;
@@ -11,7 +11,8 @@ export type ZillaMsgRecipient = {
 };
 
 export type ZillaMessage = {
-    transport: ZillaMsgTransportName;
+    transport: string;
+    type: ZillaMsgTransportType;
     via: string;
     template: string;
     locale: string;
@@ -23,7 +24,7 @@ export type ZillaMessage = {
 
 export type ZillaMsgTransport = {
     name: string;
-    type: ZillaMsgTransportName;
+    type: ZillaMsgTransportType;
     sender: string;
     via: () => string;
     templates: string[];
