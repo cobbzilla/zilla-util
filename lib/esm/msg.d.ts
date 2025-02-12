@@ -18,7 +18,8 @@ export type ZillaMessage = {
     ctime: number;
 };
 export type ZillaMsgTransport = {
-    name: ZillaMsgTransportName;
+    name: string;
+    type: ZillaMsgTransportName;
     sender: string;
     via: () => string;
     templates: string[];
