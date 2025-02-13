@@ -257,6 +257,39 @@ export const ANSI = {
     BRIGHT_WHITE: "\x1b[97m",
 };
 
+export const CSS = {
+    RESET: "color: inherit;",
+    BOLD: "font-weight: bold;",
+    DIM: "opacity: 0.7;",
+    UNDERLINE: "text-decoration: underline;",
+    // for BLINK to work, add the CSS below to some global CSS file that the browser will load:
+    // @keyframes blink { 50% { opacity: 0; } }
+    // If the CSS isn't defined, BLINK text will still appear, it just won't blink
+    BLINK: "animation: blink 1s step-start infinite;",
+    INVERSE: "filter: invert(100%);",
+    HIDDEN: "visibility: hidden;",
+
+    // Foreground Colors
+    BLACK: "color: black;",
+    RED: "color: red;",
+    GREEN: "color: green;",
+    YELLOW: "color: goldenrod;",
+    BLUE: "color: blue;",
+    MAGENTA: "color: purple;",
+    CYAN: "color: cyan;",
+    WHITE: "color: white;",
+
+    // Bright Foreground Colors
+    BRIGHT_BLACK: "color: gray;",
+    BRIGHT_RED: "color: lightcoral;",
+    BRIGHT_GREEN: "color: lightgreen;",
+    BRIGHT_YELLOW: "color: yellow;",
+    BRIGHT_BLUE: "color: lightskyblue;",
+    BRIGHT_MAGENTA: "color: violet;",
+    BRIGHT_CYAN: "color: lightcyan;",
+    BRIGHT_WHITE: "color: white;",
+};
+
 export const REGEX_ARRAY_OF_STRINGS = /^\[\s*(?:"[^"]*"\s*(?:,\s*"[^"]*"\s*)*)?]$/;
 export const REGEX_ARRAY_OF_BOOLEANS = /^\[\s*(?:true|false)(\s*,\s*(?:true|false))*\s*]$/;
 export const REGEX_ARRAY_OF_INTEGERS = /^\[\s*-?\d+(\s*,\s*-?\d+)*\s*]$/;
