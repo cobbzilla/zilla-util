@@ -1,6 +1,6 @@
 {
   "name": "zilla-util",
-  "version": "1.0.114",
+  "version": "1.0.115",
   "type": "module",
   "description": "Simple zero-dependency utility library",
   "keywords": [
@@ -22,13 +22,14 @@
   },
   "license": "Apache-2.0",
   "scripts": {
-    "test": "mocha ./test/*.spec.ts",
     "tsc": "tsc",
     "build": "tsc",
     "lint": "npx eslint src",
     "lint:fix": "npm run lint -- --fix",
     "prettier": "npx prettier src --check",
-    "prettier:fix": "npm run prettier -- --write"
+    "prettier:fix": "npm run prettier -- --write",
+    "test": "if [[ -z \"$SKIP_TESTS\" ]] ; then mocha ./test/*.spec.ts; else echo 'Skipping tests due to SKIP_TESTS env variable'; fi",
+    "release": "pnpm tsc && pnpm lint && pnpm test"
   },
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
