@@ -1,3 +1,4 @@
+import { GenericLogger } from "./logger.js";
 export type RetryOptions = {
     maxAttempts?: number;
     backoffBaseMillis?: number;
@@ -9,4 +10,4 @@ export declare const DEFAULT_RETRY_BACKOFF_BASE_MILLIS = 250;
 export declare const DEFAULT_RETRY_BACKOFF_MULTIPLIER = 3;
 export declare const DEFAULT_RETRY_CAN_RETRY_FUNC: () => boolean;
 export declare const DEFAULT_RETRY_OPTS: RetryOptions;
-export declare const retry: <T>(fn: () => Promise<T>, opts?: RetryOptions) => Promise<T>;
+export declare const retry: <T>(fn: () => Promise<T>, opts?: RetryOptions, logger?: GenericLogger, action?: string) => Promise<T>;

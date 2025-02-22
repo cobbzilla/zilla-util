@@ -1,7 +1,10 @@
-import { ZillaClock } from "./time.js";
+import { DEFAULT_CLOCK, ZillaClock } from "./time.js";
 
-export const formatDate = (template: string, clock?: ZillaClock): string => {
-    const d = clock ? new Date(clock.now()) : new Date();
+export const formatDate = (template: string, clockOrMoment?: ZillaClock | number): string => {
+    const d =
+        typeof clockOrMoment === "number"
+            ? new Date(clockOrMoment)
+            : new Date(clockOrMoment ? clockOrMoment.now() : DEFAULT_CLOCK.now());
     const year = d.getUTCFullYear();
     const month = d.getUTCMonth() + 1;
     const day = d.getUTCDate();

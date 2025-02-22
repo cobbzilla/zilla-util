@@ -1,6 +1,6 @@
 {
   "name": "zilla-util",
-  "version": "1.0.117",
+  "version": "1.0.119",
   "type": "module",
   "description": "Simple zero-dependency utility library",
   "keywords": [
@@ -57,5 +57,10 @@
     "tslint-config-prettier": "^1.18.0",
     "tsx": "^4.15.4",
     "typescript": "^5.7.3"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
   }
 }
