@@ -59,7 +59,7 @@ export const retry = async <T>(
                 throw e;
             }
             if (logger && logger.isDebugEnabled()) {
-                logger.debug(`${iPrefix} function threw error and canRetry=true, continuing`);
+                logger.debug(`${iPrefix} function threw error=${e} and canRetry=true, continuing`, e as Error);
             }
         }
     }
