@@ -172,10 +172,16 @@ export const deepAtLeastEquals = <T>(subset: Partial<T>, superset: Partial<T>, i
 
 export const isObject = <T>(object: T): boolean => object != null && typeof object === "object";
 
-export const stripNonAlphaNumericKeys = <T>(obj: T): T => {
+export const stripNonAlphaNumericKeys = <T>(obj: T, exclude?: RegExp | RegExp[]): T => {
+    const skip: RegExp[] = [];
+    if (Array.isArray(exclude)) {
+        skip.push(...exclude);
+    } else if (exclude) {
+        skip.push(exclude);
+    }
     for (const key in obj) {
         // Check if key contains any non-alphanumeric characters
-        if (/[^a-z0-9_]/i.test(key)) {
+        if (/[^a-z0-9_]/i.test(key) && !skip.find((s) => s.test(key))) {
             delete obj[key];
         } else if (typeof obj[key] === "object" && obj[key] !== null) {
             // If the value is a nested object or array, recurse into it

@@ -13,7 +13,7 @@ import {
     isNotEmpty,
     filterProperties,
     immutify,
-} from "../lib/esm";
+} from "../src/index.js";
 
 describe("test deepUpdate and deepGet", () => {
     it("correctly deep-updates a nested object", () => {
@@ -363,5 +363,24 @@ describe("immutify test", () => {
         // obj.mutator still works -- it actually does mutate
         expect(obj.mutator()).to.be.eq("changed");
         expect(obj.foo).to.be.eq("changed");
+    });
+});
+
+describe("stripNonAlphaNumericKeys", () => {
+    it("correctly strips non-alphanumeric keys from an object", () => {
+        const obj = {
+            key: "value",
+            "@at": "at",
+            nested: { ok: "ok", "not!ok": 42 },
+        };
+        expect(stripNonAlphaNumericKeys(obj)).to.deep.eq({ key: "value", nested: { ok: "ok" } });
+    });
+    it("correctly skips some keys when stripping non-alphanumeric keys from an object", () => {
+        const obj = {
+            key: "value",
+            "@at": "at",
+            nested: { ok: "ok", "not!ok": 42 },
+        };
+        expect(stripNonAlphaNumericKeys(obj, /^@/)).to.deep.eq({ key: "value", "@at": "at", nested: { ok: "ok" } });
     });
 });
