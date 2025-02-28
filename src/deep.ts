@@ -185,7 +185,7 @@ export const stripNonAlphaNumericKeys = <T>(obj: T, exclude?: RegExp | RegExp[])
             delete obj[key];
         } else if (typeof obj[key] === "object" && obj[key] !== null) {
             // If the value is a nested object or array, recurse into it
-            stripNonAlphaNumericKeys(obj[key]);
+            stripNonAlphaNumericKeys(obj[key], exclude);
         }
     }
     return obj;
