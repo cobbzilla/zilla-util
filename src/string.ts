@@ -128,6 +128,8 @@ export const randomDigit = (min?: number, max?: number): number => {
 export const randomDigits = (n: number, min?: number, max?: number): string =>
     Array.from({ length: n }, () => `${randomDigit(min, max)}`).join("");
 
+export const isOnlyDigits = (s: string): boolean => /^\d+$/.test(s);
+
 export const BASE62_CHARS = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 export const BASE62_CHARS_WITHOUT_SIMILAR_CHARS = "23456789ABCEFGHJKLMNPRSTUVWXYZ";
 export const VOWEL_CHARS = "AEOIUaeoiu";

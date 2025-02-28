@@ -22,6 +22,7 @@ export declare const startsWithPrefix: (s: string, prefixes: string[]) => boolea
 export declare const endsWithSuffix: (s: string, suffixes: string[]) => boolean;
 export declare const randomDigit: (min?: number, max?: number) => number;
 export declare const randomDigits: (n: number, min?: number, max?: number) => string;
+export declare const isOnlyDigits: (s: string) => boolean;
 export declare const BASE62_CHARS = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 export declare const BASE62_CHARS_WITHOUT_SIMILAR_CHARS = "23456789ABCEFGHJKLMNPRSTUVWXYZ";
 export declare const VOWEL_CHARS = "AEOIUaeoiu";
