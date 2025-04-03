@@ -16,8 +16,8 @@ export const DEFAULT_CLOCK_SOURCE: ZillaClockSource = () => DEFAULT_CLOCK;
 
 export class MockClock {
     private time: number;
-    constructor(startTime: number = 0) {
-        this.time = startTime;
+    constructor(startTime?: number) {
+        this.time = typeof startTime === "number" ? startTime : Date.now();
     }
     now(): number {
         return this.time;
