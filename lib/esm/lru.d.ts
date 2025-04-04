@@ -1,15 +1,20 @@
 import { ZillaClock } from "zilla-util";
+import { GenericLogger } from "./logger.js";
 export interface LRUCacheConfig {
     maxSize?: number;
     maxAge?: number;
     clock?: ZillaClock;
+    touchOnGet?: boolean;
+    logger?: GenericLogger;
 }
 export declare class LRUCache<K, V> {
     private readonly maxSize;
     private readonly maxAge?;
     private cache;
     private clock;
-    constructor({ maxSize, maxAge, clock }?: LRUCacheConfig);
+    private touchOnGet?;
+    private logger?;
+    constructor({ maxSize, maxAge, clock, touchOnGet, logger }?: LRUCacheConfig);
     get(key: K): V | undefined;
     set(key: K, value: V): void;
     private evict;

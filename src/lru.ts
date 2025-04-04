@@ -1,10 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ZillaClock, DEFAULT_CLOCK } from "zilla-util";
+import { GenericLogger } from "./logger.js";
 
 export interface LRUCacheConfig {
     maxSize?: number;
     maxAge?: number;
     clock?: ZillaClock;
+    touchOnGet?: boolean;
+    logger?: GenericLogger;
 }
 
 export class LRUCache<K, V> {
@@ -12,47 +15,122 @@ export class LRUCache<K, V> {
     private readonly maxAge?: number;
     private cache: Map<K, { value: V; timestamp: number }>;
     private clock: ZillaClock;
+    private touchOnGet?: boolean;
+    private logger?: GenericLogger;
 
-    constructor({ maxSize = 100, maxAge, clock = DEFAULT_CLOCK }: LRUCacheConfig = {}) {
+    constructor({ maxSize = 100, maxAge, clock = DEFAULT_CLOCK, touchOnGet = true, logger }: LRUCacheConfig = {}) {
         if (maxSize <= 0) throw new Error("maxSize must be positive");
         this.maxSize = maxSize;
         this.maxAge = maxAge;
         this.cache = new Map();
         this.clock = clock;
+        this.touchOnGet = touchOnGet;
+        this.logger = logger;
     }
 
     get(key: K): V | undefined {
+        if (this.logger && this.logger.isDebugEnabled()) {
+            this.logger.debug(`LRUCache.get(${key}) now=${this.clock.now()} starting`);
+        }
         const entry = this.cache.get(key);
-        if (!entry) return undefined;
+        if (this.logger && this.logger.isDebugEnabled()) {
+            this.logger.debug(
+                `LRUCache.get(${key}) now=${this.clock.now()} entry=${entry ? JSON.stringify(entry) : "undefined"}`
+            );
+        }
+        if (!entry) {
+            return undefined;
+        }
 
         if (this.maxAge !== undefined && this.clock.now() - entry.timestamp > this.maxAge) {
+            if (this.logger && this.logger.isDebugEnabled()) {
+                this.logger.debug(
+                    `LRUCache.get(${key}) now=${this.clock.now()} EXPIRED entry=${
+                        entry ? JSON.stringify(entry) : "undefined"
+                    }`
+                );
+            }
             this.cache.delete(key);
             return undefined;
         }
 
-        this.cache.delete(key);
-        this.cache.set(key, { ...entry, timestamp: this.clock.now() });
+        if (this.touchOnGet) {
+            if (this.logger && this.logger.isDebugEnabled()) {
+                this.logger.debug(
+                    `LRUCache.get(${key}) now=${this.clock.now()} TOUCH-ON-GET entry=${
+                        entry ? JSON.stringify(entry) : "undefined"
+                    }`
+                );
+            }
+            this.cache.delete(key);
+            this.cache.set(key, { ...entry, timestamp: this.clock.now() });
+        }
+        if (this.logger && this.logger.isDebugEnabled()) {
+            this.logger.debug(`LRUCache.get(${key}) now=${this.clock.now()} RETURNING entry.value=${entry.value}`);
+        }
         return entry.value;
     }
 
     set(key: K, value: V): void {
-        if (this.cache.has(key)) this.cache.delete(key);
-        else if (this.cache.size >= this.maxSize) this.evict();
-
+        if (this.logger && this.logger.isDebugEnabled()) {
+            this.logger.debug(`LRUCache.set(${key}) now=${this.clock.now()} starting`);
+        }
+        if (this.cache.has(key)) {
+            if (this.logger && this.logger.isDebugEnabled()) {
+                this.logger.debug(`LRUCache.set(${key}) now=${this.clock.now()} KEY FOUND DELETING`);
+            }
+            this.cache.delete(key);
+        } else if (this.cache.size >= this.maxSize) {
+            if (this.logger && this.logger.isDebugEnabled()) {
+                this.logger.debug(
+                    `LRUCache.set(${key}) now=${this.clock.now()} this.cache.size=${this.cache.size} >= this.maxSize=${
+                        this.maxSize
+                    } EVICTING`
+                );
+            }
+            this.evict();
+        }
+        if (this.logger && this.logger.isDebugEnabled()) {
+            this.logger.debug(`LRUCache.set(${key}) now=${this.clock.now()} SETTING value=${JSON.stringify(value)}`);
+        }
         this.cache.set(key, { value, timestamp: this.clock.now() });
     }
 
     private evict(): void {
+        if (this.logger && this.logger.isDebugEnabled()) {
+            this.logger.debug(`LRUCache.evict now=${this.clock.now()} starting`);
+        }
         const oldestKey = this.cache.keys().next().value;
-        if (oldestKey !== undefined) this.cache.delete(oldestKey);
+        if (oldestKey !== undefined) {
+            if (this.logger && this.logger.isDebugEnabled()) {
+                this.logger.debug(`LRUCache.evict now=${this.clock.now()} DELETING oldestKey=${oldestKey}`);
+            }
+            this.cache.delete(oldestKey);
+        } else {
+            if (this.logger && this.logger.isDebugEnabled()) {
+                this.logger.debug(`LRUCache.evict now=${this.clock.now()} NOTHING TO DELETE oldestKey=undefined`);
+            }
+        }
     }
 
     delete(key: K): void {
+        if (this.logger && this.logger.isDebugEnabled()) {
+            this.logger.debug(`LRUCache.delete(${key}) now=${this.clock.now()} starting`);
+        }
         this.cache.delete(key);
+        if (this.logger && this.logger.isDebugEnabled()) {
+            this.logger.debug(`LRUCache.delete(${key}) now=${this.clock.now()} finished`);
+        }
     }
 
     clear(): void {
+        if (this.logger && this.logger.isDebugEnabled()) {
+            this.logger.debug(`LRUCache.clear now=${this.clock.now()} starting`);
+        }
         this.cache.clear();
+        if (this.logger && this.logger.isDebugEnabled()) {
+            this.logger.debug(`LRUCache.clear now=${this.clock.now()} finished`);
+        }
     }
 }
 
