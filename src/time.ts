@@ -27,18 +27,18 @@ export class MockClock {
         this.name = name ? name : `MockClock-${uuidv4()}`;
     }
     now(): number {
-        if (this.logger && this.logger.isDebugEnabled()) {
-            this.logger.debug(`MockClock ID=${this.name} RETURNING now=${this.time}`);
+        if (this.logger && this.logger.isTraceEnabled()) {
+            this.logger.trace(`MockClock ID=${this.name} RETURNING now=${this.time}`);
         }
         return this.time;
     }
     advance(timeDelta: number): void {
-        if (this.logger && this.logger.isDebugEnabled()) {
-            this.logger.debug(`MockClock ID=${this.name} ADVANCING now=${this.time} timeDelta=${timeDelta}`);
+        if (this.logger && this.logger.isTraceEnabled()) {
+            this.logger.trace(`MockClock ID=${this.name} ADVANCING now=${this.time} timeDelta=${timeDelta}`);
         }
         this.time += timeDelta;
-        if (this.logger && this.logger.isDebugEnabled()) {
-            this.logger.debug(`MockClock ID=${this.name} ADVANCED now=${this.time}`);
+        if (this.logger && this.logger.isTraceEnabled()) {
+            this.logger.trace(`MockClock ID=${this.name} ADVANCED now=${this.time}`);
         }
     }
 }
