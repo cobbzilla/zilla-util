@@ -26,6 +26,17 @@ export class LRUCache<K, V> {
         this.clock = clock;
         this.touchOnGet = touchOnGet;
         this.logger = logger;
+        if (this.logger && this.logger.isDebugEnabled()) {
+            if (clock.constructor) {
+                this.logger.debug(`LRUCache.constructor now=${this.clock.now()} using clock=${clock.constructor}`);
+            } else {
+                this.logger.debug(
+                    `LRUCache.constructor now=${this.clock.now()} using clock=${
+                        clock === DEFAULT_CLOCK ? "DEFAULT_CLOCK" : "custom-clock"
+                    }`
+                );
+            }
+        }
     }
 
     get(key: K): V | undefined {
