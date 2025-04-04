@@ -1,3 +1,6 @@
+import { uuidv4 } from "./string.js";
+import { GenericLogger } from "./logger.js";
+
 export type ZillaNowFunc = () => number;
 
 const DEFAULT_NOW_FUNC: ZillaNowFunc = () => Date.now();
@@ -16,14 +19,27 @@ export const DEFAULT_CLOCK_SOURCE: ZillaClockSource = () => DEFAULT_CLOCK;
 
 export class MockClock {
     private time: number;
-    constructor(startTime?: number) {
+    private logger?: GenericLogger;
+    private name: string;
+    constructor(startTime?: number, logger?: GenericLogger, name?: string) {
         this.time = typeof startTime === "number" ? startTime : Date.now();
+        this.logger = logger;
+        this.name = name ? name : `MockClock-${uuidv4()}`;
     }
     now(): number {
+        if (this.logger && this.logger.isDebugEnabled()) {
+            this.logger.debug(`MockClock ID=${this.name} RETURNING now=${this.time}`);
+        }
         return this.time;
     }
     advance(timeDelta: number): void {
+        if (this.logger && this.logger.isDebugEnabled()) {
+            this.logger.debug(`MockClock ID=${this.name} ADVANCING now=${this.time} timeDelta=${timeDelta}`);
+        }
         this.time += timeDelta;
+        if (this.logger && this.logger.isDebugEnabled()) {
+            this.logger.debug(`MockClock ID=${this.name} ADVANCED now=${this.time}`);
+        }
     }
 }
 export const mockClock = (startTime: number = 0): ZillaClock => new MockClock(startTime);

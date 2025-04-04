@@ -1,3 +1,4 @@
+import { GenericLogger } from "./logger.js";
 export type ZillaNowFunc = () => number;
 export type ZillaClock = {
     now: ZillaNowFunc;
@@ -7,7 +8,9 @@ export type ZillaClockSource = () => ZillaClock;
 export declare const DEFAULT_CLOCK_SOURCE: ZillaClockSource;
 export declare class MockClock {
     private time;
-    constructor(startTime?: number);
+    private logger?;
+    private name;
+    constructor(startTime?: number, logger?: GenericLogger, name?: string);
     now(): number;
     advance(timeDelta: number): void;
 }
