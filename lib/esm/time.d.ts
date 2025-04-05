@@ -8,6 +8,7 @@ export type ZillaClockSource = () => ZillaClock;
 export declare const DEFAULT_CLOCK_SOURCE: ZillaClockSource;
 export declare class MockClock {
     private time;
+    private start;
     private logger?;
     private name;
     constructor(startTime?: number, logger?: GenericLogger, name?: string);

@@ -19,10 +19,12 @@ export const DEFAULT_CLOCK_SOURCE: ZillaClockSource = () => DEFAULT_CLOCK;
 
 export class MockClock {
     private time: number;
+    private start: number;
     private logger?: GenericLogger;
     private name: string;
     constructor(startTime?: number, logger?: GenericLogger, name?: string) {
-        this.time = typeof startTime === "number" ? startTime : Date.now();
+        this.start = Date.now();
+        this.time = typeof startTime === "number" && startTime > 0 ? startTime : Date.now();
         this.logger = logger;
         this.name = name ? name : `MockClock-${uuidv4()}`;
     }
@@ -30,7 +32,7 @@ export class MockClock {
         if (this.logger && this.logger.isTraceEnabled()) {
             this.logger.trace(`MockClock ID=${this.name} RETURNING now=${this.time}`);
         }
-        return this.time;
+        return this.time + (Date.now() - this.start);
     }
     advance(timeDelta: number): void {
         if (this.logger && this.logger.isTraceEnabled()) {
