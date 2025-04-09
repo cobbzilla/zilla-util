@@ -302,3 +302,24 @@ export const immutify = <T>(obj: T): T => {
     proxyCache.set(obj, proxy);
     return proxy;
 };
+
+export const copyWithRegExp = <T>(obj: T): T => {
+    if (obj instanceof RegExp) {
+        return new RegExp(obj.source, obj.flags) as T;
+    }
+    if (Array.isArray(obj)) {
+        const arr: unknown[] = [];
+        for (const item of obj) {
+            arr.push(copyWithRegExp(item));
+        }
+        return arr as T;
+    }
+    if (obj && typeof obj === "object") {
+        const newObj: Record<string, unknown> = {};
+        for (const [key, val] of Object.entries(obj)) {
+            newObj[key] = copyWithRegExp(val);
+        }
+        return newObj as T;
+    }
+    return obj;
+};

@@ -20,3 +20,4 @@ export declare const deepEqualsForFields: (o1: Record<string, unknown>, o2: Reco
 export declare const FN_ALWAYS_TRUE: () => boolean;
 export declare const FN_ALWAYS_FALSE: () => boolean;
 export declare const immutify: <T>(obj: T) => T;
+export declare const copyWithRegExp: <T>(obj: T) => T;

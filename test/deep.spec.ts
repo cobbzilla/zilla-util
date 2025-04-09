@@ -13,6 +13,7 @@ import {
     isNotEmpty,
     filterProperties,
     immutify,
+    copyWithRegExp,
 } from "../src/index.js";
 
 describe("test deepUpdate and deepGet", () => {
@@ -382,5 +383,16 @@ describe("stripNonAlphaNumericKeys", () => {
             nested: { ok: "ok", "not!ok": 42 },
         };
         expect(stripNonAlphaNumericKeys(obj, /^@/)).to.deep.eq({ key: "value", "@at": "at", nested: { ok: "ok" } });
+    });
+});
+
+describe("copyWithRegExp", () => {
+    it("correctly copies an object with a RegExp", () => {
+        const original = { r: /foo/, bar: "baz", quux: { r: /baz/ } };
+        const copy = copyWithRegExp(original);
+        expect(copy).to.deep.eq(original);
+        original.bar = "+++";
+        expect(copy.bar).to.not.eq(original.bar);
+        expect(copy.r.test("foo")).to.be.true;
     });
 });
