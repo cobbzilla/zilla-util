@@ -1,1 +1,1 @@
-export declare const wrapError: (err: unknown, context: string) => Error;
+export declare const wrapError: (context: string, err: unknown) => Error;

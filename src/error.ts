@@ -1,4 +1,4 @@
-export const wrapError = (err: unknown, context: string): Error => {
+export const wrapError = (context: string, err: unknown): Error => {
     if (err instanceof Error) {
         return new Error(context, { cause: err });
     } else {
