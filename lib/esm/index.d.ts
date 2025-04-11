@@ -2,6 +2,7 @@ export * from "./array.js";
 export * from "./base64.js";
 export * from "./date.js";
 export * from "./deep.js";
+export * from "./error.js";
 export * from "./hash.js";
 export * from "./logger.js";
 export * from "./lru.js";
