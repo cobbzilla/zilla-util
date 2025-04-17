@@ -41,6 +41,12 @@ export const dateAsYYYYMMDD = (date: Date): string =>
         .toString()
         .padStart(2, "0")}`;
 
+export const nextDateAsYYYYMMDD = (d: string): string => {
+    const dt = new Date(`${d}T00:00:00Z`); // UTC midnight of current day
+    dt.setUTCDate(dt.getUTCDate() + 1); // +1 calendar day
+    return dt.toISOString().slice(0, 10); // back to YYYY‑MM‑DD
+};
+
 export const dateAsYYYYMMDDHHmmSS = (date: Date): string =>
     `${date.getFullYear()}${(date.getMonth() + 1).toString().padStart(2, "0")}${date
         .getDate()
