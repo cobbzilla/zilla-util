@@ -10,11 +10,11 @@ export const firstKeyByValue = <K extends string, V>(obj: Record<K, V>, val: V):
 
 export const enumRecord = <E extends string | number | symbol, V>(
     e: Record<string, E>,
-    init: V | (() => V)
+    init: V | ((e?: E) => V)
 ): Record<E, V> => {
     const o = {} as Record<E, V>;
     for (const k of Object.values(e) as E[]) {
-        o[k] = typeof init === "function" ? (init as () => V)() : init;
+        o[k] = typeof init === "function" ? (init as (e?: E) => V)(k) : init;
     }
     return o;
 };
