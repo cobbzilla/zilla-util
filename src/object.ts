@@ -7,3 +7,12 @@ export const keysByValue = <K extends string, V>(obj: Record<K, V>, val: V): K[]
 export const firstKeyByValue = <K extends string, V>(obj: Record<K, V>, val: V): K | undefined => {
     return (Object.keys(obj) as K[]).find((k) => obj[k] === val);
 };
+
+export const enumRecord = <E extends string | number | symbol, V>(
+    e: Record<string, E>,
+    init: () => V,
+): Record<E, V> => {
+    const o = {} as Record<E, V>;
+    for (const k of Object.values(e) as E[]) o[k] = init();
+    return o;
+};
