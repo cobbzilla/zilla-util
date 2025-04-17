@@ -18,3 +18,12 @@ export const enumRecord = <E extends string | number | symbol, V>(
     }
     return o;
 };
+
+export const findDuplicates = <T>(items: T[], field: keyof T): string[] => {
+    const counts = new Map<string, number>();
+    for (const item of items) {
+        const key = String(item[field]);
+        counts.set(key, (counts.get(key) ?? 0) + 1);
+    }
+    return [...counts].filter(([, n]) => n > 1).map(([k]) => k);
+};
