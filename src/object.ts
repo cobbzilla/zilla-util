@@ -1,3 +1,5 @@
+import { SortedSet } from "./array.js";
+
 export type EmptyObjectType = Record<string, never>;
 
 export const keysByValue = <K extends string, V>(obj: Record<K, V>, val: V): K[] => {
@@ -18,6 +20,9 @@ export const enumRecord = <E extends string | number | symbol, V>(
     }
     return o;
 };
+
+export const setsToArrays = <K extends string, V>(input: Record<K, SortedSet<V>>): Record<K, V[]> =>
+    Object.fromEntries(Object.entries(input).map(([k, set]) => [k, (set as SortedSet<V>).toArray()])) as Record<K, V[]>;
 
 export const findDuplicates = <T>(items: T[], field: keyof T): string[] => {
     const counts = new Map<string, number>();
