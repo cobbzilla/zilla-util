@@ -24,3 +24,4 @@ export declare class SortedIdSet<T, ID> extends SortedSet<T> {
     delete(value: T): boolean;
     has(value: T): boolean;
 }
+export declare const firstByProperty: <T extends Record<string, unknown>>(items: T[], prop: keyof T) => T[];

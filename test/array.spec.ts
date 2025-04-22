@@ -2,6 +2,7 @@ import { describe, it } from "mocha";
 import { expect } from "chai";
 import {
     cartesianProduct,
+    firstByProperty,
     setsEqual,
     isAnyTrue,
     insertAfterElement,
@@ -133,5 +134,27 @@ describe("test SortedIdSet", () => {
         expect(array[0].value).eq(1);
         expect(array[1].id).eq("2");
         expect(array[1].value).eq(50);
+    });
+});
+
+describe("test firstByProperty", () => {
+    it("correctly filters objects by property", () => {
+        const data = [
+            { id: 1, val: "1" },
+            { id: 2, val: "2" },
+            { id: 3, val: "2" },
+            { id: 4, val: "1" },
+            { id: 5, val: "5" },
+            { id: 6, val: "0" },
+            { id: 7, val: "1" },
+        ];
+        const expected = [
+            { id: 1, val: "1" },
+            { id: 2, val: "2" },
+            { id: 5, val: "5" },
+            { id: 6, val: "0" },
+        ];
+        const filtered = firstByProperty(data, "val");
+        expect(filtered).deep.eq(expected);
     });
 });

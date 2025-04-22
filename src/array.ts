@@ -111,3 +111,13 @@ export class SortedIdSet<T, ID> extends SortedSet<T> {
         return this.ids.has(this.id(value));
     }
 }
+
+export const firstByProperty = <T extends Record<string, unknown>>(items: T[], prop: keyof T): T[] => {
+    const seen: Set<unknown> = new Set();
+    return items.filter((item) => {
+        const val = item[prop];
+        if (seen.has(val)) return false;
+        seen.add(val);
+        return true;
+    });
+};
