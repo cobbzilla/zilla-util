@@ -41,6 +41,12 @@ export const dateAsYYYYMMDD = (date: Date): string =>
         .toString()
         .padStart(2, "0")}`;
 
+export const dateAsUTCYYYYMMDD = (date: Date): string =>
+    `${date.getUTCFullYear()}-${(date.getUTCMonth() + 1).toString().padStart(2, "0")}-${date
+        .getUTCDate()
+        .toString()
+        .padStart(2, "0")}`;
+
 export const nextDateAsYYYYMMDD = (d: string): string => {
     const dt = new Date(`${d}T00:00:00Z`); // UTC midnight of current day
     dt.setUTCDate(dt.getUTCDate() + 1); // +1 calendar day
@@ -56,6 +62,7 @@ export const dateAsYYYYMMDDHHmmSS = (date: Date): string =>
     ).padStart(2, "0")}`;
 
 export const timestampAsYYYYMMDD = (timestamp: number): string => dateAsYYYYMMDD(new Date(timestamp));
+export const timestampAsUTCYYYYMMDD = (timestamp: number): string => dateAsUTCYYYYMMDD(new Date(timestamp));
 export const timestampAsYYYYMMDDHHmmSS = (timestamp: number): string => dateAsYYYYMMDDHHmmSS(new Date(timestamp));
 
 export const nowAsYYYYMMDD = (): string => timestampAsYYYYMMDD(Date.now());
