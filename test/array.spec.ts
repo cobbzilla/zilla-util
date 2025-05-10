@@ -1,14 +1,15 @@
 import { describe, it } from "mocha";
 import { expect } from "chai";
 import {
+    asyncFilter,
     cartesianProduct,
+    containsAll,
     firstByProperty,
-    setsEqual,
     isAnyTrue,
     insertAfterElement,
-    asyncFilter,
-    shuffleNumbers,
+    setsEqual,
     SortedIdSet,
+    shuffleNumbers,
 } from "../lib/esm/index.js";
 
 describe("test setsEqual", () => {
@@ -19,6 +20,19 @@ describe("test setsEqual", () => {
         expect(setsEqual(["one", "two"], ["two", "one", "three"])).is.false;
         expect(setsEqual(["one", "two", "three"], ["two", "one"])).is.false;
     });
+});
+
+describe("test containsAll", () => {
+    it("correctly finds all target items in a source array", () => {
+        expect(containsAll([1, 2, 3], [1, 3])).is.true;
+        expect(containsAll([true, false], [true])).is.true;
+        expect(containsAll(["one", "two", "three"], ["two", "three"])).is.true;
+    })
+    it("correctly reports that not all target items are present in the source array", () => {
+        expect(containsAll([1, 2, 3], [1, 4])).is.false;
+        expect(containsAll([true], [false])).is.false;
+        expect(containsAll(["one", "two", "three"], ["two", "six"])).is.false;
+    })
 });
 
 describe("test cartesianProduct", () => {

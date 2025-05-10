@@ -3,6 +3,9 @@ export const setsEqual = <T>(a: T[], b: T[]): boolean => {
     return a.every((val) => b.includes(val)) && b.every((val) => a.includes(val));
 };
 
+export const containsAll = <T>(source: T[], required: T[]): boolean =>
+    required.every((item: T): boolean => source.includes(item));
+
 const _cartesianProduct = <T>(arr: T[][], index: number, sentence: T[], result: T[][]) => {
     for (let i = 0; i < arr[index].length; i++) {
         const newSentence = sentence.slice(); // To not mutate the original array
