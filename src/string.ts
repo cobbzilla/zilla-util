@@ -1,4 +1,5 @@
 import { ZillaClock } from "./time.js";
+import {GenericLogger} from "./logger.js";
 
 export const capitalize = (s?: string): string =>
     s && s.length > 0 ? s.substring(0, 1).toUpperCase() + s.substring(1) : "";
@@ -310,11 +311,16 @@ export const REGEX_ARRAY_OF_BOOLEANS = /^\[\s*(?:true|false)(\s*,\s*(?:true|fals
 export const REGEX_ARRAY_OF_INTEGERS = /^\[\s*-?\d+(\s*,\s*-?\d+)*\s*]$/;
 export const REGEX_ARRAY_OF_FLOATS = /^\[\s*-?\d+(\.\d+)?([eE][-+]?\d+)?(\s*,\s*-?\d+(\.\d+)?([eE][-+]?\d+)?)*\s*]$/;
 
-export const safeStringify = (obj: unknown): string => {
+export const safeStringify = (obj: unknown, logger?: GenericLogger): string => {
     const seen: WeakSet<object> = new WeakSet();
     return JSON.stringify(obj, (_key, val) => {
         if (typeof val === "object" && val !== null) {
-            if (seen.has(val)) return "[Circular]";
+            if (seen.has(val)) {
+                if (logger && logger.isDebugEnabled()) {
+                    logger.debug(`safeStringify: detected circular reference in obj: ${obj}${obj?.constructor?.name ? ` [constructor=${obj.constructor.name}]` : ""}`)
+                }
+                return "[Circular]";
+            }
             seen.add(val);
         }
         return val;
