@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ZillaClock, DEFAULT_CLOCK } from "zilla-util";
 import { GenericLogger } from "./logger.js";
+import {safeStringify} from "./string.js";
 
 export interface LRUCacheConfig {
     maxSize?: number;
@@ -46,7 +47,7 @@ export class LRUCache<K, V> {
         const entry = this.cache.get(key);
         if (this.logger && this.logger.isTraceEnabled()) {
             this.logger.trace(
-                `LRUCache.get(${key}) now=${this.clock.now()} entry=${entry ? JSON.stringify(entry) : "undefined"}`
+                `LRUCache.get(${key}) now=${this.clock.now()} entry=${entry ? safeStringify(entry) : "undefined"}`
             );
         }
         if (!entry) {
@@ -57,7 +58,7 @@ export class LRUCache<K, V> {
             if (this.logger && this.logger.isTraceEnabled()) {
                 this.logger.trace(
                     `LRUCache.get(${key}) now=${this.clock.now()} EXPIRED entry=${
-                        entry ? JSON.stringify(entry) : "undefined"
+                        entry ? safeStringify(entry) : "undefined"
                     }`
                 );
             }
@@ -69,7 +70,7 @@ export class LRUCache<K, V> {
             if (this.logger && this.logger.isTraceEnabled()) {
                 this.logger.trace(
                     `LRUCache.get(${key}) now=${this.clock.now()} TOUCH-ON-GET entry=${
-                        entry ? JSON.stringify(entry) : "undefined"
+                        entry ? safeStringify(entry) : "undefined"
                     }`
                 );
             }
@@ -102,7 +103,7 @@ export class LRUCache<K, V> {
             this.evict();
         }
         if (this.logger && this.logger.isTraceEnabled()) {
-            this.logger.trace(`LRUCache.set(${key}) now=${this.clock.now()} SETTING value=${JSON.stringify(value)}`);
+            this.logger.trace(`LRUCache.set(${key}) now=${this.clock.now()} SETTING value=${safeStringify(value)}`);
         }
         this.cache.set(key, { value, timestamp: this.clock.now() });
     }

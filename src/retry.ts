@@ -1,5 +1,6 @@
 import { sleep } from "./time.js";
 import { GenericLogger } from "./logger.js";
+import {safeStringify} from "./string.js";
 
 export type RetryOptions = {
     maxAttempts?: number;
@@ -34,7 +35,7 @@ export const retry = async <T>(
     let backoffTime = backoffBaseMillis;
     let error;
     if (logger && logger.isDebugEnabled()) {
-        logger.debug(`${prefix} starting with opts=${opts ? JSON.stringify(opts) : "undefined"}`);
+        logger.debug(`${prefix} starting with opts=${opts ? safeStringify(opts) : "undefined"}`);
     }
     for (let i = 0; i < maxAttempts; i++) {
         const iPrefix = `${prefix} [${i + 1}/${maxAttempts}]:`;
