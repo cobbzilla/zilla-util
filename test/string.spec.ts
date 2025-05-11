@@ -18,6 +18,7 @@ import {
     randomDigits,
     trimSpaces,
     trimNonalphanumeric,
+    safeStringify,
     sortObj,
     sortedStringify,
     packageVersion,
@@ -359,6 +360,7 @@ describe("regex for array of floats test", () => {
         });
     });
 });
+
 describe("gets the package version", () => {
     it("retrieves our own package version", async () => {
         const version = await packageVersion();
@@ -367,3 +369,29 @@ describe("gets the package version", () => {
         expect(version.length).is.gte(5);
     });
 });
+
+type CircularObject = {
+    ref: object;
+}
+
+const circle: CircularObject = {
+    ref: {}
+};
+
+circle.ref = circle;
+
+describe("safeStringify", () => {
+    it("fails to JSON.stringify a circular object", () => {
+        try {
+            JSON.stringify(circle);
+        } catch (e) {
+            expect(e).to.be.instanceof(Error);
+            expect((e as Error).constructor.name).eq("TypeError");
+            expect((e as Error).message).includes("circular");
+        }
+    })
+    it("succeeds in using safeStringify on a circular object", () => {
+        const safe = safeStringify(circle);
+        expect(safe).to.be.eq("{\"ref\":\"[Circular]\"}")
+    })
+})

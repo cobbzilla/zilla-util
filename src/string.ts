@@ -309,3 +309,14 @@ export const REGEX_ARRAY_OF_STRINGS = /^\[\s*(?:"[^"]*"\s*(?:,\s*"[^"]*"\s*)*)?]
 export const REGEX_ARRAY_OF_BOOLEANS = /^\[\s*(?:true|false)(\s*,\s*(?:true|false))*\s*]$/;
 export const REGEX_ARRAY_OF_INTEGERS = /^\[\s*-?\d+(\s*,\s*-?\d+)*\s*]$/;
 export const REGEX_ARRAY_OF_FLOATS = /^\[\s*-?\d+(\.\d+)?([eE][-+]?\d+)?(\s*,\s*-?\d+(\.\d+)?([eE][-+]?\d+)?)*\s*]$/;
+
+export const safeStringify = (obj: unknown): string => {
+    const seen: WeakSet<object> = new WeakSet();
+    return JSON.stringify(obj, (_key, val) => {
+        if (typeof val === "object" && val !== null) {
+            if (seen.has(val)) return "[Circular]";
+            seen.add(val);
+        }
+        return val;
+    });
+};
