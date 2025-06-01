@@ -12,6 +12,7 @@ import {
     isEmpty,
     isNotEmpty,
     filterProperties,
+    filterObject,
     immutify,
     copyWithRegExp,
 } from "../src/index.js";
@@ -289,6 +290,22 @@ describe("filterProperties test", () => {
         expect(filtered.baz[2]).eq(9);
         expect(JSON.stringify(filtered)).eq('{"bar":"123","baz":[5,6,9]}');
     });
+    it("filters objects correctly", () => {
+        const obj = {
+            displayName: "foo",
+            something: "",
+            locale: "en",
+            latitude: 12,
+            longitude: 23,
+        };
+        const filtered = filterObject(obj, ["displayName", "something", "locale"]);
+        expect(Object.keys(filtered)).length(3);
+        expect(filtered.displayName).eq("foo");
+        expect(filtered.something).eq("");
+        expect(filtered.locale).eq("en");
+        expect(filtered.longitude).to.be.undefined;
+        expect(filtered.longitude).to.be.undefined;
+    })
 });
 
 type TestType = {

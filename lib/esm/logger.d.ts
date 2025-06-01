@@ -15,3 +15,4 @@ export type GenericLogger = {
     warn: (message: string, ...args: unknown[]) => void;
     error: (message: string, ...args: unknown[]) => void;
 };
+export declare const DEFAULT_LOGGER: GenericLogger;
