@@ -13,3 +13,4 @@ export * from "./package.js";
 export * from "./string.js";
 export * from "./subst.js";
 export * from "./time.js";
+export * from "./url.js";
