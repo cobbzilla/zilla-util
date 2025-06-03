@@ -10,6 +10,7 @@ import {
     ext,
     camel2kebab,
     camel2snake,
+    countVisibleChars,
     kebab2camel,
     snake2camel,
     hasUpperCase,
@@ -394,4 +395,84 @@ describe("safeStringify", () => {
         const safe = safeStringify(circle);
         expect(safe).to.be.eq("{\"ref\":\"[Circular]\"}")
     })
+})
+
+describe("countVisibleChars", () => {
+    it("counts visible characters correctly", () => {
+        expect(countVisibleChars("abc")).to.be.eq(3);
+    })
+    it("returns 0 for an empty string", (): void => {
+        expect(countVisibleChars("")).to.equal(0);
+    });
+    it("counts simple ASCII characters correctly", (): void => {
+        expect(countVisibleChars("abc")).to.equal(3);
+    });
+    it("treats a single combining sequence (e + ◌́) as one cluster", (): void => {
+        const eAcute = "e\u0301";
+        expect(countVisibleChars(eAcute)).to.equal(1);
+    });
+    it("counts a letter plus multiple combining marks as one cluster", (): void => {
+        const base = "x";
+        const combining = "\u0300\u0301\u0302\u0303\u0304"; // grave, acute, circumflex, tilde, macron
+        expect(countVisibleChars(base + combining)).to.equal(1);
+    });
+    it("counts a high-surrogate/low-surrogate pair (a musical symbol) as one", (): void => {
+        const musicalGclef = "\uD834\uDD1E"; // U+1D11E
+        expect(countVisibleChars(musicalGclef)).to.equal(1);
+    });
+    it("counts a flag (regional indicator symbols) as one cluster", (): void => {
+        const flagUS = "🇺🇸"; // 🇺 (U+1F1FA) + 🇸 (U+1F1F8)
+        expect(countVisibleChars(flagUS)).to.equal(1);
+    });
+    it("counts an emoji with skin-tone modifier as one cluster", (): void => {
+        const thumbsUpMedium = "👍🏽"; // 👍 (U+1F44D) + 🏽 (U+1F3FD)
+        expect(countVisibleChars(thumbsUpMedium)).to.equal(1);
+    });
+    it("counts a ZWJ sequence for a family emoji as one cluster", (): void => {
+        const family = "👩‍👩‍👧‍👦"; // woman + ZWJ + woman + ZWJ + girl + ZWJ + boy
+        expect(countVisibleChars(family)).to.equal(1);
+    });
+    it("counts a ZWJ sequence for a kiss emoji as one cluster", (): void => {
+        const kiss = "👩‍❤️‍💋‍👩"; // woman + ZWJ + ❤️ + ZWJ + 💋 + ZWJ + woman
+        expect(countVisibleChars(kiss)).to.equal(1);
+    });
+    it("counts a keycap sequence as one cluster", (): void => {
+        const keycapOne = "1️⃣"; // "1" + VS16 + COMBINING ENCLOSING KEYCAP
+        expect(countVisibleChars(keycapOne)).to.equal(1);
+    });
+    it("counts variation selector usage consistently", (): void => {
+        const victoryHandPlain = "✌"; // U+270C
+        const victoryHandVS = "✌️"; // U+270C + U+FE0F
+        expect(countVisibleChars(victoryHandPlain)).to.equal(1);
+        expect(countVisibleChars(victoryHandVS)).to.equal(1);
+    });
+    it("counts separated emoji and letters correctly", (): void => {
+        const mixed = "a👩‍👩‍👧‍👦b";
+        expect(countVisibleChars(mixed)).to.equal(3);
+    });
+    it("handles multiple separate ZWJ sequences", (): void => {
+        const seq = "👨‍👩‍👦👩‍👧"; // family+ZWJ+child then woman+ZWJ+girl
+        expect(countVisibleChars(seq)).to.equal(2);
+    });
+    it("counts surrogate pairs and combining marks mixed", (): void => {
+        const mix = "\uD83D\uDC36\u0301"; // 🐶 (dog face) + ◌́
+        // Dog face is one cluster, + combining acute attach makes that one cluster
+        expect(countVisibleChars(mix)).to.equal(1);
+    });
+    it("counts multiple separate combining clusters", (): void => {
+        const a1 = "a\u0301"; // a + ◌́
+        const e2 = "e\u0300"; // e + ◌̀
+        expect(countVisibleChars(a1 + e2)).to.equal(2);
+    });
+    it("handles pathological long combining sequences", (): void => {
+        const base = "Z";
+        const longCombining = "\u0300".repeat(50); // 50 grave accents
+        expect(countVisibleChars(base + longCombining)).to.equal(1);
+    });
+    it("handles ZWJ sequences with text fallback", (): void => {
+        // a random sequence that looks like ZWJ but is plain text
+        const textZWJ = "a\u200Da"; // "a" + ZWJ + "a"
+        // This is two graphemes because ZWJ between letters doesn’t merge them
+        expect(countVisibleChars(textZWJ)).to.equal(2);
+    });
 })

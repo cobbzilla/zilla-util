@@ -101,3 +101,4 @@ export declare const REGEX_ARRAY_OF_BOOLEANS: RegExp;
 export declare const REGEX_ARRAY_OF_INTEGERS: RegExp;
 export declare const REGEX_ARRAY_OF_FLOATS: RegExp;
 export declare const safeStringify: (obj: unknown, logger?: GenericLogger) => string;
+export declare const countVisibleChars: (data: Uint8Array | string) => number;

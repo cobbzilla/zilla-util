@@ -1,5 +1,5 @@
 import { ZillaClock } from "./time.js";
-import {GenericLogger} from "./logger.js";
+import { GenericLogger } from "./logger.js";
 
 export const capitalize = (s?: string): string =>
     s && s.length > 0 ? s.substring(0, 1).toUpperCase() + s.substring(1) : "";
@@ -317,7 +317,11 @@ export const safeStringify = (obj: unknown, logger?: GenericLogger): string => {
         if (typeof val === "object" && val !== null) {
             if (seen.has(val)) {
                 if (logger && logger.isDebugEnabled()) {
-                    logger.debug(`safeStringify: detected circular reference in obj: ${obj}${obj?.constructor?.name ? ` [constructor=${obj.constructor.name}]` : ""}`)
+                    logger.debug(
+                        `safeStringify: detected circular reference in obj: ${obj}${
+                            obj?.constructor?.name ? ` [constructor=${obj.constructor.name}]` : ""
+                        }`
+                    );
                 }
                 return "[Circular]";
             }
@@ -325,4 +329,15 @@ export const safeStringify = (obj: unknown, logger?: GenericLogger): string => {
         }
         return val;
     });
+};
+
+export const countVisibleChars = (data: Uint8Array | string): number => {
+    // 1) decode UTF-8 (or whatever your binary is) → JS string
+    const str: string = typeof data === "string" ? data : new TextDecoder("utf-8").decode(data);
+
+    // 2) segment by grapheme clusters
+    const seg = new Intl.Segmenter("en", { granularity: "grapheme" });
+
+    // each segment is one user‐perceived character
+    return [...seg.segment(str)].length;
 };
