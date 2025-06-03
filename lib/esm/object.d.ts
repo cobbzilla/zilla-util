@@ -5,3 +5,4 @@ export declare const firstKeyByValue: <K extends string, V>(obj: Record<K, V>, v
 export declare const enumRecord: <E extends string | number | symbol, V>(e: Record<string, E>, init: V | ((e?: E) => V)) => Record<E, V>;
 export declare const setsToArrays: <K extends string, V>(input: Record<K, SortedSet<V>>) => Record<K, V[]>;
 export declare const findDuplicates: <T>(items: T[], field: keyof T) => string[];
+export declare const reverseEnum: <E extends Record<string, string>>(enumObj: E) => Record<string, string>;

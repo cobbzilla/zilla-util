@@ -1,5 +1,5 @@
 import { describe } from "mocha";
-import { firstKeyByValue, keysByValue } from "../src/index.js";
+import {firstKeyByValue, keysByValue, reverseEnum} from "../src/index.js";
 import { expect } from "chai";
 
 describe("object", () => {
@@ -9,4 +9,13 @@ describe("object", () => {
     it("firstKeyByValue", () => {
         expect(firstKeyByValue({ foo: "bar", baz: "baz", quux: "bar" }, "bar")).to.be.eq("foo");
     });
+    it("reverseEnum", () => {
+        enum TestEnum {
+            foo = "bar",
+            baz = "quux"
+        }
+        const reversed = reverseEnum(TestEnum)
+        expect(reversed.bar).to.eq("foo")
+        expect(reversed.quux).to.eq("baz")
+    })
 });

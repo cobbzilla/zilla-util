@@ -32,3 +32,12 @@ export const findDuplicates = <T>(items: T[], field: keyof T): string[] => {
     }
     return [...counts].filter(([, n]) => n > 1).map(([k]) => k);
 };
+
+export const reverseEnum = <E extends Record<string, string>>(enumObj: E): Record<string, string> => {
+    const rev: Record<string, string> = {};
+    (Object.keys(enumObj) as Array<keyof E>).forEach((key: keyof E): void => {
+        const value: string = enumObj[key];
+        rev[value] = key as string;
+    });
+    return rev;
+};
