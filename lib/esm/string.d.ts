@@ -1,5 +1,6 @@
 import { ZillaClock } from "./time.js";
 import { GenericLogger } from "./logger.js";
+import GraphemeSplitter from "grapheme-splitter";
 export declare const capitalize: (s?: string) => string;
 export declare const uncapitalize: (s?: string) => string;
 export declare const basefilename: (s: string) => string;
@@ -101,4 +102,5 @@ export declare const REGEX_ARRAY_OF_BOOLEANS: RegExp;
 export declare const REGEX_ARRAY_OF_INTEGERS: RegExp;
 export declare const REGEX_ARRAY_OF_FLOATS: RegExp;
 export declare const safeStringify: (obj: unknown, logger?: GenericLogger) => string;
+export declare const splitter: GraphemeSplitter;
 export declare const countVisibleChars: (data: Uint8Array | string) => number;

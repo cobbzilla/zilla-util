@@ -373,10 +373,10 @@ describe("gets the package version", () => {
 
 type CircularObject = {
     ref: object;
-}
+};
 
 const circle: CircularObject = {
-    ref: {}
+    ref: {},
 };
 
 circle.ref = circle;
@@ -390,17 +390,17 @@ describe("safeStringify", () => {
             expect((e as Error).constructor.name).eq("TypeError");
             expect((e as Error).message).includes("circular");
         }
-    })
+    });
     it("succeeds in using safeStringify on a circular object", () => {
         const safe = safeStringify(circle);
-        expect(safe).to.be.eq("{\"ref\":\"[Circular]\"}")
-    })
-})
+        expect(safe).to.be.eq('{"ref":"[Circular]"}');
+    });
+});
 
 describe("countVisibleChars", () => {
     it("counts visible characters correctly", () => {
         expect(countVisibleChars("abc")).to.be.eq(3);
-    })
+    });
     it("returns 0 for an empty string", (): void => {
         expect(countVisibleChars("")).to.equal(0);
     });
@@ -475,4 +475,8 @@ describe("countVisibleChars", () => {
         // This is two graphemes because ZWJ between letters doesn’t merge them
         expect(countVisibleChars(textZWJ)).to.equal(2);
     });
-})
+    it("handles _ correctly", (): void => {
+        const underscore = "_";
+        expect(countVisibleChars(underscore)).to.equal(1);
+    });
+});
