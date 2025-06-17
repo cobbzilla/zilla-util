@@ -70,3 +70,22 @@ export type NapAlarm = {
 
 export const nap = (clock: ZillaClock, alarm: NapAlarm, ms: number, check?: number) =>
     new Promise((r) => _nap(r, clock, alarm, ms, check || DEFAULT_NAP_CHECK)());
+
+export const parseSimpleTime = (t: string): number => {
+    const match: RegExpExecArray | null = /^(\d+)([smhd])?$/.exec(t);
+    if (!match) throw new Error(`Invalid time format: ${t}`);
+    const value: number = Number(match[1]);
+    const unit: string | undefined = match[2];
+    switch (unit) {
+        case "s":
+            return value * 1000;
+        case "m":
+            return value * 60 * 1000;
+        case "h":
+            return value * 3600 * 1000;
+        case "d":
+            return value * 24 * 3600 * 1000;
+        default:
+            return value;
+    }
+};

@@ -22,3 +22,4 @@ export type NapAlarm = {
     wake?: boolean;
 };
 export declare const nap: (clock: ZillaClock, alarm: NapAlarm, ms: number, check?: number) => Promise<unknown>;
+export declare const parseSimpleTime: (t: string) => number;
