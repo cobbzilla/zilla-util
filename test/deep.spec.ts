@@ -15,6 +15,7 @@ import {
     filterObject,
     immutify,
     copyWithRegExp,
+    deepTransform,
 } from "../src/index.js";
 
 describe("test deepUpdate and deepGet", () => {
@@ -305,7 +306,7 @@ describe("filterProperties test", () => {
         expect(filtered.locale).eq("en");
         expect(filtered.longitude).to.be.undefined;
         expect(filtered.longitude).to.be.undefined;
-    })
+    });
 });
 
 type TestType = {
@@ -411,5 +412,14 @@ describe("copyWithRegExp", () => {
         original.bar = "+++";
         expect(copy.bar).to.not.eq(original.bar);
         expect(copy.r.test("foo")).to.be.true;
+    });
+});
+
+describe("deepTransform", () => {
+    it("correctly transforms an object", () => {
+        const src = { num: 0, foo: "123", bar: "abc", baz: { quux: ["42", "def", "999"], snarf: false } };
+        const isStringNumber = (v: unknown) => !!(typeof v === "string" && v.match("^\\d+$"));
+        const expected = { num: 0, foo: 123, bar: "abc", baz: { quux: [42, "def", 999], snarf: false } };
+        expect(deepTransform(src, isStringNumber, (v) => parseInt(`${v}`))).to.deep.eq(expected);
     });
 });

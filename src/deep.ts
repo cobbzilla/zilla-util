@@ -323,3 +323,26 @@ export const copyWithRegExp = <T>(obj: T): T => {
     }
     return obj;
 };
+
+export const deepTransform = (
+    input: unknown,
+    predicate: (value: unknown) => boolean,
+    transformer: (value: unknown) => unknown
+): unknown => {
+    if (predicate(input)) return transformer(input);
+
+    if (Array.isArray(input)) {
+        return input.map((item) => deepTransform(item, predicate, transformer));
+    }
+
+    if (input !== null && typeof input === "object") {
+        const result: Record<string | number | symbol, unknown> = {};
+        for (const key of Reflect.ownKeys(input)) {
+            const value = (input as Record<string | number | symbol, unknown>)[key];
+            result[key] = deepTransform(value, predicate, transformer);
+        }
+        return result;
+    }
+
+    return input;
+};
