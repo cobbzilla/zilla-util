@@ -72,10 +72,10 @@ export const nap = (clock: ZillaClock, alarm: NapAlarm, ms: number, check?: numb
     new Promise((r) => _nap(r, clock, alarm, ms, check || DEFAULT_NAP_CHECK)());
 
 export const parseSimpleTime = (t: string): number => {
-    const match: RegExpExecArray | null = /^(\d+)([smhd])?$/.exec(t);
+    const match: RegExpExecArray | null = /^(\d+(\.\d+)?)([smhd])?$/.exec(t);
     if (!match) throw new Error(`Invalid time format: ${t}`);
     const value: number = Number(match[1]);
-    const unit: string | undefined = match[2];
+    const unit: string | undefined = match[3];
     switch (unit) {
         case "s":
             return value * 1000;
@@ -88,4 +88,9 @@ export const parseSimpleTime = (t: string): number => {
         default:
             return value;
     }
+};
+
+export const delay = async (duration?: number | string) => {
+    if (!duration) return;
+    await sleep(typeof duration === "number" ? duration : parseSimpleTime(duration));
 };

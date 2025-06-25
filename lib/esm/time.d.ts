@@ -23,3 +23,4 @@ export type NapAlarm = {
 };
 export declare const nap: (clock: ZillaClock, alarm: NapAlarm, ms: number, check?: number) => Promise<unknown>;
 export declare const parseSimpleTime: (t: string) => number;
+export declare const delay: (duration?: number | string) => Promise<void>;
