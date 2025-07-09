@@ -27,12 +27,12 @@ describe("test containsAll", () => {
         expect(containsAll([1, 2, 3], [1, 3])).is.true;
         expect(containsAll([true, false], [true])).is.true;
         expect(containsAll(["one", "two", "three"], ["two", "three"])).is.true;
-    })
+    });
     it("correctly reports that not all target items are present in the source array", () => {
         expect(containsAll([1, 2, 3], [1, 4])).is.false;
         expect(containsAll([true], [false])).is.false;
         expect(containsAll(["one", "two", "three"], ["two", "six"])).is.false;
-    })
+    });
 });
 
 describe("test cartesianProduct", () => {
@@ -141,6 +141,7 @@ describe("test SortedIdSet", () => {
         ];
 
         for (const i of data) set.add(i);
+        expect(set.size()).eq(2);
 
         const array = set.toArray();
         expect(array.length).eq(2);

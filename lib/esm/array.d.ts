@@ -15,6 +15,7 @@ export declare class SortedSet<T> {
     add(value: T): void;
     delete(value: T): boolean;
     has(value: T): boolean;
+    size(): number;
     toArray(): T[];
 }
 export declare class SortedIdSet<T, ID> extends SortedSet<T> {
@@ -24,5 +25,6 @@ export declare class SortedIdSet<T, ID> extends SortedSet<T> {
     add(value: T): void;
     delete(value: T): boolean;
     has(value: T): boolean;
+    size(): number;
 }
 export declare const firstByProperty: <T extends Record<string, unknown>>(items: T[], prop: keyof T) => T[];

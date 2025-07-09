@@ -81,6 +81,10 @@ export class SortedSet<T> {
         return this.items.has(value);
     }
 
+    size(): number {
+        return this.items.size;
+    }
+
     toArray(): T[] {
         return Array.from(this.items).sort(this.comparator);
     }
@@ -112,6 +116,10 @@ export class SortedIdSet<T, ID> extends SortedSet<T> {
 
     has(value: T): boolean {
         return this.ids.has(this.id(value));
+    }
+
+    size(): number {
+        return this.ids.size;
     }
 }
 
