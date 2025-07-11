@@ -31,6 +31,14 @@ const trackingRegexes: RegExp[] = [
     /^pk_[a-z]+$/,
 ];
 
+export const normalizeUrl = (input: string): string => {
+    try {
+        return new URL(input).toString();
+    } catch {
+        return input;
+    }
+};
+
 export const canonicalizeUrl = async (url: string): Promise<CanonicalizedUrl> => {
     const original: string = url.trim();
 
