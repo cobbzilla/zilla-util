@@ -1,3 +1,5 @@
+import { GenericLogger } from "./logger.js";
+
 const packageJsonUrl = async (startUrl: URL): Promise<URL | null> => {
     let currentUrl = new URL(startUrl);
 
@@ -15,7 +17,10 @@ const packageJsonUrl = async (startUrl: URL): Promise<URL | null> => {
     return null; // Not found
 };
 
-export const packageVersion = async (importMetaUrl: string = import.meta.url): Promise<string | undefined> => {
+export const packageVersion = async (
+    importMetaUrl: string = import.meta.url,
+    logger?: GenericLogger
+): Promise<string | undefined> => {
     try {
         const packageUrl = await packageJsonUrl(new URL(importMetaUrl));
         if (!packageUrl) throw new Error("package.json not found");
@@ -23,7 +28,12 @@ export const packageVersion = async (importMetaUrl: string = import.meta.url): P
         const packageJson = await import(packageUrl.toString(), { assert: { type: "json" } });
         return packageJson.version;
     } catch (e) {
-        console.error(`Error determining package version: ${e}`);
+        const msg = `packageVersion importMetaUrl=${importMetaUrl} error determining package version: error=${e}`;
+        if (logger) {
+            logger.error(msg, e);
+        } else {
+            console.error(msg);
+        }
         return undefined;
     }
 };
