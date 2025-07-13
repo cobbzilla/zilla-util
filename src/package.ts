@@ -1,4 +1,4 @@
-async function packageJsonUrl(startUrl: URL): Promise<URL | null> {
+const packageJsonUrl = async (startUrl: URL): Promise<URL | null> => {
     let currentUrl = new URL(startUrl);
 
     while (true) {
@@ -13,9 +13,9 @@ async function packageJsonUrl(startUrl: URL): Promise<URL | null> {
         }
     }
     return null; // Not found
-}
+};
 
-export async function packageVersion(importMetaUrl: string = import.meta.url): Promise<string> {
+export const packageVersion = async (importMetaUrl: string = import.meta.url): Promise<string | undefined> => {
     try {
         const packageUrl = await packageJsonUrl(new URL(importMetaUrl));
         if (!packageUrl) throw new Error("package.json not found");
@@ -24,6 +24,6 @@ export async function packageVersion(importMetaUrl: string = import.meta.url): P
         return packageJson.version;
     } catch (e) {
         console.error(`Error determining package version: ${e}`);
-        return `error(${e})`;
+        return undefined;
     }
-}
+};

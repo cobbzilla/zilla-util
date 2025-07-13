@@ -1,1 +1,1 @@
-export declare function packageVersion(importMetaUrl?: string): Promise<string>;
+export declare const packageVersion: (importMetaUrl?: string) => Promise<string | undefined>;
