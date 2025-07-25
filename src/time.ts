@@ -34,6 +34,15 @@ export class MockClock {
         }
         return this.time + (Date.now() - this.start);
     }
+    setTime(time: number) {
+        if (this.logger && this.logger.isTraceEnabled()) {
+            this.logger.trace(`MockClock ID=${this.name} SET-TIME now=${this.time} setting-to=${time}`);
+        }
+        this.time = time;
+        if (this.logger && this.logger.isTraceEnabled()) {
+            this.logger.trace(`MockClock ID=${this.name} SET-TIME now=${this.time}`);
+        }
+    }
     advance(timeDelta: number): void {
         if (this.logger && this.logger.isTraceEnabled()) {
             this.logger.trace(`MockClock ID=${this.name} ADVANCING now=${this.time} timeDelta=${timeDelta}`);

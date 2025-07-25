@@ -13,6 +13,7 @@ export declare class MockClock {
     private name;
     constructor(startTime?: number, logger?: GenericLogger, name?: string);
     now(): number;
+    setTime(time: number): void;
     advance(timeDelta: number): void;
 }
 export declare const mockClock: (startTime?: number) => ZillaClock;
