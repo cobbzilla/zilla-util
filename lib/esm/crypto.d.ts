@@ -11,4 +11,6 @@ export declare const CryptoUtil: {
     generateKeyPair: (parameters?: Partial<Record<CryptoParam, string>>) => Promise<CryptoKeyPair>;
     encrypt: (publicKey: string | CryptoKeyPair, plaintext: string, parameters?: Partial<Record<CryptoParam, string>>) => Promise<string>;
     decrypt: (privateKey: string | CryptoKeyPair, ciphertext: string, parameters?: Partial<Record<CryptoParam, string>>) => Promise<string>;
+    sign: (privateKey: string | CryptoKeyPair, data: string, parameters?: Partial<Record<CryptoParam, string>>) => Promise<string>;
+    verifySignature: (publicKey: string | CryptoKeyPair, data: string, signatureB64: string, parameters?: Partial<Record<CryptoParam, string>>) => Promise<boolean>;
 };

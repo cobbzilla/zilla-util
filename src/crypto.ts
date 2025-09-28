@@ -64,6 +64,41 @@ const fromB64 = (b64: string): Uint8Array => {
 
 const toWebHash = (h: SafeHash): WebHash => (h === "sha256" ? "SHA-256" : h === "sha384" ? "SHA-384" : "SHA-512");
 
+// Add these utilities (kept local to signature ops)
+const cacheKeySig = (hash: WebHash, keyB64: string): string => `sig|${hash}|${keyB64}`;
+
+const importPublicKeyForVerify = async (publicKeyB64: string, webHash: WebHash): Promise<CryptoKey> => {
+    const k: string = cacheKeySig(webHash, publicKeyB64);
+    const cached: CryptoKey | undefined = pkCache().get(k);
+    if (cached !== undefined) return cached;
+
+    const key: CryptoKey = await subtle.importKey(
+        "spki",
+        fromB64(publicKeyB64),
+        { name: "RSASSA-PKCS1-v1_5", hash: webHash },
+        false,
+        ["verify"]
+    );
+    pkCache().set(k, key);
+    return key;
+};
+
+const importPrivateKeyForSign = async (privateKeyB64: string, webHash: WebHash): Promise<CryptoKey> => {
+    const k: string = cacheKeySig(webHash, privateKeyB64);
+    const cached: CryptoKey | undefined = pvCache().get(k);
+    if (cached !== undefined) return cached;
+
+    const key: CryptoKey = await subtle.importKey(
+        "pkcs8",
+        fromB64(privateKeyB64),
+        { name: "RSASSA-PKCS1-v1_5", hash: webHash },
+        false,
+        ["sign"]
+    );
+    pvCache().set(k, key);
+    return key;
+};
+
 const resolveParams = (
     parameters?: Partial<Record<CryptoParam, string>>
 ): {
@@ -212,5 +247,35 @@ export const CryptoUtil = {
         const ptBuf: ArrayBuffer = await subtle.decrypt({ name: "RSA-OAEP" }, keyObj, fromB64(ciphertext));
         const plaintext: string = new TextDecoder().decode(new Uint8Array(ptBuf));
         return plaintext;
+    },
+
+    sign: async (
+        privateKey: string | CryptoKeyPair,
+        data: string,
+        parameters?: Partial<Record<CryptoParam, string>>
+    ): Promise<string> => {
+        const { webHash } = resolveParams(parameters);
+        const privB64: string = resolvePrivateKeyB64(privateKey);
+        const keyObj: CryptoKey = await importPrivateKeyForSign(privB64, webHash);
+
+        const bytes: Uint8Array = new TextEncoder().encode(data);
+        const sigBuf: ArrayBuffer = await subtle.sign({ name: "RSASSA-PKCS1-v1_5" }, keyObj, bytes);
+        return toB64(sigBuf);
+    },
+
+    verifySignature: async (
+        publicKey: string | CryptoKeyPair,
+        data: string,
+        signatureB64: string,
+        parameters?: Partial<Record<CryptoParam, string>>
+    ): Promise<boolean> => {
+        const { webHash } = resolveParams(parameters);
+        const pubB64: string = resolvePublicKeyB64(publicKey);
+        const keyObj: CryptoKey = await importPublicKeyForVerify(pubB64, webHash);
+
+        const bytes: Uint8Array = new TextEncoder().encode(data);
+        const sigBytes: Uint8Array = fromB64(signatureB64);
+        const ok: boolean = await subtle.verify({ name: "RSASSA-PKCS1-v1_5" }, keyObj, sigBytes, bytes);
+        return ok;
     },
 };

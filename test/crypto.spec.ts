@@ -1,7 +1,7 @@
 // crypto.spec.ts
 import { expect } from "chai";
 import { describe, it } from "mocha";
-import { CryptoParam, CryptoUtil, CryptoKeyPair } from "../src/index.js";
+import { CryptoParam, CryptoUtil, CryptoKeyPair, randomSafeToken } from "../src/index.js";
 
 const hasWebCrypto = (): boolean => Boolean((globalThis as any).crypto && (globalThis as any).crypto.subtle);
 
@@ -120,5 +120,30 @@ describe("CryptoUtil (WebCrypto, browser-compatible)", function () {
             badHash = true;
         }
         expect(badHash).to.equal(true);
+    });
+});
+
+describe("CryptoUtil sign/verify", () => {
+    it("signs and verifies round-trip", async () => {
+        const params: Partial<Record<CryptoParam, string>> = {
+            [CryptoParam.OAEP_HASH]: "sha256",
+        };
+        const pair: CryptoKeyPair = await CryptoUtil.generateKeyPair(params);
+
+        const message: string = "hello-signing-world";
+        const sig: string = await CryptoUtil.sign(pair.privateKey, message, params);
+
+        const valid: boolean = await CryptoUtil.verifySignature(pair.publicKey, message, sig, params);
+        expect(valid).to.equal(true);
+    });
+
+    it("fails verification if data is altered", async () => {
+        const pair: CryptoKeyPair = await CryptoUtil.generateKeyPair();
+        const message: string = "immutable";
+        const sig: string = await CryptoUtil.sign(pair.privateKey, message);
+
+        const tampered: string = "immutable!";
+        const valid: boolean = await CryptoUtil.verifySignature(pair.publicKey, tampered, sig);
+        expect(valid).to.equal(false);
     });
 });
