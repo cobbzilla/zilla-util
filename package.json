@@ -1,6 +1,6 @@
 {
   "name": "zilla-util",
-  "version": "1.2.27",
+  "version": "1.2.28",
   "type": "module",
   "description": "Simple zero-dependency utility library",
   "keywords": [
@@ -34,7 +34,11 @@
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
   "exports": {
-    ".": "./lib/esm/index.js"
+    ".": "./lib/esm/index.js",
+    "./array": {
+      "types": "./lib/esm/array.d.ts",
+      "default": "./lib/esm/array.js"
+    }
   },
   "files": [
     "lib/",
